@@ -1,0 +1,137 @@
+:root {
+  --login-form-container-bg-color: #fcfcfd;
+  --login-form-logo-title-color: #002266;
+}
+
+.login-container {
+  background: url("../images/login-page-images/login-background.jpeg");
+  height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+
+  align-items: center;
+  > .login-form-container {
+    background: var(--login-form-container-bg-color);
+    margin-right: 20px;
+    height: 622px;
+    width: 650px;
+    border-radius: 8px;
+    > .topPart {
+      padding-top: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0px;
+      > img {
+        height: 127px;
+      }
+      > .logo-title {
+        font-size: 64px;
+        font-weight: 500;
+        text-align: left;
+        line-height: 70px;
+        color: var(--login-form-logo-title-color);
+      }
+    }
+    > .logo-motto {
+      padding-top: 25px;
+      text-align: center;
+      color: #002266;
+      font-weight: 600;
+      font-size: 19px;
+    }
+    > .inputs-container {
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      > .username-part,
+      .password-part {
+        > input {
+          width: 546px;
+          height: 56px;
+          padding: 20px;
+          padding-right: 50px;
+          border: 1px solid #697586;
+          border-radius: 8px;
+          &:focus {
+            outline: none;
+            border: 1px solid #0d121c;
+          }
+        }
+      }
+      > .password-part {
+        position: relative;
+        > .eye-btn {
+          position: absolute;
+          right: 15px;
+          top: 20px;
+          font-size: 20px;
+        }
+        > .closed {
+          display: none;
+        }
+        > .opened {
+          display: block;
+        }
+      }
+    }
+    > .remember-me {
+      padding-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .custom-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #1a73e8;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s ease;
+        margin-left: 54px;
+
+        .check-icon {
+          color: #1a73e8;
+          font-size: 14px;
+        }
+      }
+
+      label {
+        font-size: 17px;
+        color: #002266;
+        cursor: pointer;
+      }
+    }
+    > .login-btn {
+      display: flex;
+      justify-content: center;
+      padding-top: 50px;
+      > button {
+        padding: 16px 237px;
+        border: none;
+        background: #155eef;
+        color: white;
+        font-weight: 500;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 400;
+        transition: 0.6s ease;
+        &:hover {
+          cursor: pointer;
+          background: #05389e;
+        }
+        &:active {
+          transform: scale(0.995);
+        }
+      }
+    }
+  }
+}

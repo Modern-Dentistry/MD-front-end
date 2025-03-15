@@ -1,0 +1,89 @@
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 254px;
+  height: 100vh;
+  z-index: -1;
+  background-color: #155eef;
+
+  > .sidebar_topPart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 70px;
+    background-color: #155eef;
+    border-bottom: 2px solid #3435363f;
+
+    > img {
+      border-radius: 100%;
+      height: 40px;
+    }
+    > .sidebar_logo_title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 26px;
+      color: #fff;
+    }
+  }
+  .sidebar-elements {
+    height: 100%;
+    width: 254px;
+    margin-top: 20px;
+    background-color: #155eef;
+    padding-right: 5px;
+
+    > .element {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 10px;
+      height: 52px;
+      > .element-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        > .element-icon {
+          display: block;
+          font-size: 40px !important;
+          padding: 5px 4px;
+          border-radius: 8px;
+          color: #155eef;
+          background-color: white;
+        }
+        > .element-title {
+          font-weight: 600;
+          font-size: 16px;
+          color: #fff;
+        }
+      }
+      > .element-right {
+        > .arrow-icon {
+          color: white;
+          font-size: 20px;
+          margin-top: 5px;
+          transform: rotate(-90deg);
+        }
+      }
+    }
+    > .active {
+      background-color: #fff;
+      > .element-left {
+        > .element-icon {
+          color: white;
+          background-color: #155eef;
+        }
+        > .element-title {
+          color: #155eef;
+        }
+      }
+      > .element-right {
+        > .arrow-icon {
+          color: #155eef;
+        }
+      }
+    }
+  }
+}

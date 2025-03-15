@@ -1,0 +1,78 @@
+header {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  padding-right: 30px;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 2px solid #f1f4f93f;
+
+  > .header-elements {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    > .notification-button {
+      position: relative;
+      > .bell-icon {
+        font-size: 18px;
+      }
+      > .new-notif-icon {
+        height: 5px;
+        width: 5px;
+        border-radius: 100%;
+        background-color: #fd4a3d;
+        position: absolute;
+        top: 0;
+        right: 2px;
+        outline: 2px solid white;
+      }
+    }
+    > .add-new-date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px;
+      background-color: #155eef;
+      border-radius: 8px;
+      > .calendar-icon {
+        font-size: 18px;
+        color: white;
+      }
+      > .add-new-date-title {
+        font-size: 14px;
+        color: white;
+      }
+    }
+    > .user-profile-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      > img {
+        height: 42px;
+        width: 42px;
+        border-radius: 70px;
+      }
+      > .rightPart {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        > .title {
+          > .namePart {
+            font-weight: 600;
+            font-size: 16px;
+          }
+          > .rolePart {
+            font-weight: 400;
+            font-size: 14px;
+          }
+        }
+        > .arrowIcon {
+          transform: rotate(-90deg);
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
