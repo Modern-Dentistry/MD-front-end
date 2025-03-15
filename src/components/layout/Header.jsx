@@ -2,9 +2,9 @@ import { LuBell } from "react-icons/lu";
 import { LuCalendarPlus } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
 
-import adminUser from "../images/header-component-images/adminPFP.jpeg";
+import adminUser from "../../assets/images/header-component-images/adminPFP.jpeg";
 
-import "../style/header.css";
+import "../../assets/style/header.css";
 
 function Header() {
   return (
