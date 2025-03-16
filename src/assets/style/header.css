@@ -5,7 +5,7 @@ header {
   padding-right: 30px;
   justify-content: flex-end;
   align-items: center;
-  border-bottom: 2px solid #f1f4f93f;
+  border-bottom: 2px solid #e8edf63f;
 
   > .header-elements {
     display: flex;
