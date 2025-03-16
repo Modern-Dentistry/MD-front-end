@@ -6,15 +6,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/style/index.css";
 
 // Pages
-import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/" element={<LogIn />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
