@@ -1,1 +1,1 @@
-# Müasir stomatologiya
+# Müasir stomatologiya - Front-end
