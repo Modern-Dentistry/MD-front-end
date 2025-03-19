@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../assets/style/image_uploader.css";
 
-const ImageUploader = () => {
+const ProfileImage = ({ userId, mode }) => { // Correctly destructure props
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (event) => {
@@ -26,25 +26,29 @@ const ImageUploader = () => {
           <div className="placeholder">Şəkil yoxdur</div>
         )}
       </div>
-      <div className="button-group">
-        <label htmlFor="upload-input" className="btn btn-add">
-          Şəkil Əlavə Et
-        </label>
-        <input
-          id="upload-input"
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{ display: "none" }}
-        />
-        {image ? (
-            <button className="btn btn-delete" onClick={handleImageDelete}>
-            Sil
-          </button>
-        ): null}
-      </div>
+      {(mode === "edit" || mode === "create") && (
+         <div className="button-group">
+         <label htmlFor="upload-input" className="btn btn-add">
+          {image ? "Redaktə et" : "Şəkil əlavə et"} 
+         </label>
+         <input
+           id="upload-input"
+           type="file"
+           accept="image/*"
+           onChange={handleImageUpload}
+           style={{ display: "none" }}
+         />
+         {image ? (
+             <button className="btn btn-delete" onClick={handleImageDelete}>
+             Sil
+           </button>
+         ): null}
+       </div>
+       
+      )}
+     
     </div>
   );
 };
 
-export default ImageUploader;
+export default ProfileImage;

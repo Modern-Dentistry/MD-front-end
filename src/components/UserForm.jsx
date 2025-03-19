@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/style/user_form.css';
 import { SketchPicker } from 'react-color';
-import ImageUploader from './ImageUploader';
-import DropdownMenu from './DropdownMenu';
-export default function UserForm({ mode, userData = null }) {
+import ProfileImage from './ProfileImage';
+import DropdownMenuChecklist from './DropdownChecklist';
+import PenIcon from '../assets/icons/pen';
+import TrashIcon from '../assets/icons/trash';
+import { LuPenLine } from "react-icons/lu";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
+export default function UserForm({ mode: initialMode, userData = null, onModeChange }) {
+  const [mode, setMode] = useState(initialMode);
+  const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
+        userId: '',
+        userImage: '',
         username: '',
         firstName: '',
         lastName: '',
@@ -21,7 +32,6 @@ export default function UserForm({ mode, userData = null }) {
         email: '',
         address: '',
         permissions: '',
-
         discountSurgery: '',
         discountEndodontics: '',
         discountImplantology: '',
@@ -47,6 +57,19 @@ export default function UserForm({ mode, userData = null }) {
           });
     }
   }, [userData]);
+
+  const handleEditButton = () => {
+    setMode('edit');
+  };
+
+  const handleCancelButton = () => {
+    if (mode === 'edit') {
+      setMode('view');
+    } else if (mode === 'create') {
+      navigate(-1);
+    }
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,8 +99,23 @@ export default function UserForm({ mode, userData = null }) {
         </h3>
 
       <form className="user-form" onSubmit={handleSubmit}>
-      {(mode === 'create' || mode === 'edit') && <ImageUploader />}            
-      
+         <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
+         <ProfileImage userId={formData.userId} mode={mode}/>
+          {mode === 'view' && (
+            <div className="profile-button-group">
+              <button type="button" className="color-success" onClick={() => handleEditButton()}>
+              <LuPenLine className='color-success' />
+                            Redaktə et
+              </button>
+              
+              <button type="button" className="color-danger">
+              <FaRegTrashAlt className='color-danger'/>
+
+                Sil
+                </button>
+              </div>
+          )}
+         </div>
       <div className="input-container">
         <div className='left'>
         <div className="form-group">
@@ -202,7 +240,7 @@ export default function UserForm({ mode, userData = null }) {
             readOnly={mode === 'view'} 
             className={mode === 'view' ? 'readonly' : ''}
           /> */}
-                  <DropdownMenu onSelect={handleChange} />
+                  <DropdownMenuChecklist onSelect={handleChange} />
 
         </div>
         
@@ -509,7 +547,9 @@ export default function UserForm({ mode, userData = null }) {
             <button type="submit" className="btn-submit">
               {mode === 'create' ? 'Əlavə et' : 'Yenilə'}
             </button>
-            <button type="button" className="btn-cancel">Ləğv et</button>
+            <button type="button" className="btn-cancel" onClick={
+              () => handleCancelButton()
+              }>Ləğv et</button>
           </div>
         )}
       </form>
