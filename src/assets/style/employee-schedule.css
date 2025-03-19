@@ -1,0 +1,417 @@
+.schedule-out{
+  padding: 20px;
+}
+.employee-schedule-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #FCFCFD;
+  padding: 20px;
+  border: 1px solid #CDD5DF;
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Yuxarı hissə - Header */
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Axtarış bölməsi */
+.search-container {
+  position: relative;
+  width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9e9e9e;
+  font-size: 18px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #EEF8FE;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* Tarix göstəricisi */
+.date-display {
+  text-align: center;
+}
+
+.current-month {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.date-range {
+  font-size: 15px;
+  color: #666;
+}
+
+/* Naviqasiya düymələri */
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.nav-button, .calendar-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button:hover, .calendar-button:hover {
+  background-color: #f1f1f1;
+}
+
+.nav-button svg, .calendar-button svg {
+  font-size: 18px;
+}
+
+/* Açılan Kalendar */
+.calendar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.simple-calendar {
+  width: 300px;
+  padding: 15px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 5px;
+}
+
+.calendar-day {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.calendar-day:hover {
+  background-color: #f1f1f1;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day.today {
+  background-color: #A9CEE7;
+  color: white;
+}
+
+/* Əsas məzmun - Kalendar görünüşü */
+.schedule-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  height: fit-content;
+  min-width: fit-content;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Başlıq sətri */
+.day-header, .time-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-cell {
+  height: 60px;
+  padding: 10px;
+  text-align: center;
+  border-left: 1px solid #e0e0e0;
+}
+
+.day-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.day-date {
+  font-size: 18px;
+  margin-top: 5px;
+  color: #555;
+}
+
+/* Saat sütunu */
+.time-cell {
+  height: 60px;
+  padding: 10px;
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+  border-right: 1px solid #e0e0e0;
+  position: relative;
+}
+
+/* Planlaşdırma hücrələri */
+.schedule-cell {
+  height: 60px;
+  position: relative;
+  padding: 0; /* Padding-i sıfırlayırıq */
+  border-left: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Boş xanalarda border göstərək */
+.schedule-cell:not(.has-employees) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* İşçiləri olan xanalarda alt borderi gizlədək */
+.schedule-cell.has-employees {
+  padding: 0; /* Dolu xanalarda da padding sıfır */
+  border-bottom: none; /* Alt borderi silək */
+}
+.schedule-cell.continuous-employee {
+  margin-top: -1px; /* Neqativ margin üst-üstə düşmə üçün */
+}
+
+/* İşçi blokları olan hücrələr üçün davam edən border düzəltməsi */
+.continuous-employee {
+  border-top: none !important;
+}
+/* Eyni işçinin ardıcıl xanaları üçün */
+.schedule-cell.has-employees {
+  border-bottom: none;
+  padding: 2px 2px 0 2px; /* Alt padding-i azaldıb bitişikliyi artıraq */
+}
+/* Sonuncu işçi xanası üçün alt padding bərpa edək */
+.schedule-cell.has-employees:last-child,
+.schedule-cell.has-employees + .schedule-cell:not(.has-employees) {
+  padding-bottom: 2px;
+}
+
+.has-employees {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+
+/* Employee block stilini təkmilləşdirək */
+.employee-block {
+  width: 100%;
+  height: 100%; /* 100% hündürlük */
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+  position: relative;
+  z-index: 1;
+  border-radius: 0; /* Border radius-i sıfırlayaq */
+}
+/* İlk və son bloklara radius verək */
+.schedule-cell:first-child .employee-block,
+.schedule-cell:first-child.has-employees .employee-block {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.schedule-cell:last-child .employee-block,
+.schedule-cell:last-child.has-employees .employee-block,
+.schedule-cell.has-employees:last-of-type .employee-block,
+.schedule-cell.has-employees + .schedule-cell:not(.has-employees) .employee-block {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Ardıcıl işçi blokları üçün bir az üst-üstə bindirilmə */
+.continuous-employee .employee-block {
+  margin-top: -1px; /* Üst-üstə düşmə effekti */
+  height: calc(100% + 1px); /* Hündürlüyü bir az artırırıq ki, boşluq görünməsin */
+}
+
+/* İşçi rəngləri */
+.employee-0 {
+  background-color: #EEF8FE; /* Açıq mavi */
+}
+
+.employee-1 {
+  background-color: #F0FEEB; /* Açıq yaşıl */
+}
+/* Tam yenidən dizayn edilmiş blok sistemi */
+.time-blocks-container {
+  position: relative;
+  height: 100%;
+}
+
+/* İşçi bloklarına müvafiq borderlər əlavə edək */
+.employee-full-block {
+  position: absolute;
+  width: calc(100% - 8px); /* Tam endən 8px az */
+  left: 4px; /* Soldan 4px */
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+/* Yeni dizayn üçün bloklara əlavə boşluq qoyaq */
+.employee-block-container {
+  position: absolute;
+  left: 4px;
+  width: calc(100% - 8px); /* Genişliyi azaldırıq ki, kənarlarda boşluq qalsın */
+  box-sizing: border-box;
+  padding: 2px;
+  z-index: 10;
+}
+.employee-block-container .employee-block-content {
+  height: 100%;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+  display: flex;
+  align-items: center;
+  border: 2px solid transparent; /* Varsayılan border */
+}
+/* Göy rəngli bloka tünd göy border */
+.employee-0.employee-full-block {
+  background-color: #EEF8FE; /* Açıq mavi */
+  border-color: #A9CEE7; /* Tünd mavi border */
+}
+
+/* Yaşıl rəngli bloka tünd yaşıl border */
+.employee-1.employee-full-block {
+  background-color: #F0FEEB; /* Açıq yaşıl */
+  border-color: #D9F0C6; /* Tünd yaşıl border */
+}
+/* Göy rəngli bloka tünd göy border */
+.employee-0 .employee-block-content {
+  background-color: #EEF8FE; /* Açıq mavi */
+  border-color: #A9CEE7; /* Tünd mavi border */
+}
+
+/* Yaşıl rəngli bloka tünd yaşıl border */
+.employee-1 .employee-block-content {
+  background-color: #F0FEEB; /* Açıq yaşıl */
+  border-color: #D9F0C6; /* Tünd yaşıl border */
+}
+/* Responsive dizayn */
+@media (max-width: 1024px) {
+  .schedule-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .search-container {
+    width: 100%;
+  }
+  
+  .navigation-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-grid {
+    grid-template-columns: 60px repeat(7, 1fr);
+  }
+  
+  .time-cell {
+    padding: 5px;
+    font-size: 12px;
+  }
+  
+  .day-cell {
+    padding: 5px;
+  }
+  
+  .day-name {
+    font-size: 12px;
+  }
+  
+  .day-date {
+    font-size: 14px;
+  }
+}
