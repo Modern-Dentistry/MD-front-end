@@ -200,6 +200,9 @@
   padding: 10px;
   text-align: center;
   border-left: 1px solid #e0e0e0;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
 }
 
 .day-name {
@@ -209,7 +212,8 @@
 
 .day-date {
   font-size: 18px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
+  margin-left: 3px;
   color: #555;
 }
 
