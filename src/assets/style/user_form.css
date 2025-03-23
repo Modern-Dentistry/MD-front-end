@@ -186,3 +186,29 @@
 .color-success {
   color: #155EEF !important;
 }
+
+/* ===== COLOR SELECTOR ===== */
+
+.color-selector-group {
+  position: relative;
+}
+
+.color-icon {
+  cursor: pointer;
+  position: absolute;
+  left: 95%;
+  right: 5%;
+  font-size: 1.2rem;
+}
+
+.color-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999; 
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 4px;
+}

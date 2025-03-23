@@ -1,16 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import '../assets/style/user_form.css';
+import React, { useState, useEffect, useRef } from 'react';
 import { SketchPicker } from 'react-color';
+import { MdColorLens } from 'react-icons/md';
+import '../assets/style/user_form.css';
 import ProfileImage from './ProfileImage';
 import DropdownMenuChecklist from './DropdownChecklist';
-import PenIcon from '../assets/icons/pen';
-import TrashIcon from '../assets/icons/trash';
 import { LuPenLine } from "react-icons/lu";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 export default function UserForm({ mode: initialMode, userData = null, onModeChange }) {
+
   const [mode, setMode] = useState(initialMode);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorPickerRef = useRef(null);
+
+  // Close picker on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setShowColorPicker(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -201,19 +218,34 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
 
         
         
-        <div className="form-group">
-          <label htmlFor="colorCode">Rəng kodu</label>
-          <input
-            id="colorCode"
-            type="text"
-            name="colorCode"
-            value={formData.colorCode}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
+        <div className="form-group color-selector-group">
+      <label htmlFor="colorCode">Rəng kodu</label>
+      <input
+        id="colorCode"
+        type="text"
+        name="colorCode"
+        value={formData.colorCode}
+        readOnly // Disables manual typing
+        className={mode === 'view' ? 'readonly' : ''}
+      />
+      <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+        <MdColorLens />
+      </span>
+      <span
+        className="color-swatch"
+        style={{ backgroundColor: formData.colorCode }}
+      ></span>
 
+      {showColorPicker && (
+        <div ref={colorPickerRef} className="color-picker-dropdown">
+          <SketchPicker
+          disableAlpha={true}
+            color={formData.colorCode}
+            onChangeComplete={handleColorChange}
+          />  
+        </div>
+      )}
+    </div>
 
 
         <div className="form-group">
@@ -227,7 +259,6 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             readOnly={mode === 'view'} 
             className={mode === 'view' ? 'readonly' : ''}
           />
-   
         </div>
         <div className="form-group">
           <label htmlFor="academicDegree">Elmi dərəcə</label>
