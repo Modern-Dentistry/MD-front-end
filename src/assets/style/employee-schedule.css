@@ -1,6 +1,9 @@
+/* employee-schedule.css - Yeni təkmilləşdirilmiş versiya */
+
 .schedule-out{
   padding: 20px;
 }
+
 .employee-schedule-container {
   display: flex;
   flex-direction: column;
@@ -20,6 +23,18 @@
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #e0e0e0;
+}
+
+.search-and-selects{
+  width: 45%;
+  display: flex;
+  align-items: center;
+}
+
+.date-and-navigation{
+  display: flex;
+  width: 55%;
+  justify-content: space-between;
 }
 
 /* Axtarış bölməsi */
@@ -186,6 +201,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.time-column {
+  background-color: #EEF2F6;
+}
+
 /* Başlıq sətri */
 .day-header, .time-header {
   position: sticky;
@@ -212,7 +231,6 @@
 
 .day-date {
   font-size: 18px;
-  /* margin-top: 5px; */
   margin-left: 3px;
   color: #555;
 }
@@ -232,153 +250,200 @@
 .schedule-cell {
   height: 60px;
   position: relative;
-  padding: 0; /* Padding-i sıfırlayırıq */
+  padding: 0;
   border-left: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
 }
 
-/* Boş xanalarda border göstərək */
-.schedule-cell:not(.has-employees) {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-/* İşçiləri olan xanalarda alt borderi gizlədək */
-.schedule-cell.has-employees {
-  padding: 0; /* Dolu xanalarda da padding sıfır */
-  border-bottom: none; /* Alt borderi silək */
-}
-.schedule-cell.continuous-employee {
-  margin-top: -1px; /* Neqativ margin üst-üstə düşmə üçün */
-}
-
-/* İşçi blokları olan hücrələr üçün davam edən border düzəltməsi */
-.continuous-employee {
-  border-top: none !important;
-}
-/* Eyni işçinin ardıcıl xanaları üçün */
-.schedule-cell.has-employees {
-  border-bottom: none;
-  padding: 2px 2px 0 2px; /* Alt padding-i azaldıb bitişikliyi artıraq */
-}
-/* Sonuncu işçi xanası üçün alt padding bərpa edək */
-.schedule-cell.has-employees:last-child,
-.schedule-cell.has-employees + .schedule-cell:not(.has-employees) {
-  padding-bottom: 2px;
-}
-
-.has-employees {
-  background-color: rgba(245, 245, 245, 0.5);
-}
-
-/* Employee block stilini təkmilləşdirək */
-.employee-block {
-  width: 100%;
-  height: 100%; /* 100% hündürlük */
-  padding: 4px 8px;
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #333;
-  position: relative;
-  z-index: 1;
-  border-radius: 0; /* Border radius-i sıfırlayaq */
-}
-/* İlk və son bloklara radius verək */
-.schedule-cell:first-child .employee-block,
-.schedule-cell:first-child.has-employees .employee-block {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.schedule-cell:last-child .employee-block,
-.schedule-cell:last-child.has-employees .employee-block,
-.schedule-cell.has-employees:last-of-type .employee-block,
-.schedule-cell.has-employees + .schedule-cell:not(.has-employees) .employee-block {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-/* Ardıcıl işçi blokları üçün bir az üst-üstə bindirilmə */
-.continuous-employee .employee-block {
-  margin-top: -1px; /* Üst-üstə düşmə effekti */
-  height: calc(100% + 1px); /* Hündürlüyü bir az artırırıq ki, boşluq görünməsin */
-}
-
-/* İşçi rəngləri */
-.employee-0 {
-  background-color: #EEF8FE; /* Açıq mavi */
-}
-
-.employee-1 {
-  background-color: #F0FEEB; /* Açıq yaşıl */
-}
-/* Tam yenidən dizayn edilmiş blok sistemi */
+/* İş saatı blokları üçün konteyner */
 .time-blocks-container {
   position: relative;
   height: 100%;
 }
 
-/* İşçi bloklarına müvafiq borderlər əlavə edək */
+/* ----- ÜST-ÜSTƏ DÜŞƏN İŞÇİ BLOKLAR ÜÇÜN YENİ STİLLƏR ----- */
+
+/* İşçi blokları stilləri */
 .employee-full-block {
   position: absolute;
-  width: calc(100% - 8px); /* Tam endən 8px az */
-  left: 4px; /* Soldan 4px */
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #333;
-  z-index: 1;
-  box-sizing: border-box;
-  border: 2px solid transparent;
-}
-/* Yeni dizayn üçün bloklara əlavə boşluq qoyaq */
-.employee-block-container {
-  position: absolute;
-  left: 4px;
-  width: calc(100% - 8px); /* Genişliyi azaldırıq ki, kənarlarda boşluq qalsın */
-  box-sizing: border-box;
-  padding: 2px;
-  z-index: 10;
-}
-.employee-block-container .employee-block-content {
-  height: 100%;
-  border-radius: 4px;
+  background-color: #fff;
+  border-radius: 6px;
   padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.employee-full-block.selected {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.2);
+  border-color: #FF5722;
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.9), rgba(255, 138, 101, 0.9));
+  backdrop-filter: blur(2px);
+}
+
+.employee-full-block.selected .block-time,
+.employee-full-block.selected .employee-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.employee-full-block.selected .compact-content {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Zaman aralığı və işçi adı */
+.block-time {
   font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.employee-name {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Paralel bloklar üçün rənglər */
+.employee-color-0 {
+  background-color: rgba(66, 133, 244, 0.85);
+  color: white;
+}
+
+.employee-color-1 {
+  background-color: rgba(219, 68, 55, 0.85);
+  color: white;
+}
+
+.employee-color-2 {
+  background-color: rgba(15, 157, 88, 0.85);
+  color: white;
+}
+
+.employee-color-3 {
+  background-color: rgba(244, 180, 0, 0.85);
+  color: white;
+}
+
+.employee-color-4 {
+  background-color: rgba(171, 71, 188, 0.85);
+  color: white;
+}
+
+/* Dar bloklar üçün mətn ölçüsü tənzimləmələri */
+.employee-full-block[style*="width: 50"] .block-time,
+.employee-full-block[style*="width: 33"] .block-time {
+  font-size: 10px;
+}
+
+.employee-full-block[style*="width: 50"] .employee-name,
+.employee-full-block[style*="width: 33"] .employee-name {
+  font-size: 12px;
+}
+
+/* Çox dar bloklar üçün əlavə tənzimləmələr */
+.employee-full-block[style*="width: 25"] .block-time,
+.employee-full-block[style*="width: 20"] .block-time {
+  font-size: 9px;
+  margin-bottom: 2px;
+}
+
+.employee-full-block[style*="width: 25"] .employee-name,
+.employee-full-block[style*="width: 20"] .employee-name {
+  font-size: 10px;
+}
+
+/* Kiçik hündürlüklü bloklar üçün ayarlamalar */
+.employee-full-block[style*="height: 60px"] .employee-name {
+  font-size: 12px;
+}
+
+.employee-full-block[style*="height: 30px"] {
+  padding: 2px 8px;
+}
+
+.employee-full-block[style*="height: 30px"] .block-time {
+  margin-bottom: 0;
+  font-size: 10px;
+}
+
+.employee-full-block[style*="height: 30px"] .employee-name {
+  font-size: 11px;
+}
+
+/* Çox kiçik bloklar üçün kompakt stil */
+.employee-full-block.compact {
+  padding: 4px;
+}
+
+.compact-content {
+  font-size: 10px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #333;
+}
+
+/* Select Options Styles */
+.select-options-container {
   display: flex;
-  align-items: center;
-  border: 2px solid transparent; /* Varsayılan border */
-}
-/* Göy rəngli bloka tünd göy border */
-.employee-0.employee-full-block {
-  background-color: #EEF8FE; /* Açıq mavi */
-  border-color: #A9CEE7; /* Tünd mavi border */
+  gap: 16px;
+  max-width: 100%;
 }
 
-/* Yaşıl rəngli bloka tünd yaşıl border */
-.employee-1.employee-full-block {
-  background-color: #F0FEEB; /* Açıq yaşıl */
-  border-color: #D9F0C6; /* Tünd yaşıl border */
-}
-/* Göy rəngli bloka tünd göy border */
-.employee-0 .employee-block-content {
-  background-color: #EEF8FE; /* Açıq mavi */
-  border-color: #A9CEE7; /* Tünd mavi border */
+.doctor-select, .room-select {
+  min-width: 180px;
+  flex: 1;
 }
 
-/* Yaşıl rəngli bloka tünd yaşıl border */
-.employee-1 .employee-block-content {
-  background-color: #F0FEEB; /* Açıq yaşıl */
-  border-color: #D9F0C6; /* Tünd yaşıl border */
+/* React-select özəlləşdirmələri */
+.select__control {
+  border-radius: 6px !important;
+  border-color: #e0e0e0 !important;
+  box-shadow: none !important;
+  min-height: 38px !important;
 }
+
+.select__control:hover {
+  border-color: #1976d2 !important;
+}
+
+.select__control--is-focused {
+  border-color: #1976d2 !important;
+  box-shadow: 0 0 0 1px #1976d2 !important;
+}
+
+.select__menu {
+  z-index: 99 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+}
+
+.select__option {
+  padding: 10px 12px !important;
+}
+
+.select__option--is-focused {
+  background-color: #f0f7ff !important;
+}
+
+.select__option--is-selected {
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+  font-weight: 500 !important;
+}
+
 /* Responsive dizayn */
 @media (max-width: 1024px) {
   .schedule-header {
@@ -387,13 +452,23 @@
     align-items: flex-start;
   }
   
+  .search-and-selects {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .select-options-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
   .search-container {
     width: 100%;
   }
   
-  .navigation-controls {
+  .date-and-navigation {
     width: 100%;
-    justify-content: space-between;
   }
 }
 
@@ -417,5 +492,10 @@
   
   .day-date {
     font-size: 14px;
+  }
+  
+  .select-options-container {
+    flex-direction: column;
+    gap: 10px;
   }
 }
