@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SketchPicker } from 'react-color';
 import { MdColorLens } from 'react-icons/md';
-import '../assets/style/user_form.css';
+import '../assets/style/form.css';
 import ProfileImage from './ProfileImage';
 import DropdownMenuChecklist from './DropdownChecklist';
 import { LuPenLine } from "react-icons/lu";
@@ -106,7 +106,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
   };
 
   return (
-    <div className="user-form-container">
+    <div className="form-container">
         <h3 className="form-title">
         {mode === 'create' 
             ? 'İşçi əlavə et'
@@ -115,7 +115,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             : 'İşçi məlumatları'}
         </h3>
 
-      <form className="user-form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
          <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
          <ProfileImage userId={formData.userId} mode={mode}/>
           {mode === 'view' && (
