@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import "../assets/style/add_user.css";
 
 import TitleUpdater from "../components/TitleUpdater";
-import Sidebar from "../components/layout/Sidebar";
+import Sidebar from "../components/Sidebar";
 import UserForm from "../components/UserForm";
 import ImageUploader from "../components/ProfileImage";
 function ViewUser() {
@@ -28,10 +29,10 @@ function ViewUser() {
 
 
     return (
-        <div>
+        <div className="add_user">
         <Sidebar />
         <TitleUpdater title={"View User"} />
-        <div>
+        <div className="form_container">
             <UserForm mode="view" userData={userData}/>
             </div>
         </div>

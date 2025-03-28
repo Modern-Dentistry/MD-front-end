@@ -4,7 +4,7 @@
  */
 
 /* ===== LAYOUT CONTAINERS ===== */
-.form-container {
+.user-form-container {
   width: 100%;
   padding: 20px;
   background: white;
@@ -12,7 +12,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form {
+.user-form {
   display: flex;
   flex-direction: column;
 }
@@ -196,8 +196,8 @@
 .color-icon {
   cursor: pointer;
   position: absolute;
-  left: 90%;
-  right: 10%;
+  left: 95%;
+  right: 5%;
   font-size: 1.2rem;
 }
 
