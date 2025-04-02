@@ -24,6 +24,7 @@ function EmployeeSchedule() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBlockId, setSelectedBlockId] = useState(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const scheduleRef = useRef(null);
   // Select dropdown üçün state-lər əlavə edək
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -92,6 +93,7 @@ function EmployeeSchedule() {
     // Həkim seçimi dəyişdikdə
     const handleDoctorChange = (selectedOption) => {
     setSelectedDoctor(selectedOption);
+    setSelectedDoctorId(selectedOption ? selectedOption.value : null);
     console.log("Seçilmiş həkim:", selectedOption);
     // Burada seçilmiş həkimə görə filtrasiya və ya digər əməliyyatlar edilə bilər
   };
@@ -436,6 +438,35 @@ useEffect(() => {
     setSelectedBlockId(selectedBlockId === blockId ? null : blockId);
   };
 
+  // Həkim kartına klik hadisəsi
+  const handleDoctorCardClick = (doctorId) => {
+    setSelectedDoctorId(selectedDoctorId === doctorId ? null : doctorId);
+  };
+
+  // Həkimin iş saatlarını yoxlamaq üçün funksiya
+  const isDoctorWorking = (doctorId, date, time) => {
+    const doctor = employees.find(emp => emp.id === doctorId);
+    if (!doctor) return false;
+
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    const schedule = doctor.schedule.find(s => s.date === formattedDate);
+    if (!schedule) return false;
+
+    const timeHours = Number(time.split(':')[0]);
+    const timeMinutes = Number(time.split(':')[1]);
+    const timeValue = timeHours * 60 + timeMinutes;
+
+    const startTimeHours = Number(schedule.startTime.split(':')[0]);
+    const startTimeMinutes = Number(schedule.startTime.split(':')[1]);
+    const startTimeValue = startTimeHours * 60 + startTimeMinutes;
+
+    const endTimeHours = Number(schedule.endTime.split(':')[0]);
+    const endTimeMinutes = Number(schedule.endTime.split(':')[1]);
+    const endTimeValue = endTimeHours * 60 + endTimeMinutes;
+
+    return timeValue >= startTimeValue && timeValue < endTimeValue;
+  };
+
   return (
     <div className="employee-schedule-container">
       {/* Yuxarı hissə - Header */}
@@ -505,7 +536,9 @@ useEffect(() => {
             <div key={index} className="day-column day-header">
               <div className="day-cell">
                 <div className="day-name">{WEEKDAYS_SHORT[index]}</div>
-                <div className="day-date">{format(date, 'd')}</div>
+                <div className={`day-date ${format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd') ? 'active' : ''}`}>
+                  {format(date, 'd')}
+                </div>
               </div>
             </div>
           ))}
@@ -523,7 +556,10 @@ useEffect(() => {
               <div className="time-blocks-container">
                 {/* Hər saat üçün xanalar */}
                 {WORK_HOURS.map((time, timeIndex) => (
-                  <div key={timeIndex} className="schedule-cell"></div>
+                  <div 
+                    key={timeIndex} 
+                    className={`schedule-cell ${selectedDoctorId && isDoctorWorking(selectedDoctorId, date, time) ? 'doctor-working' : ''}`}
+                  ></div>
                 ))}
                 
                 {/* İşçi blokları üst-üstə yerləşdiriləcək */}
@@ -568,6 +604,21 @@ useEffect(() => {
         </div>
       </div>
       </div>
+      {employees.map((doctor) => (
+        <div 
+          key={doctor.id} 
+          className={`doctor-card ${selectedDoctorId === doctor.id ? 'selected' : ''}`}
+          onClick={() => handleDoctorCardClick(doctor.id)}
+        >
+          <div className="doctor-image-container">
+            <img src="/images/doctor-placeholder.png" alt={doctor.name} className="doctor-image" />
+          </div>
+          <div className="doctor-info">
+            <h3 className="doctor-name">{doctor.name}</h3>
+            <p className="doctor-position">{doctor.position}</p>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

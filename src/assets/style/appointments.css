@@ -1,0 +1,263 @@
+.appointments-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.right-side {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Kalendar stilləri */
+.schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0;
+}
+
+.date-and-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-month {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.date-range {
+  font-size: 14px;
+  color: #666;
+}
+
+.navigation-controls {
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.nav-button, .calendar-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button:hover, .calendar-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Calendar Dropdown */
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 8px;
+}
+
+/* Simple Calendar */
+.simple-calendar {
+  width: 300px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+}
+
+.simple-calendar .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.simple-calendar .calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-calendar .calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.simple-calendar .weekday {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.simple-calendar .calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.simple-calendar .calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.simple-calendar .calendar-day:hover {
+  background-color: #f0f0f0;
+}
+
+.simple-calendar .calendar-day.empty {
+  cursor: default;
+}
+
+.simple-calendar .calendar-day.today {
+  background-color: #e6f3ff;
+  color: #0066cc;
+  font-weight: 600;
+}
+
+.schedule-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  gap: 1px;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+}
+
+.time-column, .day-column {
+  background-color: #fff;
+}
+
+.time-header, .day-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.time-cell {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-cell {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.day-date {
+  font-size: 14px;
+  color: #666;
+  margin-left: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.day-date.active {
+  background-color: #0066cc;
+  color: white;
+  font-weight: 600;
+}
+
+.time-blocks-container {
+  position: relative;
+  height: 100%;
+}
+
+.schedule-cell {
+  height: 60px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.schedule-cell.doctor-working {
+  background-color: rgba(76, 175, 80, 0.2);
+  border: 1px solid #4CAF50;
+  position: relative;
+}
+
+.schedule-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #2E7D32;
+  font-size: 11px;
+  font-weight: 500;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.doctor-schedule-name {
+  margin-bottom: 2px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-schedule-room {
+  margin-bottom: 2px;
+  opacity: 0.9;
+}
+
+.doctor-schedule-time {
+  font-size: 10px;
+  opacity: 0.8;
+}
