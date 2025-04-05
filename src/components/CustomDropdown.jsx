@@ -8,9 +8,11 @@ const CustomDropdown = ({
   placeholder = "Seçin",
   name,
   isMulti = false,
-  className = ""
+  className = "",
+  disabled = false // Add disabled prop
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -26,10 +28,13 @@ const CustomDropdown = ({
   }, []);
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    if (!disabled) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const handleSelect = (option) => {
+    if (disabled) return; // Prevent selection if disabled
     if (isMulti) {
       const currentValue = value || [];
       const isSelected = currentValue.includes(option.value);
@@ -60,8 +65,16 @@ const CustomDropdown = ({
     return value === option.value;
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredOptions = options.filter(option =>
+    option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className={`custom-dropdown ${className}`} ref={dropdownRef}>
+    <div className={`custom-dropdown ${className} ${disabled ? 'disabled' : ''}`} ref={dropdownRef}>
       <div 
         className={`dropdown-header ${isOpen ? 'open' : ''}`} 
         onClick={handleToggle}
@@ -70,9 +83,18 @@ const CustomDropdown = ({
         <span className="dropdown-arrow">▼</span>
       </div>
       
-      {isOpen && (
+      {isOpen && !disabled && (
         <div className="dropdown-menu">
-          {options.map((option) => (
+          <div className="dropdown-search">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Axtarış..."
+              className="search-input"
+            />
+          </div>
+          {filteredOptions.map((option) => (
             <div
               key={option.value}
               className={`dropdown-item ${isSelected(option) ? 'selected' : ''}`}
@@ -95,4 +117,4 @@ const CustomDropdown = ({
   );
 };
 
-export default CustomDropdown; 
+export default CustomDropdown;
