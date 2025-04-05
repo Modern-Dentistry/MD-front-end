@@ -6,8 +6,15 @@
   text-decoration: none;
   list-style: none;
   box-sizing: border-box;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 }
+
 body {
   background: #f8fafc;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Ensure all text elements use Open Sans */
+h1, h2, h3, h4, h5, h6, p, span, div, input, textarea, select, button {
+  font-family: "Open Sans", sans-serif;
 }

@@ -1,10 +1,10 @@
 import React from "react";
 
 // Images
-import logo from "../assets/images/general/logos/logo.png";
+import logo from "../../assets/images/general/logos/logo.png";
 
 // Style
-import "../assets/style/sidebar.css";
+import "../../assets/style/sidebar.css";
 
 // Icons
 import { CiStethoscope } from "react-icons/ci";

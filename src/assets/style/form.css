@@ -1,0 +1,214 @@
+/* 
+ * User Form Styles
+ * Organized by component hierarchy
+ */
+
+/* ===== LAYOUT CONTAINERS ===== */
+.form-container {
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Two-column layout */
+.form-group-main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Section dividers */
+.single-column-section {
+  margin-top: 20px;
+  border-top: 1px solid #D4DCE8;
+  padding-top: 20px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.form-title {
+  color: #0D121C;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-group label {
+  align-self: flex-start;
+  margin: 10px 0;
+  width: 30%;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #CDD5DF;
+  border-radius: 6px;
+  margin-right: 20px;
+}
+
+.form-group input.readonly {
+  background: #f5f5f5;
+  color: #697586;
+}
+
+.discount-fields .form-group {
+  margin-bottom: 10px;
+}
+
+/* ===== BUTTONS & ACTIONS ===== */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.btn-submit,
+.btn-cancel {
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-left: 10px;
+  width: 184px;
+  height: 44px;
+}
+
+.btn-submit {
+  background: #155EEF;
+  color: white;
+  border: none;
+}
+
+.btn-cancel {
+  background: white;
+  color: #155EEF;
+  border: 1px solid #155EEF;
+}
+
+/* Profile actions */
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-button-group {
+  display: flex;
+  align-self: flex-end;
+  margin: 0 30px 15px 0;
+}
+
+.profile-button-group button {
+  display: flex;
+  gap: 5px;
+  background: none;
+  color: #155EEF;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+/* ===== PERMISSIONS CHECKLIST ===== */
+.permissions-checklist {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.permissions-checklist label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.permissions-checklist input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #155EEF;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+  padding: 0 !important;
+}
+
+.permissions-checklist input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #155EEF;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.color-danger {
+  color: #FD4A3D !important;
+}
+
+.color-success {
+  color: #155EEF !important;
+}
+
+/* ===== COLOR SELECTOR ===== */
+
+.color-selector-group {
+  position: relative;
+}
+
+.color-icon {
+  cursor: pointer;
+  position: absolute;
+  left: 90%;
+  right: 10%;
+  font-size: 1.2rem;
+}
+
+.color-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999; 
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 4px;
+}
