@@ -71,6 +71,7 @@
 .patient-content {
   display: flex;
   flex-direction: column;
+  /* min-height: uf; */
   width: 100%;
   padding: 20px;
   background-color: #fff;
