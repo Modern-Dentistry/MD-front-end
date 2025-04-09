@@ -86,7 +86,7 @@ createRoot(document.getElementById("root")).render(
             WEEKDAYS_SHORT={WEEKDAYS_SHORT}
           />
         } />
-        <Route path="/add-appointment" element={
+        <Route path="/add-new-appointment" element={
           <AddNewAppointment 
             roomOptions={roomOptions} 
             employees={employees}

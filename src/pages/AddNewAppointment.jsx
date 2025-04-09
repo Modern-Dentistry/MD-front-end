@@ -1,13 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/style/add-new-appointment.css';
 import '../assets/style/appointment-left-side.css';
 import CustomSelect from "../components/CustomSelect.jsx";
+import Modal from "../components/Modal.jsx";
+
+// Müvəqqəti pasiyent məlumatları
+const TEMP_PATIENTS = [
+  { value: '1', label: 'Orxan Məmmədov - 502286063', debt: 150 },
+  { value: '2', label: 'Əli Hüseynov - 502286064', debt: 0 },
+  { value: '3', label: 'Ayşə Əliyeva - 502286065', debt: 75 },
+  { value: '4', label: 'Mehriban Qasımova - 502286066', debt: 0 },
+  { value: '5', label: 'Rəşad Əhmədov - 502286067', debt: 200 },
+  { value: '6', label: 'Zəhra Məmmədova - 502286068', debt: 0 },
+];
+
+// Əməliyyatlar siyahısı
+const OPERATIONS = [
+  { value: '1', label: 'Dişin çəkilməsi' },
+  { value: '2', label: 'İmplant əməliyyatı' },
+  { value: '3', label: 'İşlərin təhvili' },
+  { value: '4', label: 'Kanal müalicəsi' },
+  { value: '5', label: 'Kanal yuma' },
+  { value: '6', label: 'Korreksiya' },
+  { value: '7', label: 'Körpü primerkası' },
+  { value: '8', label: 'Müalicə' },
+  { value: '9', label: 'Müayinə' },
+  { value: '10', label: 'Müvəqqəti kanal doldurma' },
+];
+
+// Status seçimləri
+const STATUS_OPTIONS = [
+  { value: 'appointment', label: 'Randevu' },
+  { value: 'arrived', label: 'Gəldi' },
+  { value: 'cancelled', label: 'Ləğv edillib' },
+];
 
 // Props-ları əlavə edirik
 const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedOperations, setSelectedOperations] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [formData, setFormData] = useState({
     patientName: '',
     patientPhone: '',
@@ -15,11 +54,35 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
     date: '',
     time: '',
   });
+  const [showModal, setShowModal] = useState(false);
+
+  // Seçilmiş tarix və saatı göstərmək üçün useEffect
+  useEffect(() => {
+    if (location.state?.selectedDateTime) {
+      const { date, time } = location.state.selectedDateTime;
+      setFormData(prev => ({
+        ...prev,
+        date,
+        time
+      }));
+    }
+  }, [location.state]);
+
+  // Həkim seçimi üçün options yaradırıq
+  const doctorOptions = employees.map(doctor => ({
+    value: doctor.id,
+    label: doctor.name
+  }));
 
   // Sol panel üçün funksiyalar
   const handleRoomChange = (selectedOption) => {
     setSelectedRoom(selectedOption);
     setSelectedDoctorId(null);
+    setSelectedDoctor(null);
+    setFormData(prev => ({
+      ...prev,
+      room: selectedOption ? selectedOption.label : ''
+    }));
   };
 
   const handleSearchChange = (e) => {
@@ -27,7 +90,25 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
   };
 
   const handleDoctorCardClick = (doctorId) => {
-    setSelectedDoctorId(selectedDoctorId === doctorId ? null : doctorId);
+    const doctor = employees.find(d => d.id === doctorId);
+    setSelectedDoctorId(doctorId);
+    setSelectedDoctor({
+      value: doctor.id,
+      label: doctor.name
+    });
+    setFormData(prev => ({
+      ...prev,
+      doctorName: doctor.name
+    }));
+  };
+
+  const handleDoctorChange = (selectedOption) => {
+    setSelectedDoctor(selectedOption);
+    setSelectedDoctorId(selectedOption ? selectedOption.value : null);
+    setFormData(prev => ({
+      ...prev,
+      doctorName: selectedOption ? selectedOption.label : ''
+    }));
   };
 
   const filteredDoctors = employees.filter(doctor =>
@@ -43,14 +124,72 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
     }));
   };
 
+  const handlePatientChange = (selectedOption) => {
+    setSelectedPatient(selectedOption);
+    setFormData(prev => ({
+      ...prev,
+      patientName: selectedOption ? selectedOption.label : '',
+      patientDebt: selectedOption ? (selectedOption.debt > 0 ? selectedOption.debt : 'Borcu yoxdur') : ''
+    }));
+  };
+
+  const handleOperationsChange = (selectedOptions) => {
+    setSelectedOperations(selectedOptions || []);
+    setFormData(prev => ({
+      ...prev,
+      operation: selectedOptions ? selectedOptions.map(option => option.label).join(', ') : ''
+    }));
+  };
+
+  const handleStatusChange = (selectedOption) => {
+    setSelectedStatus(selectedOption);
+    setFormData(prev => ({
+      ...prev,
+      status: selectedOption ? selectedOption.label : ''
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Form məlumatlarını göndərmək
-    console.log('Form data:', {
-      ...formData,
+    setShowModal(true);
+  };
+
+  const handleConfirmAppointment = () => {
+    // Yeni randevu məlumatlarını hazırla
+    const newAppointment = {
+      id: Date.now(), // Unikal ID əlavə edirik
       doctorId: selectedDoctorId,
-      room: selectedRoom?.value
-    });
+      date: formData.date,
+      room: selectedRoom?.value,
+      patient: {
+        name: formData.patientName,
+        code: formData.patientPhone
+      },
+      startTime: formData.time,
+      endTime: formData.duration,
+      operations: selectedOperations.map(op => op.label).join(', '),
+      status: selectedStatus?.label || 'Randevu'
+    };
+
+    try {
+      // Local storage-a yadda saxla
+      const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const updatedAppointments = [...existingAppointments, newAppointment];
+      localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+
+      // Modal-ı bağla
+      setShowModal(false);
+
+      // Appointments səhifəsinə qayıt və seçilmiş həkim ID-sini state kimi göndər
+      setTimeout(() => {
+        navigate('/appointments', { 
+          state: { selectedDoctorId },
+          replace: true
+        });
+      }, 0);
+    } catch (error) {
+      console.error('Error saving appointment:', error);
+    }
   };
 
   return (
@@ -112,22 +251,26 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
             <div className='first-row'>
                 <div className="form-group">
                   <label className="required-label">Pasiyent</label>
-                  <input
-                    type="text"
-                    name="patientName"
-                    value={formData.patientName}
-                    onChange={handleInputChange}
-                    required
+                  <CustomSelect
+                    options={TEMP_PATIENTS}
+                    onChange={handlePatientChange}
+                    placeholder="Pasiyent seçin və ya axtarın"
+                    value={selectedPatient}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="patient-select"
                   />
                 </div>
                 <div className="form-group">
                   <label className="required-label">Həkim</label>
-                  <input
-                    type="text"
-                    name="patientName"
-                    value={formData.patientName}
-                    onChange={handleInputChange}
-                    required
+                  <CustomSelect
+                    options={doctorOptions}
+                    onChange={handleDoctorChange}
+                    placeholder="Həkim seçin və ya axtarın"
+                    value={selectedDoctor}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="doctor-select"
                   />
                 </div>
             </div>
@@ -136,22 +279,27 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
             <div className='second-row'>
                 <div className="form-group">
                   <label className="required-label">Əməliyyat</label>
-                  <input
-                    type="text"
-                    name="patientName"
-                    value={formData.patientName}
-                    onChange={handleInputChange}
-                    required
+                  <CustomSelect
+                    options={OPERATIONS}
+                    onChange={handleOperationsChange}
+                    placeholder="Əməliyyat seçin"
+                    value={selectedOperations}
+                    isMulti={true}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="operation-select"
                   />
                 </div>
                 <div className="form-group">
                   <label className="required-label">Otaq</label>
-                  <input
-                    type="text"
-                    name="patientName"
-                    value={formData.patientName}
-                    onChange={handleInputChange}
-                    required
+                  <CustomSelect
+                    options={roomOptions}
+                    onChange={handleRoomChange}
+                    placeholder="Otaq seçin"
+                    value={selectedRoom}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="room-select"
                   />
                 </div>
             </div>
@@ -183,7 +331,7 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
               <div className="form-group">
                 <label>Müddət</label>
                 <input
-                  type="number"
+                  type="time"
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
@@ -196,22 +344,25 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
             <div className='fourth-row'>
               <div className="form-group">
                 <label className="required-label">Status</label>
-                <input
-                  type="text"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                  required
+                <CustomSelect
+                  options={STATUS_OPTIONS}
+                  onChange={handleStatusChange}
+                  placeholder="Status seçin"
+                  value={selectedStatus}
+                  isClearable={true}
+                  isSearchable={true}
+                  className="status-select"
                 />
               </div>
               <div className="form-group">
                 <label>Pasient borcu</label>
                 <input
-                  type="number"
+                  type="text"
                   name="patientDebt"
                   value={formData.patientDebt}
                   onChange={handleInputChange}
-                  required
+                  readOnly
+                  className={formData.patientDebt === 'Borcu yoxdur' ? 'no-debt' : ''}
                 />
               </div>
             </div>
@@ -228,6 +379,15 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
           </form>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Əminsinizmi?"
+        message="Randevu əlavə ediləcək!"
+        onConfirm={handleConfirmAppointment}
+      />
     </div>
   );
 };

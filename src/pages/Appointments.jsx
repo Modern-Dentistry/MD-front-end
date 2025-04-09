@@ -5,6 +5,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import CustomSelect from "../components/CustomSelect.jsx";
 import DrCard from "../components/DrCard.jsx";
+import SidebarMenu from "../components/SidebarMenu.jsx";
 import "../assets/style/appointments.css";
 import "../assets/style/appointment-left-side.css";
 import { useNavigate } from 'react-router-dom';
@@ -25,11 +26,41 @@ const employees = [
     name: "Rüstəm Məmmədov",
     position: "Diş həkimi",
     schedule: [
-      { date: '2025-03-25', startTime: '09:00', endTime: '14:00', room: '1' },
-      { date: '2025-03-26', startTime: '10:00', endTime: '17:00', room: '2' },
-      { date: '2025-03-27', startTime: '09:00', endTime: '13:00', room: '3' },
-      { date: '2025-03-28', startTime: '14:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-29', startTime: '09:00', endTime: '15:00', room: '2' }
+      { 
+        date: '2025-03-25', 
+        startTime: '09:00', 
+        endTime: '14:00', 
+        room: '1',
+        patient: { name: 'Orxan Məmmədov', code: '502286063' }
+      },
+      { 
+        date: '2025-03-26', 
+        startTime: '10:00', 
+        endTime: '17:00', 
+        room: '2',
+        patient: { name: 'Əli Hüseynov', code: '502286064' }
+      },
+      { 
+        date: '2025-03-27', 
+        startTime: '09:00', 
+        endTime: '13:00', 
+        room: '3',
+        patient: { name: 'Ayşə Əliyeva', code: '502286065' }
+      },
+      { 
+        date: '2025-03-28', 
+        startTime: '14:00', 
+        endTime: '18:00', 
+        room: '1',
+        patient: { name: 'Mehriban Qasımova', code: '502286066' }
+      },
+      { 
+        date: '2025-03-29', 
+        startTime: '09:00', 
+        endTime: '15:00', 
+        room: '2',
+        patient: { name: 'Rəşad Əhmədov', code: '502286067' }
+      }
     ]
   },
   {
@@ -37,11 +68,41 @@ const employees = [
     name: "Aysel Hüseynova",
     position: "Ortodont",
     schedule: [
-      { date: '2025-03-25', startTime: '11:00', endTime: '18:00', room: '2' },
-      { date: '2025-03-26', startTime: '09:00', endTime: '14:00', room: '3' },
-      { date: '2025-03-27', startTime: '13:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-28', startTime: '09:00', endTime: '13:00', room: '2' },
-      { date: '2025-03-29', startTime: '14:00', endTime: '18:00', room: '3' }
+      { 
+        date: '2025-03-25', 
+        startTime: '11:00', 
+        endTime: '18:00', 
+        room: '2',
+        patient: { name: 'Zəhra Məmmədova', code: '502286068' }
+      },
+      { 
+        date: '2025-03-26', 
+        startTime: '09:00', 
+        endTime: '14:00', 
+        room: '3',
+        patient: { name: 'Orxan Məmmədov', code: '502286063' }
+      },
+      { 
+        date: '2025-03-27', 
+        startTime: '13:00', 
+        endTime: '18:00', 
+        room: '1',
+        patient: { name: 'Əli Hüseynov', code: '502286064' }
+      },
+      { 
+        date: '2025-03-28', 
+        startTime: '09:00', 
+        endTime: '13:00', 
+        room: '2',
+        patient: { name: 'Ayşə Əliyeva', code: '502286065' }
+      },
+      { 
+        date: '2025-03-29', 
+        startTime: '14:00', 
+        endTime: '18:00', 
+        room: '3',
+        patient: { name: 'Mehriban Qasımova', code: '502286066' }
+      }
     ]
   },
   {
@@ -49,11 +110,41 @@ const employees = [
     name: "Fərid Qafarov",
     position: "Cərrah",
     schedule: [
-      { date: '2025-03-25', startTime: '09:00', endTime: '13:00', room: '3' },
-      { date: '2025-03-26', startTime: '14:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-27', startTime: '09:00', endTime: '15:00', room: '2' },
-      { date: '2025-03-28', startTime: '10:00', endTime: '16:00', room: '3' },
-      { date: '2025-03-29', startTime: '09:00', endTime: '12:00', room: '1' }
+      { 
+        date: '2025-03-25', 
+        startTime: '09:00', 
+        endTime: '13:00', 
+        room: '3',
+        patient: { name: 'Rəşad Əhmədov', code: '502286067' }
+      },
+      { 
+        date: '2025-03-26', 
+        startTime: '14:00', 
+        endTime: '18:00', 
+        room: '1',
+        patient: { name: 'Zəhra Məmmədova', code: '502286068' }
+      },
+      { 
+        date: '2025-03-27', 
+        startTime: '09:00', 
+        endTime: '15:00', 
+        room: '2',
+        patient: { name: 'Orxan Məmmədov', code: '502286063' }
+      },
+      { 
+        date: '2025-03-28', 
+        startTime: '10:00', 
+        endTime: '16:00', 
+        room: '3',
+        patient: { name: 'Əli Hüseynov', code: '502286064' }
+      },
+      { 
+        date: '2025-03-29', 
+        startTime: '09:00', 
+        endTime: '12:00', 
+        room: '1',
+        patient: { name: 'Ayşə Əliyeva', code: '502286065' }
+      }
     ]
   },
 ];
@@ -161,8 +252,10 @@ const Appointments = () => {
   const [selectedWeekStart, setSelectedWeekStart] = useState(startOfWeek(currentDate, { weekStartsOn: 1 }));
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [appointments, setAppointments] = useState([]);
   const calendarRef = useRef(null);
   const navigate = useNavigate();
+  const [selectedDateTime, setSelectedDateTime] = useState(null);
 
   // Kənara klik edəndə kalendarı bağlamaq üçün useEffect
   useEffect(() => {
@@ -176,6 +269,28 @@ const Appointments = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
+
+  // Local storage-dan randevu məlumatlarını oxumaq üçün useEffect
+  useEffect(() => {
+    const loadAppointments = () => {
+      try {
+        const savedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+        setAppointments(savedAppointments);
+
+        // Əgər AddNewAppointment-dan gələn selectedDoctorId varsa, onu seç
+        const location = window.location;
+        if (location.state?.selectedDoctorId) {
+          setSelectedDoctorId(location.state.selectedDoctorId);
+          // State-i təmizlə
+          window.history.replaceState({}, document.title);
+        }
+      } catch (error) {
+        console.error('Error loading appointments:', error);
+      }
+    };
+
+    loadAppointments();
   }, []);
 
   const handleRoomChange = (selectedOption) => {
@@ -227,6 +342,11 @@ const Appointments = () => {
     setSelectedDoctorId(selectedDoctorId === doctorId ? null : doctorId);
   };
 
+  // Yeni randevu əlavə etmək üçün funksiya
+  const addNewAppointment = (appointmentData) => {
+    setAppointments(prev => [...prev, appointmentData]);
+  };
+
   // Həkimin iş saatlarını yoxlamaq üçün funksiya
   const isDoctorWorking = (doctorId, date, time) => {
     const doctor = employees.find(emp => emp.id === doctorId);
@@ -256,14 +376,37 @@ const Appointments = () => {
     return timeValue >= startTimeValue && timeValue < endTimeValue;
   };
 
-  // Həkimin otaq nömrəsini almaq üçün funksiya
-  const getDoctorRoom = (doctorId, date) => {
+  // Həkimin otaq və pasiyent məlumatlarını almaq üçün funksiya
+  const getDoctorScheduleInfo = (doctorId, date) => {
     const doctor = employees.find(emp => emp.id === doctorId);
     if (!doctor) return null;
 
     const formattedDate = format(date, 'yyyy-MM-dd');
+    
+    // Əvvəlcə yeni əlavə edilmiş randevuları yoxla
+    const newAppointment = appointments.find(
+      app => app.doctorId === doctorId && app.date === formattedDate
+    );
+
+    if (newAppointment) {
+      return {
+        room: newAppointment.room,
+        patient: newAppointment.patient,
+        startTime: newAppointment.startTime,
+        endTime: newAppointment.endTime,
+        operations: newAppointment.operations,
+        status: newAppointment.status
+      };
+    }
+
+    // Əgər yeni randevu yoxdursa, mövcud cədvəldən yoxla
     const schedule = doctor.schedule.find(s => s.date === formattedDate);
-    return schedule ? schedule.room : null;
+    return schedule ? {
+      room: schedule.room,
+      patient: schedule.patient,
+      startTime: schedule.startTime,
+      endTime: schedule.endTime
+    } : null;
   };
 
   // Otaqda işləyən həkimləri tapmaq üçün funksiya
@@ -292,8 +435,18 @@ const Appointments = () => {
     });
   };
 
+  // schedule-cell klik hadisəsi
+  const handleScheduleCellClick = (date, time) => {
+    const selectedDateTime = {
+      date: format(date, 'yyyy-MM-dd'),
+      time: time
+    };
+    navigate('/add-new-appointment', { state: { selectedDateTime } });
+  };
+
   return (
     <div className="appointments-container">
+      <SidebarMenu />
       {/* LEFT SİDE  */}
       <div className="left-side">
         <div className="select-options-container">
@@ -360,7 +513,7 @@ const Appointments = () => {
               <button className="nav-button" onClick={goToNextWeek}>
                 <IoIosArrowForward />
               </button>
-              <button onClick={() => navigate('/add-appointment')}>
+              <button onClick={() => navigate('/add-new-appointment')}>
                 Yeni randevu əlavə et
               </button>
               
@@ -417,7 +570,7 @@ const Appointments = () => {
                       ? employees.find(emp => emp.id === selectedDoctorId)
                       : workingDoctors[0];
                     
-                    const room = isWorking ? getDoctorRoom(doctor.id, date) : null;
+                    const room = isWorking ? getDoctorScheduleInfo(doctor.id, date)?.room : null;
                     
                     // Həkimin bu gün üçün iş saatını tap
                     const schedule = doctor && doctor.schedule.find(s => s.date === format(date, 'yyyy-MM-dd'));
@@ -429,12 +582,29 @@ const Appointments = () => {
                       <div 
                         key={timeIndex} 
                         className={`schedule-cell ${isWorking ? 'doctor-working' : ''}`}
+                        onClick={() => handleScheduleCellClick(date, time)}
                       >
                         {isWorking && isStartTime && (
                           <div className="schedule-info">
-                            <div className="doctor-schedule-name">{doctor.name}</div>
-                            <div className="doctor-schedule-room">Otaq {room}</div>
-                            <div className="doctor-schedule-time">{schedule.startTime} - {schedule.endTime}</div>
+                            <div className="doctor-schedule-name">
+                              {getDoctorScheduleInfo(doctor.id, date)?.patient.name || 'Pasiyent seçilməyib'}
+                            </div>
+                            <div className="doctor-schedule-room">
+                              Otaq {getDoctorScheduleInfo(doctor.id, date)?.room || room}
+                            </div>
+                            <div className="doctor-schedule-time">
+                              {getDoctorScheduleInfo(doctor.id, date)?.startTime || schedule.startTime} - {getDoctorScheduleInfo(doctor.id, date)?.endTime || schedule.endTime}
+                            </div>
+                            {getDoctorScheduleInfo(doctor.id, date)?.operations && (
+                              <div className="doctor-schedule-operations">
+                                {getDoctorScheduleInfo(doctor.id, date).operations}
+                              </div>
+                            )}
+                            {getDoctorScheduleInfo(doctor.id, date)?.status && (
+                              <div className="doctor-schedule-status">
+                                {getDoctorScheduleInfo(doctor.id, date).status}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
