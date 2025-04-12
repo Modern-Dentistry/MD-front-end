@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Link, useLocation } from "react-router-dom";
 import '../../assets/style/layout.css'; // Import your CSS file for styling
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   faUser, 
   faStethoscope, 
@@ -19,8 +20,11 @@ import {
 const PatientLayout = () => {
   const location = useLocation();
 
-  const isActive = (path) => {
-    return location.pathname === path;
+  const isActive = (paths) => {
+    if (Array.isArray(paths)) {
+      return paths.some(path => location.pathname === path);
+    }
+    return location.pathname === paths;
   };
 
   return (
@@ -37,7 +41,7 @@ const PatientLayout = () => {
               <FontAwesomeIcon icon={faStethoscope} /> Müayinə
             </Link>
           </button>
-          <button className={isActive('/patient/plans') ? 'active' : ''}>
+          <button className={isActive(['/patient/plans', '/patient/edit-plan', '/patient/create-plan']) ? 'active' : ''}>
             <Link to="/patient/plans">
               <FontAwesomeIcon icon={faClipboardList} /> Planlar
             </Link>
@@ -85,7 +89,17 @@ const PatientLayout = () => {
         </nav>
       </header>
       <main className="patient-content">
-        <Outlet /> {/* Renders the child routes */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
     </div>
   );

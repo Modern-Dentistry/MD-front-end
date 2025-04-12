@@ -4,7 +4,7 @@ import CustomDropdown from "../../components/CustomDropdown";
 import "../../assets/style/examination.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-
+import SimpleList from "../../components/list/SimpleList";
 const Examination = () => {
   const [selectedTeeth, setSelectedTeeth] = useState([]);
   const [mode, setMode] = useState("view");
@@ -30,8 +30,26 @@ const Examination = () => {
     setMode((prevMode) => (prevMode === "view" ? "edit" : "view"));
   };
 
-  const handleDelete = () => {
-    // DELETE FROM API
+  const handleDelete = (id) => {
+    if (id) {
+      console.log('Deleting examination with ID:', id);
+    } else {
+      console.log('No ID provided for deletion');
+    }
+  }
+
+  const handleEdit = (id) => {
+    if (id) {
+      console.log('Editing examination with ID:', id);
+      setMode('edit');
+    }
+  }
+
+  const handleView = (id) => {
+    if (id) {
+      console.log('Viewing examination with ID:', id);
+      setMode('view');
+    }
   }
 
   const submitExamination = (selectedType) => {
@@ -54,8 +72,7 @@ const Examination = () => {
                 { value: "2023-01-01", label: "January 1, 2023" },
                 { value: "2023-02-01", label: "February 1, 2023" },
                 { value: "2023-03-01", label: "March 1, 2023" },
-              ]} // Example date options
-              // disabled={selectedTeeth.length === 0} // Disable if no tooth is selected
+              ]}
             />
           </>
         ) : (
@@ -71,36 +88,72 @@ const Examination = () => {
               { value: "type1", label: "Type 1" },
               { value: "type2", label: "Type 2" },
               { value: "type3", label: "Type 3" },
-            ]} // Example examination types
-            disabled={selectedTeeth.length === 0} // Disable if no tooth is selected
+            ]}
+            disabled={selectedTeeth.length === 0}
           />
         )}
         <div className="flex gap-3">
           {mode === "view" ? (
             <>
-            <button onClick={handleModeToggle}>
-              <FontAwesomeIcon icon={faPen} />
-            </button>
-                  <button onClick={handleDelete}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                  </>
+              <button onClick={handleModeToggle}>
+                <FontAwesomeIcon icon={faPen} />
+              </button>
+              <button onClick={handleDelete}>
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </>
           ) : null}
-          {/* <button>
-            <FontAwesomeIcon icon={faTrash} />
-          </button> */}
         </div>
       </div>
       <div className={`tooth-selector-container ${(mode === 'view' && !date) ? 'opacity-50 pointer-events-none' : ''}`}>
-        <ToothSelector 
-          selectedTeeth={selectedTeeth} 
-          onSelect={handleToothSelect} 
+        <ToothSelector
+          selectedTeeth={selectedTeeth}
+          onSelect={handleToothSelect}
           mode={mode}
         />
       </div>
-      <div className="flex justify-center items-center border border-gray-300 rounded-md"></div>
+      <div className="flex justify-center items-center border border-gray-300 rounded-lg">
+        <SimpleList 
+          columns={[
+            { key: "examinationName", label: "Examination Name" },
+            { key: "toothNo", label: "Tooth No" },
+            { key: "doctor", label: "Doctor" },
+            { key: "date", label: "Date" },
+          ]} 
+          onPageChange={() => { console.log('xxx') }} 
+          currentPage={3} 
+          startPage={1} 
+          endPage={8} 
+          data={ [
+            {
+              id: 1,
+              examinationName: "Examination 1",
+              toothNo: 12,
+              doctor: "Dr. Smith",
+              date: "2023-01-01",
+            },
+            {
+              id: 2,
+              examinationName: "Examination 2",
+              toothNo: 24,
+              doctor: "Dr. Johnson",
+              date: "2023-02-01",
+            },
+            {
+              id: 3,
+              examinationName: "Examination 3",
+              toothNo: 36,
+              doctor: "Dr. Brown",
+              date: "2023-03-01",
+            },
+          ]
+        }
+          enableDelete={mode === 'edit'}
+          handleDelete={handleDelete}
+        />
+      </div>
     </div>
   );
-};
+}
 
 export default Examination;
