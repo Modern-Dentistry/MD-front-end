@@ -11,6 +11,7 @@ import EmployeeDetails from "./pages/EmployeeDetails"
 import EmployeeSchedule from "./pages/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
+import RandevuCard from "./pages/RandevuCard";
 
 // Məlumatları buraya əlavə edək
 const roomOptions = [
@@ -88,6 +89,14 @@ createRoot(document.getElementById("root")).render(
         } />
         <Route path="/add-new-appointment" element={
           <AddNewAppointment 
+            roomOptions={roomOptions} 
+            employees={employees}
+            WORK_HOURS={WORK_HOURS}
+            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+          />
+        } />
+        <Route path="/randevu-card" element={
+          <RandevuCard 
             roomOptions={roomOptions} 
             employees={employees}
             WORK_HOURS={WORK_HOURS}

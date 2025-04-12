@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../assets/style/add-new-appointment.css';
+import '../assets/style/randevu-card.css';
 import '../assets/style/appointment-left-side.css';
 import CustomSelect from "../components/CustomSelect.jsx";
 import Modal from "../components/Modal.jsx";
 import SidebarMenu from '../components/SidebarMenu.jsx';
 import CustomDropdown from '../components/CustomDropdown.jsx';
-import DropdownChecklist from '../components/DropdownChecklist.jsx';
 
 // Müvəqqəti pasiyent məlumatları
 const TEMP_PATIENTS = [
@@ -40,7 +39,7 @@ const STATUS_OPTIONS = [
 ];
 
 // Props-ları əlavə edirik
-const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => {
+const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -77,8 +76,8 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
     label: doctor.name
   }));
 
-   // Otaq seçimi funksiyası - dəyişdirilmiş versiya
-   const handleRoomChange = (selectedOption) => {
+  // Sol panel üçün funksiyalar
+  const handleRoomChange = (selectedOption) => {
     setSelectedRoom(selectedOption);
     setSelectedDoctorId(null);
     setSelectedDoctor(null);
@@ -127,7 +126,6 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
     }));
   };
 
-  // Pasiyent seçimi funksiyası - dəyişdirilmiş versiya
   const handlePatientChange = (selectedOption) => {
     setSelectedPatient(selectedOption);
     setFormData(prev => ({
@@ -145,14 +143,13 @@ const AddNewAppointment = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT 
     }));
   };
 
-// Status seçimi funksiyası - dəyişdirilmiş versiya
-const handleStatusChange = (selectedOption) => {
-  setSelectedStatus(selectedOption);
-  setFormData(prev => ({
-    ...prev,
-    status: selectedOption ? selectedOption.label : ''
-  }));
-};
+  const handleStatusChange = (selectedOption) => {
+    setSelectedStatus(selectedOption);
+    setFormData(prev => ({
+      ...prev,
+      status: selectedOption ? selectedOption.label : ''
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -247,146 +244,88 @@ const handleStatusChange = (selectedOption) => {
         </div>
       </div>
 
-      {/* RIGHT SİDE  */}
-      <div className="right-side">
-        <div className="form-container">
-          <h2>Yeni Randevu</h2>
-          <form onSubmit={handleSubmit}>
-
-            {/* <CustomDropdown /> */}
-
-            {/* Həkim & Pasiyent */}
-            <div className='first-row'>
-                <div className="form-group">
-                  <label className="required-label">Pasiyent</label>
-                  <CustomDropdown
-                    options={TEMP_PATIENTS}
-                    onChange={handlePatientChange}
-                    placeholder="Pasiyent seçin və ya axtarın"
-                    value={selectedPatient}
-                    isClearable={true}
-                    isSearchable={true}
-                    className="patient-select"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="required-label">Həkim</label>
-                  <CustomDropdown
-                    options={doctorOptions}
-                    onChange={handleDoctorChange}
-                    placeholder="Həkim seçin və ya axtarın"
-                    value={selectedDoctor}
-                    isClearable={true}
-                    isSearchable={true}
-                    className="doctor-select"
-                  />
-                </div>
-            </div>
-
-            {/* Əməliyyat & Otaq */}
-            <div className='second-row'>
-                <div className="form-group">
-                  <label className="required-label">Əməliyyat</label>
-                  <DropdownChecklist
-                    options={OPERATIONS}
-                    onChange={handleOperationsChange}
-                    placeholder="Əməliyyat seçin"
-                    value={selectedOperations}
-                    isMulti={true}
-                    isClearable={true}
-                    isSearchable={true}
-                    className="operation-select"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="required-label">Otaq</label>
-                  <CustomDropdown
-                    options={roomOptions}
-                    onChange={handleRoomChange}
-                    placeholder="Otaq seçin"
-                    value={selectedRoom}
-                    isClearable={true}
-                    isSearchable={true}
-                    className="room-select"
-                  />
-                </div>
-            </div>
-            
-            {/* Tarix & Saat & Müddət */}
-            <div className='third-row'>
-              <div className="form-group">
-                <label className="required-label">Tarix</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Saat</label>
-                <input
-                  type="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Müddət</label>
-                <input
-                  type="time"
-                  name="duration"
-                  value={formData.duration}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Status & Pasient borcu */}
-            <div className='fourth-row'>
-              <div className="form-group">
-                <label className="required-label">Status</label>
-                <CustomDropdown
-                  options={STATUS_OPTIONS}
-                  onChange={handleStatusChange}
-                  placeholder="Status seçin"
-                  value={selectedStatus}
-                  isClearable={true}
-                  isSearchable={true}
-                  className="status-select"
-                />
-              </div>
-              <div className="form-group">
-                <label>Pasient borcu</label>
-                <input
-                  type="text"
-                  name="patientDebt"
-                  value={formData.patientDebt}
-                  onChange={handleInputChange}
-                  readOnly
-                  className={formData.patientDebt === 'Borcu yoxdur' ? 'no-debt' : ''}
-                />
-              </div>
-            </div>
-
-            {/* Buttons */}
-            <div className='buttons-container'>
-              <button type="button" className="cancel-button">
-                İmtina et
-              </button>
-              <button type="submit" className="confirm-button">
-                Randevu əlavə et
-              </button>
-            </div>
-          </form>
+        {/* RIGHT SİDE  */}
+    <div className="right-side">
+      <div className="appointment-card">
+        <h2>Randevu Məlumatları</h2>
+        
+        <div className="appointment-field">
+          <label>Pasiyent:</label>
+          <div className={`field-value ${!formData.patientName ? 'empty' : ''}`}>
+            {formData.patientName || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Həkim:</label>
+          <div className={`field-value ${!formData.doctorName ? 'empty' : ''}`}>
+            {formData.doctorName || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Əməliyyat:</label>
+          <div className={`field-value ${!formData.operation ? 'empty' : ''}`}>
+            {formData.operation || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Otaq:</label>
+          <div className={`field-value ${!formData.room ? 'empty' : ''}`}>
+            {formData.room || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Tarix:</label>
+          <div className={`field-value ${!formData.date ? 'empty' : ''}`}>
+            {formData.date || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Saat:</label>
+          <div className={`field-value ${!formData.time ? 'empty' : ''}`}>
+            {formData.time || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Müddət:</label>
+          <div className={`field-value ${!formData.duration ? 'empty' : ''}`}>
+            {formData.duration || 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Status:</label>
+          <div className={`field-value ${!formData.status ? 'empty' : ''}`}>
+            {formData.status ? (
+              <span className={`status-indicator ${
+                formData.status === 'Randevu' ? 'status-appointment' : 
+                formData.status === 'Gəldi' ? 'status-arrived' : 
+                formData.status === 'Ləğv edillib' ? 'status-cancelled' : ''
+              }`}>
+                {formData.status}
+              </span>
+            ) : 'Seçilməyib'}
+          </div>
+        </div>
+        
+        <div className="appointment-field">
+          <label>Borc:</label>
+          <div className={`field-value ${formData.patientDebt === 'Borcu yoxdur' ? 'no-debt' : formData.patientDebt ? 'has-debt' : 'empty'}`}>
+            {formData.patientDebt || 'Məlumat yoxdur'}
+          </div>
+        </div>
+    
+        <div className="card-buttons">
+          <button className="card-button edit-button">Düzəliş et</button>
+          <button className="card-button delete-button">Sil</button>
         </div>
       </div>
+    </div>
 
       {/* Modal */}
       <Modal
@@ -400,4 +339,4 @@ const handleStatusChange = (selectedOption) => {
   );
 };
 
-export default AddNewAppointment; 
+export default RandevuCard;
