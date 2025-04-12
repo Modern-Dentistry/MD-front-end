@@ -22,6 +22,8 @@ const Breadcrumb = () => {
         return 'İşçilər';
       case 'add-patient':
         return 'Xəstə əlavə et';
+      case 'compare-plans':
+        return 'Müqayisə';
       default:
         return segment.charAt(0).toUpperCase() + segment.slice(1);
     }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../assets/style/dropdown_checklist.css"; // Add styles for the dropdown menu
 
-const DropdownMenuChecklist = ({ onSelect, placeholder = "Elmi dərəcə seçin", options = [] }) => {
+const DropdownMenuChecklist = ({ onSelect, placeholder, options = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
 
