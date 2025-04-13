@@ -2,6 +2,13 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 // Style
 import "./assets/style/index.css";
 
@@ -96,86 +103,92 @@ const WORK_HOURS = [
 // Həftə günlərinin qısaldılmış adları
 const WEEKDAYS_SHORT = ['B.e', 'Ç.a', 'Ç', 'C.a', 'C', 'Ş', 'B'];
 
+// Create a client
+const queryClient = new QueryClient()
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route element={<Layout />}>
-          <Route path="/add-user" element={<AddUser />} />
-          <Route path="/view-user" element={<ViewUser />} />
-          <Route path="/add-patient" element={<AddPatient />} />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LogIn />} />
+          <Route element={<Layout />}>
+            <Route path="/add-user" element={<AddUser />} />
+            <Route path="/view-user" element={<ViewUser />} />
+            <Route path="/add-patient" element={<AddPatient />} />
 
 
-          <Route path="/employee/:id" element={<EmployeeDetails />} />
-        <Route path="/employee-schedule" element={<EmployeeSchedule />} />
-        <Route path="/appointments" element={
-          <Appointments 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
-        <Route path="/add-new-appointment" element={
-          <AddNewAppointment 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
-        <Route path="/randevu-card" element={
-          <RandevuCard 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
+            <Route path="/employee/:id" element={<EmployeeDetails />} />
+          <Route path="/employee-schedule" element={<EmployeeSchedule />} />
+          <Route path="/appointments" element={
+            <Appointments 
+              roomOptions={roomOptions} 
+              employees={employees}
+              WORK_HOURS={WORK_HOURS}
+              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+            />
+          } />
+          <Route path="/add-new-appointment" element={
+            <AddNewAppointment 
+              roomOptions={roomOptions} 
+              employees={employees}
+              WORK_HOURS={WORK_HOURS}
+              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+            />
+          } />
+          <Route path="/randevu-card" element={
+            <RandevuCard 
+              roomOptions={roomOptions} 
+              employees={employees}
+              WORK_HOURS={WORK_HOURS}
+              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+            />
+          } />
 
 
 
-          {/* <Route path="/patient" element={<PatientLayout />}>
-            <Route path="general" element={<General />} />
-            <Route path="examination" element={<Examination />} />
-            <Route path="plans" element={<Plans />}>
-              <Route path="compare-plans" element={<PlanCompare />} />
+            {/* <Route path="/patient" element={<PatientLayout />}>
+              <Route path="general" element={<General />} />
+              <Route path="examination" element={<Examination />} />
+              <Route path="plans" element={<Plans />}>
+                <Route path="compare-plans" element={<PlanCompare />} />
+              </Route>
+              <Route path="insurance" element={<Insurance />} />
+            </Route> */}
+
+            <Route path="/patient" element={<PatientLayout />}>
+              <Route path="general" element={<General />} />
+              <Route path="examination" element={<Examination />} />
+              <Route path="plans" element={<Plans />} />
+              <Route path="edit-plan" element={<EditPlan />} />
+              <Route path="create-plan" element={<CreatePlan />} />
+              <Route path="compare-plans" element={<PlanCompare />} /> 
+              <Route path="history" element={<History />} />
+              <Route path="edit-history" element={<EditHistory />} />
+              <Route path="insurance" element={<Insurance />} />
+              <Route path="insurance/:id" element={<ViewInsurance mode={"view"} />} />
+              <Route path="insurance/:id/edit" element={<ViewInsurance mode={"edit"} />} />
+              <Route path="create-insurance" element={<CreateInsurance />} />
+                <Route path="treatment" element={<Treatment />} />
+              <Route path="prescription" element={<Prescription />} />
+              <Route path="prescription/:id" element={<ViewPrescription mode="view" />} />
+              <Route path="prescription/:id/edit" element={<ViewPrescription mode="edit" />} />
             </Route>
-            <Route path="insurance" element={<Insurance />} />
-          </Route> */}
+            {/*
 
-          <Route path="/patient" element={<PatientLayout />}>
-            <Route path="general" element={<General />} />
-            <Route path="examination" element={<Examination />} />
+             <Route path="general" element={<General />} />
             <Route path="plans" element={<Plans />} />
-            <Route path="edit-plan" element={<EditPlan />} />
-            <Route path="create-plan" element={<CreatePlan />} />
-            <Route path="compare-plans" element={<PlanCompare />} /> 
-            <Route path="history" element={<History />} />
-            <Route path="edit-history" element={<EditHistory />} />
+            <Route path="video" element={<Video />} />
             <Route path="insurance" element={<Insurance />} />
-            <Route path="insurance/:id" element={<ViewInsurance mode={"view"} />} />
-            <Route path="insurance/:id/edit" element={<ViewInsurance mode={"edit"} />} />
-            <Route path="create-insurance" element={<CreateInsurance />} />
-              <Route path="treatment" element={<Treatment />} />
-            <Route path="prescription" element={<Prescription />} />
-            <Route path="prescription/:id" element={<ViewPrescription mode="view" />} />
-            <Route path="prescription/:id/edit" element={<ViewPrescription mode="edit" />} />
+            <Route path="history" element={<History />} />
+            <Route path="appointments" element={<Appointments />} />
+            <Route path="documents" element={<Documents />} />
+            <Route path="notes" element={<Notes />} /> */}
           </Route>
-          {/*
 
-           <Route path="general" element={<General />} />
-          <Route path="plans" element={<Plans />} />
-          <Route path="video" element={<Video />} />
-          <Route path="insurance" element={<Insurance />} />
-          <Route path="history" element={<History />} />
-          <Route path="appointments" element={<Appointments />} />
-          <Route path="documents" element={<Documents />} />
-          <Route path="notes" element={<Notes />} /> */}
-        </Route>
-
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </StrictMode >
 );

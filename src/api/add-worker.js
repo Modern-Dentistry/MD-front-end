@@ -1,73 +1,44 @@
 import axios from 'axios';
 
-export async function createAddWorker(data) {
-  try {
-    const response = await axios.post('/api/v1/add-worker/create', data);
-    return response.data;
-  } catch (error) {
-    console.error('createAddWorker error:', error);
-    throw error;
-  }
-}
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+// Create a new worker
+export const createWorker = async (workerData) => {
+  const response = await axios.post(`${API_BASE_URL}/add-worker/create`, workerData);
+  return response.data;
+};
 
-export async function updateAddWorker(data) {
-  try {
-    const response = await axios.put('/api/v1/add-worker/update', data);
-    return response.data;
-  } catch (error) {
-    console.error('updateAddWorker error:', error);
-    throw error;
-  }
-}
+// Read all workers
+export const readWorkers = async () => {
+  const response = await axios.get(`${API_BASE_URL}/add-worker/read`);
+  return response.data;
+};
 
-export async function deleteAddWorker(id) {
-  try {
-    const response = await axios.delete(`/api/v1/add-worker/delete/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('deleteAddWorker error:', error);
-    throw error;
-  }
-}
+// Read worker status
+export const readWorkerStatus = async () => {
+  const response = await axios.get(`${API_BASE_URL}/add-worker/read-status`);
+  return response.data;
+};
 
-export async function infoAddWorker(id) {
-  try {
-    const response = await axios.get(`/api/v1/add-worker/info/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('infoAddWorker error:', error);
-    throw error;
-  }
-}
+// Get worker info by ID
+export const getWorkerInfo = async (id) => {
+  const response = await axios.get(`${API_BASE_URL}/add-worker/info/${id}`);
+  return response.data;
+};
 
-export async function readAddWorkers() {
-  try {
-    const response = await axios.get('/api/v1/add-worker/read');
-    return response.data;
-  } catch (error) {
-    console.error('readAddWorkers error:', error);
-    throw error;
-  }
-}
+// Update worker
+export const updateWorker = async (workerData) => {
+  const response = await axios.put(`${API_BASE_URL}/add-worker/update`, workerData);
+  return response.data;
+};
 
-export async function searchAddWorker(searchParams) {
-  try {
-    const response = await axios.get('/api/v1/add-worker/search', {
-      params: searchParams
-    });
-    return response.data;
-  } catch (error) {
-    console.error('searchAddWorker error:', error);
-    throw error;
-  }
-}
+// Search workers
+export const searchWorkers = async (searchParams) => {
+  const response = await axios.get(`${API_BASE_URL}/add-worker/search`, { params: searchParams });
+  return response.data;
+};
 
-export async function getPermissions() {
-  try {
-    const response = await axios.get(`/api/v1/add-worker/read-status/`);
-    return response.data;
-  } catch (error) {
-    console.error('readAddWorker error:', error);
-    throw error;
-  }
-}
+// Delete worker by ID
+export const deleteWorker = async (id) => {
+    const response = await axios.delete(`${API_BASE_URL}/add-worker/delete/${id}`);
+  return response.data;
+};

@@ -6,16 +6,37 @@ import ProfileImage from './ProfileImage';
 import DropdownMenuChecklist from './DropdownChecklist';
 import { LuPenLine } from "react-icons/lu";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import DatePicker from 'react-date-picker';
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-export default function UserForm({ mode: initialMode, userData = null, onModeChange }) {
-
+export default function UserForm({ mode: initialMode, userData = null, onModeChange, onSubmit }) {
   const [mode, setMode] = useState(initialMode);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      username: '',
+      password: '',
+      name: '',
+      surname: '',
+      patronymic: '',
+      finCode: '',
+      colorCode: '',
+      genderStatus: '',
+      dateOfBirth: '',
+      degree: '',
+      phone: '',
+      phone2: '',
+      homePhone: '',
+      email: '',
+      address: '',
+      workAddress: '',
+      experience: 0,
+      authorities: []
+    }
+  });
 
   // Close picker on outside click
   useEffect(() => {
@@ -28,52 +49,18 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        userId: '',
-        userImage: '',
-        username: '',
-        firstName: '',
-        lastName: '',
-        fatherName: '',
-        gender: '',
-        finCode: '',
-        colorCode: '',
-        birthDate: '',
-        academicDegree: '',
-        mobileNumber1: '',
-        mobileNumber2: '',
-        mobileNumber3: '',
-        homePhone: '',
-        email: '',
-        address: '',
-        permissions: '',
-        discountSurgery: '',
-        discountEndodontics: '',
-        discountImplantology: '',
-        discountOrthopedics: '',
-        discountHygiene: '',
-        discountTherapy: '',
-        discountPediatricDentistry: '',
-        discountPeriodontology: '',
-        discountOrthodontics: '',
-        discountXray: '',
-        discountLaserService: '',
-        discountAnesthesiaPhysio: '',
-        discountPassive: '',
-        discountOther: ''
+  useEffect(() => {
+    if (userData) {
+      Object.entries(userData).forEach(([key, value]) => {
+        setValue(key, value);
       });
-
-      useEffect(() => {
-        if (userData) {
-          setFormData({
-            ...formData,
-            ...userData,
-            ...userData.permissions, // Spread permissions into formData
-          });
+        if (userData.authorities) {
+        Object.entries(userData.authorities).forEach(([key, value]) => {
+          setValue(key, value);
+        });
+      }
     }
-  }, [userData]);
+  }, [userData, setValue]);
 
   const handleEditButton = () => {
     setMode('edit');
@@ -87,500 +74,286 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
     }
   };
 
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleColorChange = (color) => {
-    setFormData({ ...formData, colorCode: color.hex });
+    setValue('colorCode', color.hex);
   };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would handle form submission based on mode
-    console.log('Form submitted:', formData);
-    // Example: call an API function like createUser(formData) or updateUser(formData)
+  const onSubmitForm = (data) => {
+    onSubmit(data);
   };
 
   return (
     <div className="form-container">
-        <h3 className="form-title">
+      <h3 className="form-title">
         {mode === 'create' 
-            ? 'İşçi əlavə et'
-            : mode === 'edit'
-            ? 'İşçi məlumatlarını yenilə'
-            : 'İşçi məlumatları'}
-        </h3>
+          ? 'İşçi əlavə et'
+          : mode === 'edit'
+          ? 'İşçi məlumatlarını yenilə'
+          : 'İşçi məlumatları'}
+      </h3>
 
-      <form className="form" onSubmit={handleSubmit}>
-         <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
-         <ProfileImage userId={formData.userId} mode={mode}/>
+      <form className="form" onSubmit={handleSubmit(onSubmitForm)}>
+        <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
+          <ProfileImage userId={watch('username')} mode={mode}/>
           {mode === 'view' && (
             <div className="profile-button-group">
-              <button type="button" className="color-success" onClick={() => handleEditButton()}>
-              <LuPenLine className='color-success' />
-                            Redaktə et
+              <button type="button" className="color-success" onClick={handleEditButton}>
+                <LuPenLine className='color-success' />
+                Redaktə et
               </button>
-              
               <button type="button" className="color-danger">
-              <FaRegTrashAlt className='color-danger'/>
-
+                <FaRegTrashAlt className='color-danger'/>
                 Sil
-                </button>
-              </div>
+              </button>
+            </div>
           )}
-         </div>
-      <div className="input-container">
-        <div className='left'>
-        <div className="form-group">
-          <label htmlFor="username">İstifadəçi adı</label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
         </div>
-        
-        <div className="form-group">
-          <label htmlFor="firstName">Ad</label>
-          <input
-            id="firstName"
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="lastName">Soyad</label>
-          <input
-            id="lastName"
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="fatherName">Ata adı</label>
-          <input
-            id="fatherName"
-            type="text"
-            name="fatherName"
-            value={formData.fatherName}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="gender">Cinsiyyət</label>
-          <select
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            disabled={mode === 'view'}
-            className={mode === 'view' ? 'readonly' : ''}
-          >
-            <option value="">Seçin</option>
-            <option value="male">Kişi</option>
-            <option value="female">Qadın</option>
-          </select>
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="finCode">FIN kod</label>
-          <input
-            id="finCode"
-            type="text"
-            name="finCode"
-            value={formData.finCode}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-
-        
-        
-        <div className="form-group color-selector-group">
-      <label htmlFor="colorCode">Rəng kodu</label>
-      <input
-        id="colorCode"
-        type="text"
-        name="colorCode"
-        value={formData.colorCode}
-        readOnly // Disables manual typing
-        className={mode === 'view' ? 'readonly' : ''}
-      />
-      <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
-        <MdColorLens />
-      </span>
-      <span
-        className="color-swatch"
-        style={{ backgroundColor: formData.colorCode }}
-      ></span>
-
-      {showColorPicker && (
-        <div ref={colorPickerRef} className="color-picker-dropdown">
-          <SketchPicker
-          disableAlpha={true}
-            color={formData.colorCode}
-            onChangeComplete={handleColorChange}
-          />  
-        </div>
-      )}
-    </div>
-
-
-        <div className="form-group">
-          <label htmlFor="birthDate">Doğum tarixi</label>
-          <input
-            id="birthDate"
-            type="date"
-            name="birthDate"
-            value={formData.birthDate}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="academicDegree">Elmi dərəcə</label>
-          {/* <input
-            id="academicDegree"
-            type="text"
-            name="academicDegree"
-            value={formData.academicDegree}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          /> */}
-                  <DropdownMenuChecklist onSelect={handleChange} />
-
-        </div>
-        
-
-   
-   </div>     
-
-    <div className='right'>
-
-        <div className="form-group">
-          <label htmlFor="mobileNumber1">Mobil nömrə 1</label>
-          <input
-            id="mobileNumber1"
-            type="tel"
-            name="mobileNumber1"
-            value={formData.mobileNumber1}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="mobileNumber2">Mobil nömrə 2</label>
-          <input
-            id="mobileNumber2"
-            type="tel"
-            name="mobileNumber2"
-            value={formData.mobileNumber2}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="mobileNumber3">Mobil nömrə 3</label>
-          <input
-            id="mobileNumber3"
-            type="tel"
-            name="mobileNumber3"
-            value={formData.mobileNumber3}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="homePhone">Ev telefonu</label>
-          <input
-            id="homePhone"
-            type="tel"
-            name="homePhone"
-            value={formData.homePhone}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="email">E-poçt ünvanı</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="address">Ünvan</label>
-          <input
-            id="address"
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            readOnly={mode === 'view'} 
-            className={mode === 'view' ? 'readonly' : ''}
-          />
-        </div>
-        <div className="form-group">
-  <label>İcazələr</label>
-  <div className="permissions-checklist">
-    {[
-      { label: "TAM İCAZƏ", slug: "permission1" },
-      { label: "RESEPSİONİST", slug: "permission2" },
-      { label: "TİBB BACISI", slug: "permission3" },
-      { label: "DİŞ TEXNİKLƏRİ", slug: "permission4" },
-      { label: "MALİYYƏ HESABAT", slug: "permission5" },
-      { label: "ANBAR", slug: "permission6" },
-      { label: "Həkim tam icazə", slug: "permission7" },
-      { label: "Həkim limitli", slug: "permission8" },
-    ]
-      .filter((permission) => mode !== "view" || formData[permission.slug]) // Show only selected in view mode
-      .map((permission) => {
-        const isChecked = formData[permission.slug] || false;
-
-        return (
-          <label key={permission.slug}>
-            <input
-              type="checkbox"
-              name={permission.slug}
-              checked={isChecked}
-              disabled={mode === "view"} // Disable input in view mode
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  [permission.slug]: e.target.checked,
-                })
-              }
-            />
-            {permission.label}
-          </label>
-        );
-      })}
-  </div>
-</div>
-        </div> 
-        </div> 
-
-        <div className="single-column-section">
-          <div className="discount-fields">
+        <div className="input-container">
+          <div className='left'>
             <div className="form-group">
-              <label htmlFor="discountSurgery">Maksimum endirim (Cərrahiyə)</label>
+              <label htmlFor="username">İstifadəçi adı</label>
               <input
-                id="discountSurgery"
-                type="number"
-                name="discountSurgery"
-                value={formData.discountSurgery}
-                onChange={handleChange}
+                id="username"
+                type="text"
+                {...register('username')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
+            </div>
+
+            {mode === 'create' && (
+              <div className="form-group">
+                <label htmlFor="password">Şifrə</label>
+                <input
+                  id="password"
+                  type="password"
+                  {...register('password')}
+                  readOnly={mode === 'view'} 
+                  className={mode === 'view' ? 'readonly' : ''}
+                />
+              </div>
+            )}
+            
+            <div className="form-group">
+              <label htmlFor="name">Ad</label>
+              <input
+                id="name"
+                type="text"
+                {...register('name')}
+                readOnly={mode === 'view'} 
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="surname">Soyad</label>
+              <input
+                id="surname"
+                type="text"
+                {...register('surname')}
+                readOnly={mode === 'view'} 
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="patronymic">Ata adı</label>
+              <input
+                id="patronymic"
+                type="text"
+                {...register('patronymic')}
+                readOnly={mode === 'view'} 
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="genderStatus">Cinsiyyət</label>
+              <select
+                id="genderStatus"
+                {...register('genderStatus')}
+                disabled={mode === 'view'}
+                className={mode === 'view' ? 'readonly' : ''}
+              >
+                <option value="">Seçin</option>
+                <option value="MAN">Kişi</option>
+                <option value="WOMAN">Qadın</option>
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="finCode">FIN kod</label>
+              <input
+                id="finCode"
+                type="text"
+                {...register('finCode')}
+                readOnly={mode === 'view'} 
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+
+            <div className="form-group color-selector-group">
+              <label htmlFor="colorCode">Rəng kodu</label>
+              <input
+                id="colorCode"
+                type="text"
+                {...register('colorCode')}
+                readOnly
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+              <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+                <MdColorLens />
+              </span>
+              <span
+                className="color-swatch"
+                style={{ backgroundColor: watch('colorCode') }}
+              ></span>
+
+              {showColorPicker && (
+                <div ref={colorPickerRef} className="color-picker-dropdown">
+                  <SketchPicker
+                    disableAlpha={true}
+                    color={watch('colorCode')}
+                    onChangeComplete={handleColorChange}
+                  />  
                 </div>
+              )}
+            </div>
 
-                <div className="form-group">
-              <label htmlFor="discountImplantology">Maksimum endirim (İmplantalogiya)</label>
+            <div className="form-group">
+              <label htmlFor="dateOfBirth">Doğum tarixi</label>
               <input
-                id="discountImplantology"
-                type="number"
-                name="discountImplantology"
-                value={formData.discountImplantology}
-                onChange={handleChange}
+                id="dateOfBirth"
+                type="date"
+                {...register('dateOfBirth')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="discountOrthopedics">Maksimum endirim (Оrtopediya)</label>
+              <label htmlFor="degree">Elmi dərəcə</label>
               <input
-                id="discountOrthopedics"
-                type="number"
-                name="discountOrthopedics"
-                value={formData.discountOrthopedics}
-                onChange={handleChange}
+                id="degree"
+                type="text"
+                {...register('degree')}
+                readOnly={mode === 'view'} 
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+          </div>
+
+          <div className='right'>
+            <div className="form-group">
+              <label htmlFor="phone">Mobil nömrə 1</label>
+              <input
+                id="phone"
+                type="tel"
+                {...register('phone')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="discountHygiene">Maksimum endirim (Gigiyena)</label>
+              <label htmlFor="phone2">Mobil nömrə 2</label>
               <input
-                id="discountHygiene"
-                type="number"
-                name="discountHygiene"
-                value={formData.discountHygiene}
-                onChange={handleChange}
-                readOnly={mode === 'view'} 
-                className={mode === 'view' ? 'readonly' : ''}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="discountTherapy">Maksimum endirim (Terapiya)</label>
-              <input
-                id="discountTherapy"
-                type="number"
-                name="discountTherapy"
-                value={formData.discountTherapy}
-                onChange={handleChange}
+                id="phone2"
+                type="tel"
+                {...register('phone2')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="discountPediatricDentistry">Maksimum endirim (Uşaq stamatologiyası)</label>
+              <label htmlFor="homePhone">Ev telefonu</label>
               <input
-                id="discountPediatricDentistry"
-                type="number"
-                name="discountPediatricDentistry"
-                value={formData.discountPediatricDentistry}
-                onChange={handleChange}
-                readOnly={mode === 'view'} 
-                className={mode === 'view' ? 'readonly' : ''}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="discountPeriodontology">Maksimum endirim (Paradontologiya)</label>
-              <input
-                id="discountPeriodontology"
-                type="number"
-                name="discountPeriodontology"
-                value={formData.discountPeriodontology}
-                onChange={handleChange}
+                id="homePhone"
+                type="tel"
+                {...register('homePhone')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="discountOrthodontics">Maksimum endirim (Ortodontiya)</label>
+              <label htmlFor="email">E-poçt ünvanı</label>
               <input
-                id="discountOrthodontics"
-                type="number"
-                name="discountOrthodontics"
-                value={formData.discountOrthodontics}
-                onChange={handleChange}
-                readOnly={mode === 'view'} 
-                className={mode === 'view' ? 'readonly' : ''}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="discountXray">Maksimum endirim (Rentgen)</label>
-              <input
-                id="discountXray"
-                type="number"
-                name="discountXray"
-                value={formData.discountXray}
-                onChange={handleChange}
+                id="email"
+                type="email"
+                {...register('email')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="discountLaserService">Maksimum endirim (Lazer xidməti)</label>
+              <label htmlFor="address">Ünvan</label>
               <input
-                id="discountLaserService"
-                type="number"
-                name="discountLaserService"
-                value={formData.discountLaserService}
-                onChange={handleChange}
+                id="address"
+                type="text"
+                {...register('address')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="discountAnesthesiaPhysio">Maksimum endirim (Anesteziya və Fizioterapiya)</label>
+              <label htmlFor="workAddress">İş ünvanı</label>
               <input
-                id="discountAnesthesiaPhysio"
-                type="number"
-                name="discountAnesthesiaPhysio"
-                value={formData.discountAnesthesiaPhysio}
-                onChange={handleChange}
-                readOnly={mode === 'view'} 
-                className={mode === 'view' ? 'readonly' : ''}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="discountPassive">Maksimum endirim (Passiv)</label>
-              <input
-                id="discountPassive"
-                type="number"
-                name="discountPassive"
-                value={formData.discountPassive}
-                onChange={handleChange}
+                id="workAddress"
+                type="text"
+                {...register('workAddress')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="discountOther">Maksimum endirim (Digər)</label>
+              <label htmlFor="experience">Təcrübə (il)</label>
               <input
-                id="discountOther"
+                id="experience"
                 type="number"
-                name="discountOther"
-                value={formData.discountOther}
-                onChange={handleChange}
+                {...register('experience')}
                 readOnly={mode === 'view'} 
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
 
-             </div>
+            <div className="form-group">
+              <label>İcazələr</label>
+              <div className="permissions-checklist">
+                {[
+                  { label: "ADMIN", value: "ADMIN" },
+                  { label: "USER", value: "USER" },
+                  { label: "DOCTOR", value: "DOCTOR" },
+                  { label: "NURSE", value: "NURSE" },
+                  { label: "RECEPTIONIST", value: "RECEPTIONIST" }
+                ].map((permission) => (
+                  <label key={permission.value}>
+                    <input
+                      type="checkbox"
+                      value={permission.value}
+                      {...register('authorities')}
+                      disabled={mode === "view"}
+                    />
+                    {permission.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-
 
         {mode !== 'view' && (
           <div className="form-actions">
             <button type="submit" className="btn-submit">
               {mode === 'create' ? 'Əlavə et' : 'Yenilə'}
             </button>
-            <button type="button" className="btn-cancel" onClick={
-              () => handleCancelButton()
-              }>Ləğv et</button>
+            <button type="button" className="btn-cancel" onClick={handleCancelButton}>
+              Ləğv et
+            </button>
           </div>
         )}
       </form>
