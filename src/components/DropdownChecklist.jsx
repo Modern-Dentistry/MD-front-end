@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../assets/style/dropdown_checklist.css"; // Add styles for the dropdown menu
 
 const DropdownMenuChecklist = ({ onSelect, placeholder, options = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const dropdownRef = useRef(null);
+
+  // Add useEffect to handle clicks outside the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener when dropdown is open
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -32,17 +52,30 @@ const DropdownMenuChecklist = ({ onSelect, placeholder, options = [] }) => {
     selectedOptions.some((o) => o.value === option.value);
 
   return (
-    <div className="dropdown-checklist">
-      <div className="dropdown-header" onClick={handleToggle}>
+    <div className="dropdown-checklist" ref={dropdownRef}>
+      <div className="checklist-header" onClick={handleToggle}>
         {selectedOptions.length > 0
-          ? selectedOptions.map((o) => o.label).join(", ")
+          ? selectedOptions.map((o) => (
+              <span key={o.value} className="selected-item">
+                {o.label}
+                <span 
+                  className="remove-item" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(o);
+                  }}
+                >
+                  <span>X</span>
+                </span>
+              </span>
+            ))
           : placeholder}
-        <span className={`dropdown-arrow ${isOpen ? "open" : ""}`}>▼</span>
+        <span className={`checklist-arrow ${isOpen ? "open" : ""}`}>▼</span>
       </div>
       {isOpen && (
         <ul className="dropdown-list">
           {options.map((option) => (
-            <li key={option.value} className="dropdown-item">
+            <li key={option.value} className="dropdown-item-multi">
               <label>
                 <input
                   type="checkbox"

@@ -1,85 +1,136 @@
 .dropdown-checklist {
-    position: relative;
-    width: 100%;
-    
-  }
+  position: relative;
+  width: 100%;
+}
 
-  .dropdown-header {
-    padding: 10px;
-    height: 40px;
-    border: 1px solid #697586;
-    border-radius: 6px;
-    background-color: #fff;
-    margin-right: 18px;
-    margin-left: -6px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Rename to avoid conflict */
+.checklist-header {
+  padding: 10px;
+  min-height: 40px;
+  border: 1px solid #697586;
+  border-radius: 6px;
+  background-color: #fff;
+  margin-left: -6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  padding-right: 30px; /* Make room for the arrow */
+}
 
-  }
+.selected-item {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f0f5ff;
+  padding: 3px 5px;
+  border-radius: 4px;
+  max-width: calc(100% - 10px);
+  word-break: break-word;
+  margin: 2px;
+}
+
+/* Rename to avoid conflict */
+.checklist-arrow {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.checklist-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-left: 0; /* Reset browser default padding */
+  list-style-type: none; /* Remove bullet points */
+  margin-top: 4px; /* Add a small gap */
+}
+
+.dropdown-item-multi {
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+}
+
+.dropdown-item-multi:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item-multi label {
+  width: 100% !important;
+  cursor: pointer;
+  padding: 20px 10px;
+  margin: 0 !important;
+}
   
-  .dropdown-arrow {
-    margin-left: 10px;
-    transition: transform 0.3s ease;
-  }
-  
-  .dropdown-arrow.open {
-    transform: rotate(180deg);
-  }
-  
-  .dropdown-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .dropdown-item {
-    margin-left: 10px;
-    cursor: pointer;
-    display: flex;
+.dropdown-checklist input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #155EEF;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+  padding: 0 !important;
+}
 
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f0f0f0;
-  }
+.dropdown-checklist label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
 
-    
-  .dropdown-checklist input[type="checkbox"] {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #155EEF;
-    border-radius: 4px;
-    background: white;
-    cursor: pointer;
-    position: relative;
-    margin-right: 8px;
-    padding: 0 !important;
+.dropdown-checklist input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: #155EEF;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  }
+.remove-item {
+  margin-left: 4px;
+  cursor: pointer;
+  color: #999;
+}
 
-  .dropdown-checklist label {
-    display: flex;
-    align-items: center;
-    width:100%;
-    height: 100%;
+.remove-item:hover {
+  color: #333;
+}
 
-  }
-  
-  .dropdown-checklist input[type="checkbox"]:checked::after {
-    content: '✔';
-    color: #155EEF;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+/* Add scrollbar styles matching custom_dropdown.css */
+.dropdown-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

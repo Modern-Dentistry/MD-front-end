@@ -37,33 +37,41 @@ const CustomDropdown = ({
   const handleSelect = (option) => {
     if (disabled) return; // Prevent selection if disabled
     if (isMulti) {
-      const currentValue = value || [];
-      const isSelected = currentValue.includes(option.value);
+      // Çoxlu seçim halında
+      const currentValue = Array.isArray(value) ? value : [];
+      const isSelected = currentValue.some(v => v === option.value);
       const newValue = isSelected
         ? currentValue.filter(v => v !== option.value)
         : [...currentValue, option.value];
-      onChange({ target: { name, value: newValue } });
+        onChange(newValue);
     } else {
-      onChange({ target: { name, value: option.value } });
+      onChange(option);
       setIsOpen(false);
     }
   };
 
   const getDisplayValue = () => {
     if (!value) return placeholder;
-    if (isMulti) {
+    if (isMulti && Array.isArray(value)) {
+      // Çoxlu seçim üçün bütün seçilmiş elementlərin adlarını göstəririk
       const selectedOptions = options.filter(opt => value.includes(opt.value));
-      return selectedOptions.map(opt => opt.label).join(", ");
+      return selectedOptions.length > 0 
+        ? selectedOptions.map(opt => opt.label).join(", ") 
+        : placeholder;
     }
-    const selectedOption = options.find(opt => opt.value === value);
+    
+    // Tək seçim üçün
+    const selectedOption = options.find(opt => value === opt || (opt && value && opt.value === value.value));
     return selectedOption ? selectedOption.label : placeholder;
   };
 
   const isSelected = (option) => {
     if (isMulti) {
-      return value && value.includes(option.value);
+      // Çoxlu seçim halında yoxlanış
+      return Array.isArray(value) && value.some(v => v === option.value);
     }
-    return value === option.value;
+    // Tək seçim halında yoxlanış
+    return value === option || (value && option && value.value === option.value);
   };
 
   const handleSearchChange = (event) => {
@@ -74,7 +82,7 @@ const CustomDropdown = ({
     option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
+  return (-
     <div 
       className={`custom-dropdown ${className} ${disabled ? 'disabled' : ''}`} 
       ref={dropdownRef}
