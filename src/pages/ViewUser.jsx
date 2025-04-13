@@ -29,7 +29,6 @@ function ViewUser() {
 
     return (
         <div>
-        <Sidebar />
         <TitleUpdater title={"View User"} />
         <div>
             <UserForm mode="view" userData={userData}/>

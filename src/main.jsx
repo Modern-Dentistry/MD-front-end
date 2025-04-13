@@ -106,6 +106,36 @@ createRoot(document.getElementById("root")).render(
           <Route path="/view-user" element={<ViewUser />} />
           <Route path="/add-patient" element={<AddPatient />} />
 
+
+          <Route path="/employee/:id" element={<EmployeeDetails />} />
+        <Route path="/employee-schedule" element={<EmployeeSchedule />} />
+        <Route path="/appointments" element={
+          <Appointments 
+            roomOptions={roomOptions} 
+            employees={employees}
+            WORK_HOURS={WORK_HOURS}
+            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+          />
+        } />
+        <Route path="/add-new-appointment" element={
+          <AddNewAppointment 
+            roomOptions={roomOptions} 
+            employees={employees}
+            WORK_HOURS={WORK_HOURS}
+            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+          />
+        } />
+        <Route path="/randevu-card" element={
+          <RandevuCard 
+            roomOptions={roomOptions} 
+            employees={employees}
+            WORK_HOURS={WORK_HOURS}
+            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+          />
+        } />
+
+
+
           {/* <Route path="/patient" element={<PatientLayout />}>
             <Route path="general" element={<General />} />
             <Route path="examination" element={<Examination />} />
@@ -144,32 +174,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="documents" element={<Documents />} />
           <Route path="notes" element={<Notes />} /> */}
         </Route>
-        <Route path="/employee/:id" element={<EmployeeDetails />} />
-        <Route path="/employee-schedule" element={<EmployeeSchedule />} />
-        <Route path="/appointments" element={
-          <Appointments 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
-        <Route path="/add-new-appointment" element={
-          <AddNewAppointment 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
-        <Route path="/randevu-card" element={
-          <RandevuCard 
-            roomOptions={roomOptions} 
-            employees={employees}
-            WORK_HOURS={WORK_HOURS}
-            WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-          />
-        } />
+
       </Routes>
     </BrowserRouter>
   </StrictMode >

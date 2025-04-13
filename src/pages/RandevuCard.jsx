@@ -182,7 +182,7 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
       // Modal-ı bağla
       setShowModal(false);
 
-      // Appointments səhifəsinə qayıt və seçilmiş həkim ID-sini state kimi göndər
+      // Appointments səhifəsinə qayıt və seçilmiş həkim 
       setTimeout(() => {
         navigate('/appointments', { 
           state: { selectedDoctorId },
@@ -196,7 +196,6 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
 
   return (
     <div className="appointments-container">
-      <SidebarMenu />
       {/* LEFT SİDE  */}
       <div className="left-side">
         <div className="select-options-container">

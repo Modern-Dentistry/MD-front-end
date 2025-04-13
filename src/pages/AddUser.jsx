@@ -8,7 +8,6 @@ function AddUser() {
 
     return (
         <div>
-        <Sidebar />
         <TitleUpdater title={"Add User"} />
         <div>
             <UserForm mode="create"/>
