@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 import {
   QueryClient,
   QueryClientProvider,
@@ -111,7 +111,7 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LogIn />} />
+          <Route path="/login" element={<LogIn />} />
           <Route element={<Layout />}>
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/view-user" element={<ViewUser />} />
@@ -188,6 +188,7 @@ createRoot(document.getElementById("root")).render(
 
         </Routes>
       </BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </StrictMode >
