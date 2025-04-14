@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 // Create a new worker
 export const createWorker = async (workerData) => {
-  const response = await axios.post(`${API_BASE_URL}/add-worker/create`, workerData);
+  const response = await axios.post(`${API_BASE_URL}/add-worker/creaaate`, workerData);
   return response.data;
 };
 
