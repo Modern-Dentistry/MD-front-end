@@ -1,0 +1,58 @@
+.image-uploader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  .profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .placeholder {
+    font-size: 14px;
+    color: #aaa;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .btn {
+    width: 184px;
+    height: 44px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .btn-add {
+    background-color: #155eef;
+    color: white;
+  }
+  
+  .btn-delete {
+    background-color: transparent;
+    color: #155eef;
+    border: 1px solid #155eef;
+  }
