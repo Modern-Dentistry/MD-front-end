@@ -1,47 +1,46 @@
-import axios from 'axios';
+import axiosInstance from './temp-axios-auth';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// Create a new patient
 export const createPatient = async (patientData) => {
-  const response = await axios.post(`${API_BASE_URL}/patient/create`, patientData);
+  const response = await axiosInstance.post('/patient/create', patientData);
   return response.data;
 };
 
 // Update patient
 export const updatePatient = async (patientData) => {
-  const response = await axios.put(`${API_BASE_URL}/patient/update`, patientData);
+  const response = await axiosInstance.put('/patient/update', patientData);
   return response.data;
 };
 
 // Search patients
 export const searchPatients = async (searchParams) => {
-  const response = await axios.get(`${API_BASE_URL}/patient/search`, { params: searchParams });
+  const response = await axiosInstance.get('/patient/search', { params: searchParams });
   return response.data;
 };
 
 // Read all patients
 export const readPatients = async () => {
-  const response = await axios.get(`${API_BASE_URL}/patient/read`);
+  const response = await axiosInstance.get('/patient/read');
   return response.data;
 };
 
 // Read patient by ID
 export const readPatientById = async (id) => {
-  const response = await axios.get(`${API_BASE_URL}/patient/read-by-id/${id}`);
+  const response = await axiosInstance.get(`/patient/read-by-id/${id}`);
   return response.data;
 };
 
 // Export patients to Excel
 export const exportPatientsToExcel = async () => {
-  const response = await axios.get(`${API_BASE_URL}/patient/export/excel`, {
-    responseType: 'blob' // Important for handling binary data
+  const response = await axiosInstance.get('/patient/export/excel', {
+    responseType: 'blob'
   });
   return response.data;
 };
 
 // Delete patient by ID
 export const deletePatient = async (id) => {
-  const response = await axios.delete(`${API_BASE_URL}/patient/delete/${id}`);
+  const response = await axiosInstance.delete(`/patient/delete/${id}`);
   return response.data;
 };

@@ -10,10 +10,10 @@ import {
   exportPriceCategoriesToExcel
 } from '../api/price-categories';
 
-export const usePriceCategories = (id = null) => {
+export const usePriceCategories = () => {
   return useQuery({
-    queryKey: ['priceCategories', id],
-    queryFn: () => id ? readPriceCategoryById(id) : readPriceCategories(),
+    queryKey: ['priceCategories'],
+    queryFn:  readPriceCategories,
   });
 };
 
