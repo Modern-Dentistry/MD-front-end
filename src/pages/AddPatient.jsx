@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from "react";
-
-import TitleUpdater from "../components/TitleUpdater";
-import Sidebar from "../components/layout/Sidebar";
+import React, { useEffect } from "react";
 import PatientForm from "../components/PatientForm";
-import { useCreatePatient } from "../hooks/usePatients.js";
-import BeatLoader from 'react-spinners/BeatLoader'; 
+import { useCreatePatient, usePatients } from "../hooks/usePatients.js";
 import { toast } from "react-toastify";
+import BlurLoader from "../components/layout/BlurLoader.jsx";
 
 function AddPatient() {
     const { mutate, isPending, isError, error, isSuccess } = useCreatePatient();
-
-    const handleSubmit = (data) => {
-        mutate(data);
-    };
+    const { data: patients } = usePatients();
 
     useEffect(() => {
         if (isError) {
-            const errorMessage = error?.response?.data?.message || "An error occurred while creating the patient.";
-            toast.error(errorMessage);
+           toast.error("Xəta baş verdi");
         }
         if (isSuccess) {
-            toast.success("Patient created successfully.");
-        }
+            toast.success("Uğurla yaradıldı");      
+      }
     }, [isError, isSuccess, error]);
 
     return (
         <div>
-            {isPending && (
-                <div className="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] bg-white/10 z-10 rounded-lg">
-                    <BeatLoader />
-                </div>
-            )}
-
-            <PatientForm mode="create" onSubmit={handleSubmit}/>
+            <BlurLoader isLoading={isPending}>
+            <PatientForm mode="create" onSubmit={mutate(data)}/>
+            </BlurLoader>
         </div>
     );
 }

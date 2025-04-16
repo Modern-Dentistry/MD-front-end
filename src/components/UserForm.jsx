@@ -10,31 +10,83 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-export default function UserForm({ mode: initialMode, userData = null, onModeChange, onSubmit }) {
+import Modal from './Modal';
+import { Controller } from 'react-hook-form';
+import CustomDropdown from './CustomDropdown';
+export default function UserForm({ mode: initialMode, userData = null, onSubmit, onDelete }) {
   const [mode, setMode] = useState(initialMode);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
   const navigate = useNavigate();
-
+  const [showModal, setShowModal] = useState(false);
   const validationSchema = yup.object().shape({
-    username: yup.string().required('İstifadəçi adı tələb olunur'),
-    password: mode === 'create' ? yup.string().min(6, 'Şifrə minimum 6 simvol olmalıdır').required('Şifrə tələb olunur') : yup.string(),
-    name: yup.string().required('Ad tələb olunur'),
-    surname: yup.string().required('Soyad tələb olunur'),
-    patronymic: yup.string(),
-    finCode: yup.string().length(7, 'FIN kod 7 simvol olmalıdır').required('FIN kod tələb olunur'),
+    username: yup.string()
+      .min(3, 'İstifadəçi Adı 3-20 simvol arasında olmalıdır')
+      .max(20, 'İstifadəçi Adı 3-20 simvol arasında olmalıdır')
+      .required('İstifadəçi adı tələb olunur'),
+    password: mode === 'create' 
+      ? yup.string()
+          .matches(
+            /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{8,}$/,
+            'Şifrə minimum 8 simvol olmalı, böyük/kiçik hərf, rəqəm və xüsusi simvol içerməlidir'
+          )
+          .required('Şifrə tələb olunur') 
+      : yup.string(),
+    name: yup.string()
+      .min(3, 'Ad 3-20 simvol arasında olmalıdır')
+      .max(20, 'Ad 3-20 simvol arasında olmalıdır')
+      .required('Ad tələb olunur'),
+    surname: yup.string()
+      .min(3, 'Soyad 3-20 simvol arasında olmalıdır')
+      .max(20, 'Soyad 3-20 simvol arasında olmalıdır')
+      .required('Soyad tələb olunur'),
+    patronymic: yup.string()
+      .min(3, 'Ata Adı 3-20 simvol arasında olmalıdır')
+      .max(20, 'Ata Adı 3-20 simvol arasında olmalıdır')
+      .required('Ata Adı tələb olunur'),
+    finCode: yup.string()
+      .matches(/^[A-Z0-9]{7}$/, 'FIN kod yalnız böyük hərflər və rəqəmlərdən ibarət 7 simvol olmalıdır')
+      .required('FIN kod tələb olunur'),
     genderStatus: yup.string().required('Cinsiyyət seçilməlidir'),
-    dateOfBirth: yup.date().max(new Date(), 'Doğum tarixi bu gündən sonra ola bilməz'),
-    phone: yup.string().matches(/^[0-9+\s-()]+$/, 'Düzgün telefon nömrəsi daxil edin').required('Telefon nömrəsi tələb olunur'),
-    email: yup.string().email('Düzgün e-poçt ünvanı daxil edin'),
-    experience: yup.number().min(0, 'Təcrübə mənfi ola bilməz').typeError('Təcrübə rəqəm olmalıdır'),
-    authorities: mode !== 'view' ? yup.array().min(1, 'Ən azı bir icazə seçilməlidir') : yup.array()
-  });
+    dateOfBirth: yup.date()
+      .max(new Date(), 'Doğum tarixi bu gündən sonra ola bilməz')
+      .required('Doğum tarixi tələb olunur'),
+    phone: yup.string()
+      .matches(/^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/, 'Telefon nömrəsini (000)-000-00-00 formatında daxil edin')
+      .required('Telefon nömrəsi tələb olunur'),
+    phone2: yup.string()
+      .nullable()
+      .test('phone2-format', 'Telefon nömrəsini (000)-000-00-00 formatında daxil edin', function(value) {
+        if (!value) return true; // Allow empty/null values
+        return /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value);
+      }),
+    homePhone: yup.string()
+      .nullable()
+      .test('homePhone-format', 'Telefon nömrəsini (000)-000-00-00 formatında daxil edin', function(value) {
+        if (!value) return true; // Allow empty/null values
+        return /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value);
+      }),
+    phone3: yup.string()
+      .nullable()
+      .test('phone3-format', 'Telefon nömrəsini (000)-000-00-00 formatında daxil edin', function(value) {
+        if (!value) return true; // Allow empty/null values
+        return /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value);
+      }),
+    email: yup.string()
+      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Düzgün e-poçt ünvanı daxil edin'),
+    experience: yup.number()
+      .min(0, 'Təcrübə mənfi ola bilməz')
+      .typeError('Təcrübə rəqəm olmalıdır'),
+    authorities: mode !== 'view' 
+      ? yup.array().min(1, 'Ən azı bir icazə seçilməlidir') 
+      : yup.array()
+      .transform((value) => (Array.isArray(value) && value.length > 0 ? [value[0]] : []))
+      });
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+  const { register, control, handleSubmit, setValue, watch, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onBlur',
-    defaultValues: {
+    defaultValues: userData || {
       username: '',
       password: '',
       name: '',
@@ -50,13 +102,16 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
       homePhone: '',
       email: '',
       address: '',
-      workAddress: '',
       experience: 0,
       authorities: []
+    },
+    transformValues: (values) => {
+      return Object.fromEntries(
+        Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
+      );
     }
   });
 
-  // Close picker on outside click
   useEffect(() => {
     function handleClickOutside(event) {
       if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
@@ -67,38 +122,59 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (userData) {
-      Object.entries(userData).forEach(([key, value]) => {
-        setValue(key, value);
-      });
-      if (userData.authorities) {
-        Object.entries(userData.authorities).forEach(([key, value]) => {
-          setValue(key, value);
-        });
-      }
-    }
-  }, [userData, setValue]);
+  const handleEditButton = () => setMode('edit');
+  const handleCancelButton = () => (mode === 'edit' ? setMode('view') : navigate(-1));
+  const handleColorChange = (color) => setValue('colorCode', color.hex);
 
-  const handleEditButton = () => {
-    setMode('edit');
+
+  const formatPhoneNumber = (value) => {
+    if (!value) return value;
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    if (phoneNumber.length < 4) return phoneNumber;
+    if (phoneNumber.length < 7) return `(${phoneNumber.slice(0, 3)})-${phoneNumber.slice(3)}`;
+    return `(${phoneNumber.slice(0, 3)})-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 8)}-${phoneNumber.slice(8, 10)}`;
   };
 
-  const handleCancelButton = () => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (['phone', 'phone2', 'homePhone', 'phone3'].includes(name)) {
+      setValue(name, formatPhoneNumber(value));
+    } else {
+      setValue(name, value);
+    }
+  };
+
+  const handleFormSubmit = (data) => {
     if (mode === 'edit') {
-      setMode('view');
-    } else if (mode === 'create') {
-      navigate(-1);
+      const updateData = Object.keys(data).reduce((acc, key) => {
+        if (data[key] !== userData[key]) acc[key] = data[key];
+        return acc;
+      }, {});
+      onSubmit(updateData);
+    } else {
+      onSubmit(data);
     }
   };
 
-  const handleColorChange = (color) => {
-    setValue('colorCode', color.hex);
-  };
-
+  const permissionList = [
+    { label: "ADMIN", value: "ADMIN" },
+    { label: "DOCTOR", value: "DOCTOR" },
+    { label: "DOCTOR_FULL_PERMISSION", value: "DOCTOR_FULL_PERMISSION" },
+    { label: "ACCOUNTANT", value: "ACCOUNTANT" },
+    { label: "USER", value: "USER" },
+    { label: "WAREHOUSE_MAN", value: "WAREHOUSE_MAN" },
+    { label: "RECEPTION", value: "RECEPTION" }
+  ];
 
   return (
     <div className="form-container">
+            <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Əminsinizmi?"
+        message="İşçi silinəcək!"
+        onConfirm={onDelete}
+      />
       <h3 className="form-title">
         {mode === 'create'
           ? 'İşçi əlavə et'
@@ -107,7 +183,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             : 'İşçi məlumatları'}
       </h3>
 
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
           <ProfileImage userId={watch('username')} mode={mode} />
           {mode === 'view' && (
@@ -116,7 +192,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
                 <LuPenLine className='color-success' />
                 Redaktə et
               </button>
-              <button type="button" className="color-danger">
+              <button type="button" className="color-danger" onClick={() => setShowModal(true)}>
                 <FaRegTrashAlt className='color-danger' />
                 Sil
               </button>
@@ -172,7 +248,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             </div>
 
             <div className="form-group">
-              <label htmlFor="patronymic">Ata adı</label>
+              <label htmlFor="patronymic">Ata adı <span className="text-red-500">*</span></label>
               <input
                 id="patronymic"
                 type="text"
@@ -183,17 +259,25 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             </div>
 
             <div className="form-group">
-              <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
-              <select
-                id="genderStatus"
-                {...register('genderStatus')}
-                disabled={mode === 'view'}
-                className={mode === 'view' ? 'readonly' : ''}
-              >
-                <option value="">Seçin</option>
-                <option value="MAN">Kişi</option>
-                <option value="WOMAN">Qadın</option>
-              </select>
+            <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
+              <CustomDropdown
+                name="genderStatus"
+                value={watch('genderStatus')}
+                onChange={(option) => setValue('genderStatus', option.value)}
+                placeholder="Cins seçin"
+                options={
+                  [
+                    {
+                      "value": "MAN",
+                      "label":  "Kişi"
+                    },
+                    {
+                      "value": "WOMAN",
+                      "label":  "Qadın"
+                    }
+                  ]
+                }
+                />
             </div>
 
             <div className="form-group">
@@ -216,9 +300,13 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
                 readOnly
                 className={mode === 'view' ? 'readonly' : ''}
               />
-              <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
-                <MdColorLens />
-              </span>
+              {
+                mode !== 'view' && (
+                  <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+                    <MdColorLens />
+                  </span>
+                )
+              }
               <span
                 className="color-swatch"
                 style={{ backgroundColor: watch('colorCode') }}
@@ -236,7 +324,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             </div>
 
             <div className="form-group">
-              <label htmlFor="dateOfBirth">Doğum tarixi</label>
+              <label htmlFor="dateOfBirth">Doğum tarixi <span className="text-red-500">*</span></label>
               <input
                 id="dateOfBirth"
                 type="date"
@@ -264,7 +352,13 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
               <input
                 id="phone"
                 type="tel"
-                {...register('phone')}
+                {...register('phone', {
+                  onChange: (e) => {
+                    const value = e.target.value;
+                    const formattedValue = formatPhoneNumber(value);
+                    setValue('phone', formattedValue);
+                  }
+                })}
                 readOnly={mode === 'view'}
                 className={mode === 'view' ? 'readonly' : ''}
               />
@@ -275,18 +369,46 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
               <input
                 id="phone2"
                 type="tel"
-                {...register('phone2')}
+                {...register('phone2', {
+                  onChange: (e) => {
+                    const value = e.target.value;
+                    const formattedValue = formatPhoneNumber(value);
+                    setValue('phone2', formattedValue);
+                  }
+                })}
                 readOnly={mode === 'view'}
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
 
             <div className="form-group">
+              <label htmlFor="phone3">Mobil nömrə 3</label>
+              <input
+                id="phone3"
+                type="tel"
+                {...register('phone3', {
+                  onChange: (e) => {
+                    const value = e.target.value;
+                    const formattedValue = formatPhoneNumber(value);
+                    setValue('phone3', formattedValue);
+                  }
+                })}
+                readOnly={mode === 'view'}
+                className={mode === 'view' ? 'readonly' : ''}
+              />
+            </div>
+            <div className="form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
               <input
                 id="homePhone"
                 type="tel"
-                {...register('homePhone')}
+                {...register('homePhone', {
+                  onChange: (e) => {
+                    const value = e.target.value;
+                    const formattedValue = formatPhoneNumber(value);
+                    setValue('homePhone', formattedValue);
+                  }
+                })}
                 readOnly={mode === 'view'}
                 className={mode === 'view' ? 'readonly' : ''}
               />
@@ -313,7 +435,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
-
+{/* 
             <div className="form-group">
               <label htmlFor="workAddress">İş ünvanı</label>
               <input
@@ -323,7 +445,7 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
                 readOnly={mode === 'view'}
                 className={mode === 'view' ? 'readonly' : ''}
               />
-            </div>
+            </div> */}
 
             <div className="form-group">
               <label htmlFor="experience">Təcrübə (il)</label>
@@ -337,27 +459,34 @@ export default function UserForm({ mode: initialMode, userData = null, onModeCha
             </div>
 
             <div className="form-group">
-              <label>İcazələr <span className="text-red-500">*</span></label>
+              <label htmlFor="authorities">İcazələr <span className="text-red-500">*</span></label>
               <div className="permissions-checklist">
-                {[
-                  { label: "ADMIN", value: "ADMIN" },
-                  { label: "USER", value: "USER" },
-                  { label: "DOCTOR", value: "DOCTOR" },
-                  { label: "NURSE", value: "NURSE" },
-                  { label: "RECEPTIONIST", value: "RECEPTIONIST" }
-                ].map((permission) => (
-                  <label key={permission.value}>
-                    <input
-                      type="checkbox"
-                      value={permission.value}
-                      {...register('authorities')}
-                      disabled={mode === "view"}
-                    />
-                    {permission.label}
-                  </label>
-                ))}
+              <Controller
+          name="authorities"
+          control={control}
+          render={({ field }) => (
+            <>
+              {permissionList.map((permission) => (
+                <label key={permission.value}>
+                  <input
+                    type="checkbox"
+                    value={permission.value}
+                    checked={field.value.includes(permission.value)}
+                    onChange={() => {
+                      field.onChange([permission.value]); // replace with single value in array
+                    }}
+                    disabled={mode === "view"}
+                  />
+                  {permission.label}
+                </label>
+              ))}
+            </>
+          )}
+        />
               </div>
             </div>
+
+     
           </div>
         </div>
         {Object.keys(errors).length > 0 && (

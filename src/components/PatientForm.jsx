@@ -11,6 +11,7 @@ import { LuPenLine } from "react-icons/lu";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { usePriceCategories } from '../hooks/usePriceCategories';
+import { useDoctors } from "../hooks/useDoctors.js";
 
 const schema = yup.object().shape({
   name: yup.string().required('Ad tələb olunur'),
@@ -24,20 +25,19 @@ const schema = yup.object().shape({
   dateOfBirth: yup.date()
     .max(new Date(), 'Doğum tarixi gələcək tarix ola bilməz'),
   priceCategoryStatus: yup.string().required('Qiymət kateqoriyası tələb olunur'),
-  specializationStatus: yup.string(),
+  specializationStatus: yup.string().nullable(),
   doctor_id: yup.string(),
   phone: yup.string()
     .required('Mobil nömrə tələb olunur')
-    .matches(/^(\+994|0)?(50|51|55|70|77|99)\d{7}$/, 'Düzgün mobil nömrə daxil edin'),
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün mobil nömrə daxil edin (format: (XXX)-XXX-XXXX)'),
   workPhone: yup.string()
     .nullable()
     .transform((value) => (value === '' ? null : value))
-    .matches(/^(\+994|0)?(50|51|55|70|77|99)\d{7}$/, 'Düzgün mobil nömrə daxil edin'),
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün iş nömrəsi daxil edin (format: (XXX)-XXX-XXXX)'),
   homePhone: yup.string()
     .nullable()
     .transform((value) => (value === '' ? null : value))
-    .matches(/^(\+994|0)?(50|51|55|70|77|99)\d{7}$/, 'Düzgün mobil nömrə daxil edin'),
-
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün ev nömrəsi daxil edin (format: (XXX)-XXX-XXXX)'),
   homeAddress: yup.string(),
   workAddress: yup.string(),
   email: yup.string()
@@ -60,7 +60,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
   const colorPickerRef = useRef(null);
   const navigate = useNavigate();
   const { data: priceCategories } = usePriceCategories();
-  
+  const { data: doctors } = useDoctors();
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -96,6 +96,11 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
       facebook: '',
       instagram: '',
       twitter: ''
+    },
+    transformValues: (values) => {
+      return Object.fromEntries(
+        Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
+      );
     }
   });
 
@@ -124,8 +129,12 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
   };
 
   const onSubmitForm = (data) => {
+    const transformedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, value === '' ? null : value])
+    );
+
     if (onSubmit) {
-      onSubmit(data);
+      onSubmit(transformedData);
     }
   };
 
@@ -158,7 +167,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('surname')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="patronymic">Ata adı <span className="text-red-500">*</span></label>
               <input
@@ -167,19 +176,29 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('patronymic')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
-              <select
-                id="genderStatus"
-                {...register('genderStatus')}
-              >
-                <option value="">Seçin</option>
-                <option value="MAN">Kişi</option>
-                <option value="WOMAN">Qadın</option>
-              </select>
+              <CustomDropdown
+                name="genderStatus"
+                value={watch('genderStatus')}
+                onChange={(option) => setValue('genderStatus', option.value)}
+                placeholder="Cins seçin"
+                options={
+                  [
+                    {
+                      "value": "MAN",
+                      "label": "Kişi"
+                    },
+                    {
+                      "value": "WOMAN",
+                      "label": "Qadın"
+                    }
+                  ]
+                }
+              />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="finCode">FIN kod</label>
               <input
@@ -197,9 +216,13 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('colorCode')}
                 readOnly
               />
-              <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
-                <MdColorLens />
-              </span>
+              {
+                mode !== 'view' && (
+                  <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+                    <MdColorLens />
+                  </span>
+                )
+              }
               <span
                 className="color-swatch"
                 style={{ backgroundColor: watch('colorCode') }}
@@ -211,7 +234,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                     disableAlpha={true}
                     color={watch('colorCode')}
                     onChangeComplete={handleColorChange}
-                  />  
+                  />
                 </div>
               )}
             </div>
@@ -232,13 +255,21 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 value={watch('priceCategoryStatus')}
                 onChange={(option) => setValue('priceCategoryStatus', option.value)}
                 placeholder="Qiymet kategoriyasini seçin"
-                options={priceCategories?.map(category => ({
-                  value: category.name,
-                  label: category.name
-                }))}
-              />   
+                options={
+                  [
+                    {
+                      "value": "Standard",
+                      "label": "Standart"
+                    },
+                    {
+                      "value": "Vip",
+                      "label": "VIP"
+                    }
+                  ]
+                }
+              />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="specializationStatus">İxtisas</label>
               <input
@@ -250,10 +281,28 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
 
             <div className="form-group">
               <label htmlFor="doctor_id">Həkim</label>
-              <input
-                id="doctor_id"
-                type="text"
-                {...register('doctor_id')}
+              {/* <CustomDropdown
+                name="doctor_id"
+                value={watch('doctor_id')}
+                onChange={(option) => setValue('doctor_id', option.value)}
+                placeholder="Həkim seçin"
+                options={doctors?.map(doctor => ({
+                  value: doctor.doctorId,
+                  label: `${doctor.name} ${doctor.surname}` // Combine name and surname for the label
+                }))}
+              /> */}
+              <CustomDropdown
+                name="doctor_id"
+                value={watch('doctor_id')}
+                onChange={(option) => {
+                  console.log(option.value); // Debugging the selected option
+                  setValue('doctor_id', option.value);
+                }}
+                placeholder="Həkim seçin"
+                options={doctors?.map(doctor => ({
+                  value: doctor.doctorId,
+                  label: `${doctor.name} ${doctor.surname}`
+                }))}
               />
             </div>
 
@@ -276,7 +325,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 Qara siyahı
               </label>
             </div>
-          </div>     
+          </div>
 
           <div className='right'>
             <div className="form-group">
@@ -287,7 +336,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('phone')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="workPhone">İş telefonu</label>
               <input
@@ -296,7 +345,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('workPhone')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
               <input
@@ -305,7 +354,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('homePhone')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
               <input
@@ -314,16 +363,16 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('whatsappNumber')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="email">E-poçt ünvanı</label>
               <input
                 id="email"
                 type="email"
-                  {...register('email')}
+                {...register('email')}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="homeAddress">Ev ünvanı</label>
               <input
@@ -341,17 +390,17 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('workAddress')}
               />
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
         {Object.keys(errors).length > 0 && (
-    <div className="error-summary">
-      <ul>
-        {Object.values(errors).map((error, index) => (
-          <li key={index} className="text-red-500 text-xs error-message">{error.message}</li>
-        ))}
-      </ul>
-    </div>
-  )}
+          <div className="error-summary">
+            <ul>
+              {Object.values(errors).map((error, index) => (
+                <li key={index} className="text-red-500 text-xs error-message">{error.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div className="form-actions">
           <button type="submit" className="btn-submit">
             {mode === "create" ? "Yarat" : "Yadda Saxla"}
