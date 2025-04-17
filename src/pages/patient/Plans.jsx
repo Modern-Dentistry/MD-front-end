@@ -7,7 +7,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CompareIcon from "../../assets/icons/Compare";
 import EditIcon from "../../assets/icons/Edit";
 import DeleteIcon from "../../assets/icons/Delete";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import DropdownMenuChecklist from "../../components/DropdownChecklist";
 import { useNavigate } from "react-router-dom";
 import SimpleList from "../../components/list/SimpleList";
@@ -80,7 +80,6 @@ const Plans = () => {
 
    return (
      <div className="examination-container">
-       <ToastContainer />
        <div className="flex justify-between">
          <div className="flex">
            <DropdownMenuChecklist

@@ -50,7 +50,7 @@
   stroke: #fff !important; /* SVG path üçün stroke rəngini zorla təyin edin */
 }
 .menu-item-header.active .menu-item-title{
-  color: #155EEF;;    
+  color: #155EEF;   
 }
 
 .menu-item-header.active:hover {

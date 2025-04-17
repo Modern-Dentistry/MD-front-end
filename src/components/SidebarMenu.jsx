@@ -39,7 +39,7 @@ const SidebarMenu = () => {
       children: [
         { id: 11, title: 'İşçilərin siyahısı', path: '/employees-list' },
         { id: 12, title: 'İşçilərin iş qrafiki', path: '/employee-schedule' },
-        { id: 13, title: 'Yeni işçi əlavə et', path: '/new-employee' }
+        { id: 13, title: 'Yeni işçi əlavə et', path: '/add-user' }
       ]
     },
     {
@@ -69,7 +69,7 @@ const SidebarMenu = () => {
       icon: (isActive) => <WorkDoneIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 41, title: 'Həkim Siyahısı', path: '/' },
-        { id: 42, title: 'Yeni Həkim',  path: '/' }
+        { id: 42, title: 'Yeni Həkim',  path: '/new-patient' }
       ]
     },
     {

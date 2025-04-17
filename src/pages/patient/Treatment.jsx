@@ -7,7 +7,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CompareIcon from "../../assets/icons/Compare";
 import EditIcon from "../../assets/icons/Edit";
 import DeleteIcon from "../../assets/icons/Delete";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import DropdownMenuChecklist from "../../components/DropdownChecklist";
 import DownloadIcon from "../../assets/icons/Download";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +51,6 @@ const Treatment = () => {
 
     return (
         <div className="examination-container">
-            <ToastContainer />
             <div className="flex justify-between">
                 <div className="flex gap-2 justify-center items-center">
                 <div>
@@ -81,15 +80,9 @@ const Treatment = () => {
                             { value: FulfillmentStates.COMPLETED, label: "İcra edilib" },
                         ]}
                         value={fulfillment} // Pass the current state as the value
-                        onChange={(event) => {
-                            const selectedValue = event.target.value;
-                            if (Array.isArray(selectedValue)) {
-                                // Handle multi-select (if enabled in the future)
-                                setFulfillment(selectedValue.length === 1 ? selectedValue[0] : "");
-                            } else {
-                                // Handle single-select
-                                setFulfillment(selectedValue || "");
-                            }
+                        onChange={(value) => {
+                            const selectedValue = value;
+                            setFulfillment(selectedValue);
                         }}
                         placeholder="Select Treatment"
                         enableSearch={false}

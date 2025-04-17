@@ -199,7 +199,6 @@ const handleStatusChange = (selectedOption) => {
 
   return (
     <div className="appointments-container">
-      <SidebarMenu />
       {/* LEFT SİDE  */}
       <div className="left-side">
         <div className="select-options-container">
