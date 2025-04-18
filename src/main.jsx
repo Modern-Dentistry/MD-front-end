@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import {
   QueryClient,
@@ -31,6 +31,7 @@ import CreateInsurance from "./pages/patient/CreateInsurance";
 import ViewInsurance from "./pages/patient/ViewInsurance";
 // import Video from "./pages/patient/Video";
 import Insurance from "./pages/patient/Insurance";
+import XRay from "./pages/patient/XRay";
 // import History from "./pages/patient/History";
 // import Appointments from "./pages/patient/Appointments";
 // import Documents from "./pages/patient/Documents";
@@ -43,7 +44,10 @@ import EmployeeSchedule from "./pages/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
 import RandevuCard from "./pages/RandevuCard";
-
+import StockImport from "./pages/StockImport";
+import ClinicStock from "./pages/ClinicStock";
+  import AddOrder from "./pages/AddOrder";
+import CabinetStock from "./pages/CabinetStock";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: '1', label: 'Otaq 1' },
@@ -113,9 +117,9 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/login" element={<LogIn />} />
           <Route element={<Layout />}>
-            <Route path="/add-user" element={<AddUser />} />
-            <Route path="/view-user" element={<ViewUser />} />
-            <Route path="/add-patient" element={<AddPatient />} />
+            <Route path="/user/add" element={<AddUser />} />
+            <Route path="/user/:id" element={<ViewUser />} />
+            <Route path="/patient/add" element={<AddPatient />} />
 
 
             <Route path="/employee/:id" element={<EmployeeDetails />} />
@@ -144,9 +148,9 @@ createRoot(document.getElementById("root")).render(
               WEEKDAYS_SHORT={WEEKDAYS_SHORT}
             />
           } />
-
-
-
+          <Route path="/stock/import" element={<StockImport />} />
+          <Route path="/stock/clinic" element={<ClinicStock />} />
+          <Route path="/stock/cabinet" element={<CabinetStock />} />
             {/* <Route path="/patient" element={<PatientLayout />}>
               <Route path="general" element={<General />} />
               <Route path="examination" element={<Examination />} />
@@ -156,24 +160,26 @@ createRoot(document.getElementById("root")).render(
               <Route path="insurance" element={<Insurance />} />
             </Route> */}
 
-            <Route path="/patient" element={<PatientLayout />}>
+            <Route path="/patient/:id" element={<PatientLayout />}>
               <Route path="general" element={<General />} />
               <Route path="examination" element={<Examination />} />
               <Route path="plans" element={<Plans />} />
-              <Route path="edit-plan" element={<EditPlan />} />
-              <Route path="create-plan" element={<CreatePlan />} />
+              <Route path="plan/edit" element={<EditPlan />} />
+              <Route path="plan/create" element={<CreatePlan />} />
               <Route path="compare-plans" element={<PlanCompare />} /> 
               <Route path="history" element={<History />} />
-              <Route path="edit-history" element={<EditHistory />} />
+              <Route path="history/edit" element={<EditHistory />} />
               <Route path="insurance" element={<Insurance />} />
               <Route path="insurance/:id" element={<ViewInsurance mode={"view"} />} />
               <Route path="insurance/:id/edit" element={<ViewInsurance mode={"edit"} />} />
               <Route path="create-insurance" element={<CreateInsurance />} />
-                <Route path="treatment" element={<Treatment />} />
+              <Route path="treatment" element={<Treatment />} />
+              <Route path="xray" element={<XRay />} />
               <Route path="prescription" element={<Prescription />} />
               <Route path="prescription/:id" element={<ViewPrescription mode="view" />} />
               <Route path="prescription/:id/edit" element={<ViewPrescription mode="edit" />} />
             </Route>
+            <Route path="/lab/order/add" element={<AddOrder />} />
             {/*
 
              <Route path="general" element={<General />} />
