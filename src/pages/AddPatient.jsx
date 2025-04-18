@@ -20,7 +20,7 @@ function AddPatient() {
     return (
         <div>
             <BlurLoader isLoading={isPending}>
-            <PatientForm mode="create" onSubmit={mutate(data)}/>
+            <PatientForm mode="create" onSubmit={mutate}/>
             </BlurLoader>
         </div>
     );

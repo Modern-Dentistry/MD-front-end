@@ -97,11 +97,11 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
       instagram: '',
       twitter: ''
     },
-    transformValues: (values) => {
-      return Object.fromEntries(
-        Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
-      );
-    }
+    // transformValues: (values) => {
+    //   return Object.fromEntries(
+    //     Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
+    //   );
+    // }
   });
 
   // Initialize form data when initialData prop changes
@@ -147,11 +147,11 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
   };
 
   return (
-    <div className="form-container">
-      <form className="form" onSubmit={handleSubmit(onSubmitForm)}>
+    <div className="main-form-container">
+      <form className="main-form" onSubmit={handleSubmit(onSubmitForm)}>
         <div className="input-container">
           <div className='left'>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="name">Ad <span className="text-red-500">*</span></label>
               <input
                 id="name"
@@ -159,7 +159,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
                 {...register('name')}
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="surname">Soyad <span className="text-red-500">*</span></label>
               <input
                 id="surname"
@@ -168,7 +168,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="patronymic">Ata adı <span className="text-red-500">*</span></label>
               <input
                 id="patronymic"
@@ -177,7 +177,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
               <CustomDropdown
                 name="genderStatus"
@@ -199,7 +199,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="finCode">FIN kod</label>
               <input
                 id="finCode"
@@ -208,7 +208,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group color-selector-group">
+            <div className="main-form-group color-selector-group">
               <label htmlFor="colorCode">Rəng kodu</label>
               <input
                 id="colorCode"
@@ -239,7 +239,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               )}
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="dateOfBirth">Doğum tarixi</label>
               <input
                 id="dateOfBirth"
@@ -248,7 +248,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="priceCategoryStatus">Qiymət kateqoriyası <span className="text-red-500">*</span></label>
               <CustomDropdown
                 name="priceCategoryStatus"
@@ -270,7 +270,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="specializationStatus">İxtisas</label>
               <input
                 id="specializationStatus"
@@ -279,7 +279,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="doctor_id">Həkim</label>
               {/* <CustomDropdown
                 name="doctor_id"
@@ -306,7 +306,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group permissions-checklist">
+            <div className="main-form-group permissions-checklist">
               <label>
                 <input
                   type="checkbox"
@@ -316,7 +316,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               </label>
             </div>
 
-            <div className="form-group permissions-checklist">
+            <div className="main-form-group permissions-checklist">
               <label>
                 <input
                   type="checkbox"
@@ -328,7 +328,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
           </div>
 
           <div className='right'>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="phone">Mobil nömrə <span className="text-red-500">*</span></label>
               <input
                 id="phone"
@@ -337,7 +337,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="workPhone">İş telefonu</label>
               <input
                 id="workPhone"
@@ -346,7 +346,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
               <input
                 id="homePhone"
@@ -355,7 +355,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
               <input
                 id="whatsappNumber"
@@ -364,7 +364,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="email">E-poçt ünvanı</label>
               <input
                 id="email"
@@ -373,7 +373,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="homeAddress">Ev ünvanı</label>
               <input
                 id="homeAddress"
@@ -382,7 +382,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="workAddress">İş ünvanı</label>
               <input
                 id="workAddress"
@@ -401,7 +401,7 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
             </ul>
           </div>
         )}
-        <div className="form-actions">
+        <div className="main-form-actions">
           <button type="submit" className="btn-submit">
             {mode === "create" ? "Yarat" : "Yadda Saxla"}
           </button>

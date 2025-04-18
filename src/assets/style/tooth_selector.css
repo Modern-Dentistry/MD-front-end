@@ -1,6 +1,8 @@
 .tooth-selector-grid {
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
+    /* display: grid;
+    grid-template-columns: repeat(16, 1fr); */
+    display: flex;
+    
     gap: 10px;
     padding:5px 20px;
   }

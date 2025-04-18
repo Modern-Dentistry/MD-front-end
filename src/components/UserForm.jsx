@@ -3,7 +3,6 @@ import { SketchPicker } from 'react-color';
 import { MdColorLens } from 'react-icons/md';
 import '../assets/style/form.css';
 import ProfileImage from './ProfileImage';
-import DropdownMenuChecklist from './DropdownChecklist';
 import { LuPenLine } from "react-icons/lu";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
@@ -105,11 +104,6 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
       experience: 0,
       authorities: []
     },
-    transformValues: (values) => {
-      return Object.fromEntries(
-        Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
-      );
-    }
   });
 
   useEffect(() => {
@@ -145,14 +139,19 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
   };
 
   const handleFormSubmit = (data) => {
+    // Transform values here
+    const transformedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, value === '' ? null : value])
+    );
+  
     if (mode === 'edit') {
-      const updateData = Object.keys(data).reduce((acc, key) => {
-        if (data[key] !== userData[key]) acc[key] = data[key];
+      const updateData = Object.keys(transformedData).reduce((acc, key) => {
+        if (transformedData[key] !== userData[key]) acc[key] = transformedData[key];
         return acc;
       }, {});
       onSubmit(updateData);
     } else {
-      onSubmit(data);
+      onSubmit(transformedData);
     }
   };
 
@@ -167,7 +166,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
   ];
 
   return (
-    <div className="form-container">
+    <div className="main-form-container">
             <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
@@ -175,7 +174,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
         message="İşçi silinəcək!"
         onConfirm={onDelete}
       />
-      <h3 className="form-title">
+      <h3 className="main-form-title">
         {mode === 'create'
           ? 'İşçi əlavə et'
           : mode === 'edit'
@@ -183,7 +182,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
             : 'İşçi məlumatları'}
       </h3>
 
-      <form className="form" onSubmit={handleSubmit(handleFormSubmit)}>
+      <form className="main-form" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={`${mode === 'view' ? 'profile-buttons' : ''}`}>
           <ProfileImage userId={watch('username')} mode={mode} />
           {mode === 'view' && (
@@ -201,7 +200,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
         </div>
         <div className="input-container">
           <div className='left'>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="username">İstifadəçi adı <span className="text-red-500">*</span></label>
               <input
                 id="username"
@@ -213,7 +212,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
             </div>
 
             {mode === 'create' && (
-              <div className="form-group">
+              <div className="main-form-group">
                 <label htmlFor="password">Şifrə <span className="text-red-500">*</span></label>
                 <input
                   id="password"
@@ -225,7 +224,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               </div>
             )}
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="name">Ad <span className="text-red-500">*</span></label>
               <input
                 id="name"
@@ -236,7 +235,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="surname">Soyad <span className="text-red-500">*</span></label>
               <input
                 id="surname"
@@ -247,7 +246,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="patronymic">Ata adı <span className="text-red-500">*</span></label>
               <input
                 id="patronymic"
@@ -258,7 +257,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
             <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
               <CustomDropdown
                 name="genderStatus"
@@ -280,7 +279,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
                 />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="finCode">FIN kod <span className="text-red-500">*</span></label>
               <input
                 id="finCode"
@@ -291,7 +290,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group color-selector-group">
+            <div className="main-form-group color-selector-group">
               <label htmlFor="colorCode">Rəng kodu</label>
               <input
                 id="colorCode"
@@ -323,7 +322,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               )}
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="dateOfBirth">Doğum tarixi <span className="text-red-500">*</span></label>
               <input
                 id="dateOfBirth"
@@ -334,7 +333,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="degree">Elmi dərəcə</label>
               <input
                 id="degree"
@@ -347,7 +346,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
           </div>
 
           <div className='right'>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="phone">Mobil nömrə 1 <span className="text-red-500">*</span></label>
               <input
                 id="phone"
@@ -364,7 +363,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="phone2">Mobil nömrə 2</label>
               <input
                 id="phone2"
@@ -381,7 +380,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="phone3">Mobil nömrə 3</label>
               <input
                 id="phone3"
@@ -397,7 +396,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
                 className={mode === 'view' ? 'readonly' : ''}
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
               <input
                 id="homePhone"
@@ -414,7 +413,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="email">E-poçt ünvanı</label>
               <input
                 id="email"
@@ -425,7 +424,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="address">Ünvan</label>
               <input
                 id="address"
@@ -436,7 +435,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 {/* 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="workAddress">İş ünvanı</label>
               <input
                 id="workAddress"
@@ -447,7 +446,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div> */}
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="experience">Təcrübə (il)</label>
               <input
                 id="experience"
@@ -458,7 +457,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
               />
             </div>
 
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="authorities">İcazələr <span className="text-red-500">*</span></label>
               <div className="permissions-checklist">
               <Controller
@@ -499,7 +498,7 @@ export default function UserForm({ mode: initialMode, userData = null, onSubmit,
     </div>
   )}
         {mode !== 'view' && (
-          <div className="form-actions">
+          <div className="main-form-actions">
             <button type="submit" className="btn-submit">
               {mode === 'create' ? 'Əlavə et' : 'Yenilə'}
             </button>

@@ -1,6 +1,6 @@
 .sidebar-menu {
   width: 254px;
-  height: 100vh;
+  min-height: 100%;
   background-color: #155EEF;
   color: white;
   position: relative;
