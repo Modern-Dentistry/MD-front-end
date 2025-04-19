@@ -1,0 +1,120 @@
+.tableWrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  
+    .employeeTable {
+      width: 100%;
+      border-collapse: collapse;
+        
+      th,
+      td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #CDD5DF;
+      }
+  
+      thead {
+        background-color: #EEF2F6;
+  
+        tr {
+          font-weight: 300;
+  
+          th {
+            border-bottom: none;
+            font-size: 14px;
+            font-weight: 600;
+  
+            .th-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 6px;
+  
+              svg {
+                font-size: 14px;
+              }
+  
+              span {
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+  
+      tbody {
+        tr {
+          td {
+            border-top: none;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+  
+  .avatarNameWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .status {
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+  
+    &.active {
+      background-color: #4CAF50;
+    }
+  
+    &.passive {
+      background-color: #f44336;
+    }
+  }
+  
+  .actions {
+    .actionsWrapper {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+  
+  .icon {
+    font-size: 16px;
+    transition: 0.2s;
+  
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+  
+
+.icon{
+    font-size: 18px;
+    font-weight: 600;
+}
+.info, .edit{
+    color: #155EEF;
+}
+
+.delete{
+    color: #FD4A3D;
+}
+
+.arrowsIcon{
+    color: #9AA4B2;
+}
+

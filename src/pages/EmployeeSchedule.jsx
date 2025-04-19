@@ -5,7 +5,7 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import "../assets/style/employee-schedule.css";
-import Sidebar from "../components/Sidebar.jsx"
+// import Sidebar from "../components/Sidebar.jsx"
 import CustomSelect from "../components/CustomSelect.jsx"; 
 
 const WORK_HOURS = [

@@ -1,0 +1,48 @@
+.listHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    >.titleOrdinaryList{
+        color: #0D121C;
+        font-weight: 600;
+        font-size: 24px;
+    }
+    >.ordinaryListButtons{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        .addTextBTN{
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+            gap: 10px;
+            border: 2px solid #155EEF;
+            border-radius: 8px;
+            color: #155EEF;
+            font-weight: 500;
+            transition: 0.4s ease;
+            &:hover{
+                background-color: #155EEF;
+                color: white;
+                cursor: pointer;
+                >.addBTN{
+                    color: white;
+                }
+            }
+            >.addBTN{
+                transition: 0.4s ease;
+                font-size: 20px;
+            }
+        }
+        .exportDataNow{
+            .exportDataBTN{
+                color: #155EEF;
+                font-weight: 600;
+                font-size: 20px;
+            }
+        }
+
+    }
+}
