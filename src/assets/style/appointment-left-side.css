@@ -1,0 +1,38 @@
+.left-side {
+  padding: 20px;
+  background-color: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.doctors-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+.select-options-container {
+  width: 100%;
+}
+
+.doctor-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.doctor-card.selected .doctor-image-container {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px #4CAF50;
+} 
