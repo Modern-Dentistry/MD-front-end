@@ -182,7 +182,7 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
       // Modal-ı bağla
       setShowModal(false);
 
-      // Appointments səhifəsinə qayıt və seçilmiş həkim ID-sini state kimi göndər
+      // Appointments səhifəsinə qayıt və seçilmiş həkim 
       setTimeout(() => {
         navigate('/appointments', { 
           state: { selectedDoctorId },
@@ -196,7 +196,6 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
 
   return (
     <div className="appointments-container">
-      <SidebarMenu />
       {/* LEFT SİDE  */}
       <div className="left-side">
         <div className="select-options-container">
@@ -246,6 +245,32 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
 
         {/* RIGHT SİDE  */}
     <div className="right-side">
+      <div className="card-buttons">
+          <button>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 18.3333H19.25" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15.0104 3.32017C15.3753 2.95525 15.8703 2.75024 16.3863 2.75024C16.9024 2.75024 17.3973 2.95525 17.7623 3.32017C18.1272 3.68508 18.3322 4.18002 18.3322 4.69608C18.3322 5.21215 18.1272 5.70709 17.7623 6.072L6.75308 17.0821C6.53501 17.3002 6.26544 17.4597 5.96933 17.5459L3.33667 18.3141C3.25779 18.3371 3.17418 18.3385 3.09458 18.3181C3.01499 18.2977 2.94234 18.2563 2.88424 18.1982C2.82614 18.1401 2.78473 18.0674 2.76434 17.9878C2.74395 17.9082 2.74533 17.8246 2.76833 17.7458L3.5365 15.1131C3.62287 14.8173 3.78239 14.5481 4.00033 14.3303L15.0104 3.32017Z" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6H21" stroke="#FD4A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6" stroke="#FD4A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="#FD4A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 11V17" stroke="#FD4A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 11V17" stroke="#FD4A3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 10H18" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 14H18" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 15.9956C5.29136 15.1186 5.83265 14.3589 6.54914 13.8216C7.26563 13.2842 8.12199 12.9956 9 12.9956C9.87801 12.9956 10.7344 13.2842 11.4509 13.8216C12.1673 14.3589 12.7086 15.1186 13 15.9956" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 12C10.1046 12 11 11.1046 11 10C11 8.89543 10.1046 8 9 8C7.89543 8 7 8.89543 7 10C7 11.1046 7.89543 12 9 12Z" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 3H4C2.89543 3 2 4.15127 2 5.57143V18.4286C2 19.8487 2.89543 21 4 21H20C21.1046 21 22 19.8487 22 18.4286V5.57143C22 4.15127 21.1046 3 20 3Z" stroke="#155EEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+      </div>
       <div className="appointment-card">
         <h2>Randevu Məlumatları</h2>
         
@@ -320,10 +345,7 @@ const RandevuCard = ({ roomOptions, employees, WORK_HOURS, WEEKDAYS_SHORT }) => 
           </div>
         </div>
     
-        <div className="card-buttons">
-          <button className="card-button edit-button">Düzəliş et</button>
-          <button className="card-button delete-button">Sil</button>
-        </div>
+        
       </div>
     </div>
 

@@ -65,7 +65,7 @@ const Examination = () => {
           <>
             <CustomDropdown
               className="max-w-60"
-              value={date?.target.value}
+              value={date}
               placeholder="Tarix seçin"
               onChange={(selectedDate) => setDate(selectedDate)}
               options={[
