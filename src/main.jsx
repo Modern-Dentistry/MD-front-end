@@ -29,6 +29,7 @@ import Prescription from "./pages/patient/Prescription";
 import ViewPrescription from "./pages/patient/ViewPrescription";
 import CreateInsurance from "./pages/patient/CreateInsurance";
 import ViewInsurance from "./pages/patient/ViewInsurance";
+import EmployeesList from "./pages/Employees/EmployeesList";
 // import Video from "./pages/patient/Video";
 import Insurance from "./pages/patient/Insurance";
 import XRay from "./pages/patient/XRay";
@@ -44,6 +45,14 @@ import EmployeeSchedule from "./pages/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
 import RandevuCard from "./pages/RandevuCard";
+
+
+
+import PatientsList from "./pages/Patients/PatientsList";
+import QueueList from "./pages/Queue/QueueList";
+
+import ReceivingOrders from "./pages/Laboratory/ReceivingOrders";
+
 import StockImport from "./pages/StockImport";
 import ClinicStock from "./pages/ClinicStock";
   import AddOrder from "./pages/AddOrder";
@@ -182,7 +191,26 @@ createRoot(document.getElementById("root")).render(
             <Route path="/lab/order/add" element={<AddOrder />} />
             {/*
 
-             <Route path="general" element={<General />} />
+
+          {/* Employees Pages Part */}
+          <Route path="/employees" element={<EmployeesList/>}/>
+          {/* Employees Pages Part */}
+
+          {/* Patients Page Part */}
+          <Route path="/patients" element={<PatientsList/>}/>
+          {/* Patients Page Part */}
+          
+          {/* Queue Page Part */}
+          <Route path="/queue" element={<QueueList/>}/>
+          {/* Queue Page Part */}
+
+          {/* ReceivingOrders Page Part */}
+          <Route path="/receiving-orders" element={<ReceivingOrders/>}/>
+          {/* ReceivingOrders Page Part */}
+
+          <Route path="/patient" element={<PatientLayout />}>
+            <Route path="general" element={<General />} />
+            <Route path="examination" element={<Examination />} />
             <Route path="plans" element={<Plans />} />
             <Route path="video" element={<Video />} />
             <Route path="insurance" element={<Insurance />} />
