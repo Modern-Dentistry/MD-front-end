@@ -9,10 +9,11 @@ import {
   exportPatientsToExcel 
 } from '../api/patient';
 
-export const usePatients = () => {
+export const usePatients = (searchParams) => {
   return useQuery({
-    queryKey: ['patients'],
-    queryFn: readPatients,
+    queryKey: ['patients', searchParams],
+    queryFn: () => searchParams ? searchPatients(searchParams) : readPatients(),
+    enabled: true
   });
 };
 
@@ -49,13 +50,6 @@ export const useUpdatePatient = () => {
   });
 };
 
-export const useSearchPatients = (searchParams) => {
-  return useQuery({
-    queryKey: ['patients', 'search', searchParams],
-    queryFn: () => searchPatients(searchParams),
-    enabled: !!searchParams,
-  });
-};
 
 export const useDeletePatient = () => {
   const queryClient = useQueryClient();

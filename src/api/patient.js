@@ -15,8 +15,16 @@ export const updatePatient = async (patientData) => {
 
 // Search patients
 export const searchPatients = async (searchParams) => {
-  const response = await axiosInstance.get('/patient/search', { params: searchParams });
-  return response.data;
+  const response = await fetch('/patient/search', {
+    method: 'GET',
+    body: JSON.stringify(searchParams),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+  return data;
 };
 
 // Read all patients

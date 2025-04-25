@@ -9,10 +9,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const token = import.meta.env.VITE_AUTH;
-  console.log('Token:', token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    console.log('Authorization header:', config.headers.Authorization);
   }
   return config;
 });

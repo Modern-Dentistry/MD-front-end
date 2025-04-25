@@ -7,6 +7,11 @@ export const getDoctors = async () => {
     return response.data
 }
 
+export const getRooms = async () => {
+    const response = await axiosInstance.get('/general-calendar/read-rooms')
+    return response.data
+}
+
 export const updateAppointment = async (appointmentData) => {
     const response = await axiosInstance.put('/general-calendar/update-appointment', appointmentData)
     return response.data
