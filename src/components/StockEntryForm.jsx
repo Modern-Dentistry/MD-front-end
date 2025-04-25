@@ -13,7 +13,7 @@ import DeleteIcon from "../assets/icons/delete";
 import { se } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 
-const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) => {
+const StockEntryForm = ({ initialData, mode = "create", onSubmit, onCancel, handleStatusChange }) => {
     const navigate = useNavigate();
     const { register, handleSubmit, setValue, reset } = useForm({
         defaultValues: initialData,
@@ -26,6 +26,7 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
         quantity: '',
         price: ''
     });
+    const [status, setStatus] = useState('pending');
 
     // Reset form when initialData changes
     useEffect(() => {
@@ -179,27 +180,32 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
         }
     };
 
+    const statusOptions = [
+        { value: 'pending', label: 'Gözləyir', color: 'bg-yellow-100 text-yellow-800' },
+        { value: 'approved', label: 'Təsdiqlənib', color: 'bg-green-100 text-green-800' },
+        { value: 'rejected', label: 'Rədd edilib', color: 'bg-red-100 text-red-800' }
+    ];
+
+
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-2">
-            {mode === 'view' && (
-                <div className="flex self-end gap-2">
-                    <button 
+
+            <div className="flex justify-between items-center gap-2">
+                <label htmlFor="status">Status <span className="text-red-500">*</span></label>
+                <div className="w-[950px]">
+                    <button
                         type="button"
-                        onClick={() => navigate('edit') }
-                        className="p-2 hover:bg-gray-100 rounded"
+                        onClick={handleStatusChange}
+                        className={`w-[200px] h-10 border border-[#D4DCE8] rounded-lg px-4 py-2 ${
+                            statusOptions.find(option => option.value === status)?.color
+                        } 'cursor-pointer'}`}
                     >
-                        <EditIcon />
-                    </button>
-                    <button 
-                        type="button"
-                        onClick={handleDelete}
-                        className="p-2 hover:bg-gray-100 rounded"
-                    >
-                        <DeleteIcon />
+                        {statusOptions.find(option => option.value === status)?.label}
                     </button>
                 </div>
-            )}
-        
+            </div>
+
+            
             <div className="flex justify-between items-center gap-2">
                 <label htmlFor="orderDate">Sifariş tarixi <span className="text-red-500">*</span></label>
                 <div className="w-[950px]">
@@ -251,83 +257,16 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
                 </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-                {mode !== 'view' && (
-                    <div className="flex justify-between items-center gap-2">
-                        <label htmlFor="products">Məhsullar</label>
-                        <div className="flex items-center gap-2">
-                            <div className="flex flex-col gap-2">
-                                <label htmlFor="category">Kategoriyası</label>
-                                <CustomDropdown 
-                                    value={categories.find(cat => cat.value === currentProduct.category)}
-                                    onChange={(option) => handleProductChange('category', option.value)}
-                                    options={categories}
-                                    placeholder="Kategoriya seçin"
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <label htmlFor="productName">Məhsulun adı</label>
-                                <CustomDropdown 
-                                    value={productsByCategory.find(product => product.value === currentProduct.name)}
-                                    onChange={(option) => handleProductChange('name', option.value)}
-                                    options={productsByCategory}
-                                    placeholder="Məhsul seçin"
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <label htmlFor="quantity">Miqdar</label>
-                                <input 
-                                    type="number" 
-                                    className="h-10 border border-[#D4DCE8] rounded-lg px-4 py-2"
-                                    value={currentProduct.quantity}
-                                    onChange={(e) => handleProductChange('quantity', e.target.value)}
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <label htmlFor="price">Qiymət</label>
-                                <input 
-                                    type="number" 
-                                    className="h-10 border border-[#D4DCE8] rounded-lg px-4 py-2"
-                                    value={currentProduct.price}
-                                    onChange={(e) => handleProductChange('price', e.target.value)}
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <br />
-                                <button 
-                                    type="button"
-                                    onClick={handleAddProduct}
-                                    className="flex items-center justify-center px-4 py-2 border text-[#155EEF] bg-[#155EEF] text-white rounded-lg hover:bg-gray-100 w-[184px] h-[44px] gap-2"
-                                >
-                                    <FontAwesomeIcon icon={faPlus} />
-                                    Məhsul əlavə et
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                <div className="flex justify-end items-center gap-2">
-                    <div className="w-[950px]">
-                        <ListWithSubtotal
-                            columns={columns}
-                            data={products}
-                            subtotalColumns={['price']}
-                            enableEdit={mode !== 'view'}
-                            enableDelete={mode !== 'view'}
-                            handleEdit={handleEditProduct}
-                            handleDelete={handleDeleteProduct}
-                        />
-                    </div>
-                </div>
-            </div>
-
             <div className="flex justify-between items-center gap-2">
-                <label htmlFor="documents">Sənədlər</label>
+                <label htmlFor="documents">Məhsullar</label>
                 <div className="w-[950px]">
-                    <MultiFileForm mode={mode} />
+                    <SimpleList
+                        columns={columns}
+                        data={products}
+                    />
                 </div>
             </div>
+
 
             {mode !== 'view' && (
                 <div className="self-end flex gap-4 m-4">
@@ -352,4 +291,4 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
     );
 };
 
-export default StockImportForm;
+export default StockEntryForm;

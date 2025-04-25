@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import CustomDropdown from "./CustomDropdown";
 import { useForm } from "react-hook-form";
@@ -13,7 +14,7 @@ import DeleteIcon from "../assets/icons/delete";
 import { se } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 
-const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) => {
+const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) => {
     const navigate = useNavigate();
     const { register, handleSubmit, setValue, reset } = useForm({
         defaultValues: initialData,
@@ -352,4 +353,4 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
     );
 };
 
-export default StockImportForm;
+export default StockOrderForm;
