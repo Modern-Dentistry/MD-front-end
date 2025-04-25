@@ -21,7 +21,7 @@ console.log('RENDERERDDDD')
         {selectedPlans.map((plan) => ( 
                  <div className="flex flex-col w-full h-52 rounded-lg border overflow-auto border-[#CDD5DF] m-1">
 
-            <div className="flex h-1/4 w-full bg-blue-700 items-center text-white px-2 justify-between">
+            <div className="flex h-1/4 w-full bg-[#155EEF] items-center text-white px-2 justify-between">
             {plan.label}
             <div className="flex gap-2">
                 

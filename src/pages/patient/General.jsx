@@ -65,9 +65,9 @@ const General = () => {
       </div>
     );
   }
-
+//isLoading={isLoading || updatingPatient}>
   return (
-    <BlurLoader isLoading={isLoading || updatingPatient}>
+    <BlurLoader isLoading={false}>
     <div className='flex flex-col gap-2'>
       <div className='flex self-end gap-4'>
         <button onClick={handleEdit}>
@@ -79,8 +79,8 @@ const General = () => {
       </div>
       <div className="input-container">
         <div className='left'>
-          <div className='flex flex-col gap-3 bg-[#D1E0FF] rounded-lg'>
-            <div className="form-group">
+          <div className='flex flex-col gap-3 bg-[#D1E0FF] rounded-lg p-4'>
+            <div className="main-form-group">
               <label htmlFor="status">Status</label>
               <input
                 id="status"
@@ -91,7 +91,7 @@ const General = () => {
                 className='readonly'
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="id">ID</label>
               <input
                 id="id"
@@ -102,7 +102,7 @@ const General = () => {
                 className='readonly'
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="registrationDate">Qeydiyyat Tarixi</label>
               <input
                 id="registrationDate"
@@ -113,7 +113,7 @@ const General = () => {
                 className='readonly'
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="lastEdited">Son redakte</label>
               <input
                 id="lastEdited"
@@ -125,7 +125,8 @@ const General = () => {
               />
             </div>
           </div>
-          <div className="form-group">
+  
+          <div className="main-form-group">
             <label htmlFor="firstName">Ad</label>
             <input
               id="firstName"
@@ -137,7 +138,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="lastName">Soyad</label>
             <input
               id="lastName"
@@ -149,7 +150,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="fatherName">Ata adı</label>
             <input
               id="fatherName"
@@ -161,7 +162,7 @@ const General = () => {
             />
           </div>
     
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="gender">Cinsiyyət</label>
             <input
               id="gender"
@@ -173,7 +174,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="finCode">FIN kod</label>
             <input
               id="finCode"
@@ -185,7 +186,7 @@ const General = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="birthDate">Doğum tarixi</label>
             <input
               id="birthDate"
@@ -197,7 +198,7 @@ const General = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="priceCategory">Qiymət kateqoriyası</label>
             <input
               id="priceCategory"
@@ -209,7 +210,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="specialization">İxtisas</label>
             <input
               id="specialization"
@@ -221,7 +222,7 @@ const General = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="doctor">Həkim</label>
             <input
               id="doctor"
@@ -236,7 +237,7 @@ const General = () => {
         </div>
 
         <div className='right'>
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="isVip">VIP</label>
             <input
               id="isVip"
@@ -248,7 +249,7 @@ const General = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="isBlacklisted">Qara siyahı</label>
             <input
               id="isBlacklisted"
@@ -259,7 +260,7 @@ const General = () => {
               className='readonly'
             />
           </div>
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber1">Mobil nömrə 1</label>
             <input
               id="mobileNumber1"
@@ -271,7 +272,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber2">Mobil nömrə 2</label>
             <input
               id="mobileNumber2"
@@ -283,7 +284,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber3">Mobil nömrə 3</label>
             <input
               id="mobileNumber3"
@@ -295,7 +296,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
             <input
               id="whatsappNumber"
@@ -307,7 +308,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="workPhone">İş telefonu</label>
             <input
               id="workPhone"
@@ -319,7 +320,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="homePhone">Ev telefonu</label>
             <input
               id="homePhone"
@@ -331,7 +332,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="email">E-poçt ünvanı</label>
             <input
               id="email"
@@ -343,7 +344,7 @@ const General = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="homeAddress">Ev ünvanı</label>
             <input
               id="homeAddress"
