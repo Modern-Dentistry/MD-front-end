@@ -40,13 +40,13 @@ const CreateInsurance = () => {
             </div>
 
             <div className='flex self-end gap-8 m-4'>
-                <button className='flex justify-center items-center text-blue-500 border border-blue-500 rounded-md p-2 gap-2'
+                <button className='flex justify-center items-center text-[#155EEF] border border-[#155EEF] rounded-md p-2 gap-2'
                     onClick={() => navigate('/patient/insurance')}
                 >
                     <FontAwesomeIcon icon={faXmark} />
                     İmtina et
                 </button>
-                <button className='flex justify-center items-center bg-blue-500 text-white rounded-md p-2 gap-2'
+                <button className='flex justify-center items-center bg-[#155EEF] text-white rounded-md p-2 gap-2'
                     onClick={handleCreateInsurance}>
                     <FontAwesomeIcon icon={faCheck} />
                     Yadda saxla

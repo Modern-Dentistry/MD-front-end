@@ -5,7 +5,8 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import "../assets/style/employee-schedule.css";
-import Sidebar from "../components/Sidebar.jsx"
+import SidebarMenu from "../components/SidebarMenu.jsx";
+
 import CustomSelect from "../components/CustomSelect.jsx"; 
 
 const WORK_HOURS = [
@@ -43,7 +44,6 @@ function EmployeeSchedule() {
       { date: '2025-03-25', startTime: '10:00', endTime: '13:00' },
       { date: '2025-03-26', startTime: '09:00', endTime: '17:00' },
       { date: '2025-03-25', startTime: '10:00', endTime: '12:00' },
-
       { date: '2025-03-28', startTime: '10:00', endTime: '16:00' },
       { date: '2025-04-01', startTime: '09:00', endTime: '15:00' },
       { date: '2025-04-03', startTime: '10:30', endTime: '17:30' },

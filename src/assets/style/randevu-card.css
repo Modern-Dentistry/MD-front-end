@@ -196,19 +196,19 @@
 
 /* ===== RIGHT SİDE ======  */
 .right-side {
-  background-color: #EEF2F6;
-  padding: 46px 66px;
+  background-color: #FCFCFD;
+  padding: 85px 108px;
   height: 100%;
   overflow-y: auto;
 }
 
 .appointment-card {
-  background-color: white;
+  background-color: #EEF2F6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 30px;
   /* max-width: 640px; */
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .appointment-card h2 {
@@ -287,42 +287,18 @@
   color: #dc2626;
 }
 
-/* Buttons */
-.card-buttons {
-  margin-top: 30px;
+.card-buttons{
+  position: absolute;
+  top: 24px;
+  right: 50px;
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  gap: 10px;
+  align-items: center;
 }
 
-.card-button {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 14px;
+.card-buttons button {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.edit-button {
-  background-color: #155EEF;
-  color: white;
-  border: 1px solid transparent;
-}
-
-.edit-button:hover {
-  background-color: transparent;
-  color: #155EEF;
-  border-color: #155EEF;
-}
-
-.delete-button {
-  background-color: transparent;
-  color: #dc2626;
-  border: 1px solid #dc2626;
-}
-
-.delete-button:hover {
-  background-color: #dc2626;
-  color: white;
 }

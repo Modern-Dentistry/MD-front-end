@@ -38,7 +38,7 @@ const List = ({
                 {col.key === selectableItem ? (
                   <button 
                     onClick={() => handleSelect(item[col.key])}
-                    className="text-blue-600 hover:text-blue-800 hover:underline"
+                    className="text-[#155EEF] hover:text-[#155EEF] hover:underline"
                   >
                     {item[col.key]}
                   </button>

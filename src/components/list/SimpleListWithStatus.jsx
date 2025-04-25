@@ -1,125 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import SortIcon from "../../assets/icons/Sort";
 import CustomDropdown from "../CustomDropdown";
 import DeleteIcon from "../../assets/icons/Delete";
 import EditIcon from "../../assets/icons/Edit";
 import InfoIcon from "../../assets/icons/Info";
 import Paginator from "../Paginator";
+import SimpleList from "./SimpleList";
 
-const List = ({ 
+const SimpleListWithStatus = ({ 
   columns, 
   data, 
   enableEdit = false, 
   enableView = false, 
   enableDelete = false,
-  handleEdit,
-  handleView,
-  handleDelete 
-}) => {
-  return (
-    <div className="w-full rounded-lg shadow-md overflow-auto text-[14px]">
-      {/* Header */}
-      <div className="bg-[#EEF2F6] p-4 flex items-center">
-        <div className="flex-1 flex items-center gap-4 font-semibold text-gray-700">
-          <span>{`1-${data.length}`}</span>
-        </div>
-        {columns.map((col) => (
-          <div
-            key={col.key}
-            className="flex-1 flex items-center gap-4 font-semibold text-gray-700"
-          >
-            <SortIcon />
-            <span className="">{col.label}</span>
-          </div>
-        ))}
-        {(enableEdit || enableView || enableDelete) && (
-          <div className="flex-1 flex justify-end items-center gap-4 font-semibold text-gray-700">
-            Düzəliş
-          </div>
-        )}
-      </div>
-      {/* List */}
-      <div className="divide-y divide-gray-200">
-        {data.map((item, index) => (
-          <div
-            key={index}
-            className="p-4 flex items-center hover:bg-gray-50"
-          >
-            <div className="flex-1 px-2">{index + 1}</div>
-            {columns.map((col) => (
-              <div key={col.key} className="flex-1 px-2">
-                {item[col.key]}
-              </div>
-            ))}
-            {(enableEdit || enableView || enableDelete) && (
-              <div className="flex flex-1 justify-end px-2 gap-2">
-                {enableView && (
-                  <button 
-                    onClick={() => handleView?.(item.id)}
-                    className="text-blue-600 hover:text-blue-800"
-                  >
-                    <InfoIcon />
-                  </button>
-                )}
-                {enableEdit && (
-                  <button 
-                    onClick={() => handleEdit?.(item.id)}
-                    className="text-yellow-600 hover:text-yellow-800"
-                  >
-                    <EditIcon />
-                  </button>
-                )}
-                {enableDelete && (
-                  <button 
-                    onClick={() => handleDelete?.(item.id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    <DeleteIcon />
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const SimpleList = ({
-  columns,
-  data,
-  startPage,
-  endPage,
-  currentPage,
-  onPageChange,
-  enableEdit = false,
-  enableView = false,
-  enableDelete = false,
+  enableOrderInput = false,
   handleEdit,
   handleView,
   handleDelete,
+  handleStatusClick,
+  handleOrderInput
 }) => {
+  // Transform the data to include status buttons
+  const transformedData = data.map(item => {
+    const [orderValue, setOrderValue] = useState(item.order || '');
+    
+    return {
+      ...item,
+      status: (
+        <button 
+          onClick={() => handleStatusClick(item.id)}
+          className={`px-3 py-1 rounded-lg text-sm ${
+            item.status === 'active' 
+              ? 'bg-green-100 text-green-800 border border-green-300' 
+              : 'bg-red-100 text-red-800 border border-red-300'
+          }`}
+        >
+          {item.status === 'active' ? 'Aktiv' : 'Deaktiv'}
+        </button>
+      ),
+      order: (
+        <input 
+          type="number" 
+          min="0"
+          value={orderValue} 
+          className="w-16 h-8 border border-gray-300 rounded-lg p-2 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          onChange={(e) => {
+            const value = e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value));
+            setOrderValue(value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && handleOrderInput) {
+              handleOrderInput(item.id, orderValue);
+              e.target.blur();
+            }
+          }}
+        />
+      )
+    };
+  });
+
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <List 
-        columns={columns} 
-        data={data} 
-        enableEdit={enableEdit}
-        enableView={enableView}
-        enableDelete={enableDelete}
-        handleEdit={handleEdit}
-        handleView={handleView}
-        handleDelete={handleDelete}
-      />
-      <Paginator
-        startPage={startPage}
-        endPage={endPage}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      />
-    </div>
+    <SimpleList 
+      columns={columns}
+      data={transformedData}
+      enableEdit={enableEdit}
+      enableView={enableView}
+      enableDelete={enableDelete}
+      handleEdit={handleEdit}
+      handleView={handleView}
+      handleDelete={handleDelete}
+    />
   );
 };
 
-export default SimpleList;
+export default SimpleListWithStatus;

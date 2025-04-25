@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { SketchPicker } from 'react-color';
 import { MdColorLens } from 'react-icons/md';
 import '../assets/style/form.css';
@@ -7,52 +10,108 @@ import CustomDropdown from './CustomDropdown';
 import { LuPenLine } from "react-icons/lu";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { usePriceCategories } from '../hooks/usePriceCategories';
+import { useDoctors } from "../hooks/useDoctors.js";
+
+const schema = yup.object().shape({
+  name: yup.string().required('Ad tələb olunur'),
+  surname: yup.string().required('Soyad tələb olunur'),
+  patronymic: yup.string().required('Ata adı tələb olunur'),
+  finCode: yup.string()
+    .nullable()
+    .matches(/^[A-Z0-9]{7}$/, 'FIN kod 7 simvoldan ibarət olmalıdır')
+    .transform((value) => (value === '' ? null : value)),
+  genderStatus: yup.string().required('Cinsiyyət tələb olunur'),
+  dateOfBirth: yup.date()
+    .max(new Date(), 'Doğum tarixi gələcək tarix ola bilməz'),
+  priceCategoryStatus: yup.string().required('Qiymət kateqoriyası tələb olunur'),
+  specializationStatus: yup.string().nullable(),
+  doctor_id: yup.string(),
+  phone: yup.string()
+    .required('Mobil nömrə tələb olunur')
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün mobil nömrə daxil edin (format: (XXX)-XXX-XXXX)'),
+  workPhone: yup.string()
+    .nullable()
+    .transform((value) => (value === '' ? null : value))
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün iş nömrəsi daxil edin (format: (XXX)-XXX-XXXX)'),
+  homePhone: yup.string()
+    .nullable()
+    .transform((value) => (value === '' ? null : value))
+    .matches(/^\(\d{3}\)-\d{3}-\d{4}$/, 'Düzgün ev nömrəsi daxil edin (format: (XXX)-XXX-XXXX)'),
+  homeAddress: yup.string(),
+  workAddress: yup.string(),
+  email: yup.string()
+    .email('Düzgün e-poçt ünvanı daxil edin'),
+  // Preserving existing fields
+  username: yup.string(),
+  colorCode: yup.string(),
+  academicDegree: yup.string(),
+  permissions: yup.string(),
+  isVip: yup.boolean(),
+  isBlacklisted: yup.boolean(),
+  referredBy: yup.string(),
+  facebook: yup.string().url('Düzgün Facebook linki daxil edin').nullable(),
+  instagram: yup.string().url('Düzgün Instagram linki daxil edin').nullable(),
+  twitter: yup.string().url('Düzgün Twitter linki daxil edin').nullable()
+});
 
 export default function PatientForm({ initialData, onSubmit, onCancel, mode = "create" }) {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    userId: '',
-    userImage: '',
-    username: '',
-    firstName: '',
-    lastName: '',
-    fatherName: '',
-    gender: '',
-    finCode: '',
-    colorCode: '',
-    birthDate: '',
-    academicDegree: '',
-    mobileNumber1: '',
-    mobileNumber2: '',
-    mobileNumber3: '',
-    homePhone: '',
-    email: '',
-    address: '',
-    permissions: '',
-    priceCategory: '',
-    specialization: '',
-    doctor: '',
-    isVip: false,
-    isBlacklisted: false,
-    whatsappNumber: '',
-    workPhone: '',
-    homeAddress: '',
-    workAddress: '',
-    referredBy: '',
-    facebook: '',
-    instagram: '',
-    twitter: ''
+  const { data: priceCategories } = usePriceCategories();
+  const { data: doctors } = useDoctors();
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: '',
+      surname: '',
+      patronymic: '',
+      finCode: '',
+      genderStatus: '',
+      dateOfBirth: '',
+      priceCategoryStatus: '',
+      specializationStatus: '',
+      doctor_id: '',
+      phone: '',
+      workPhone: '',
+      homePhone: '',
+      homeAddress: '',
+      workAddress: '',
+      email: '',
+      // Preserving existing fields
+      userId: '',
+      userImage: '',
+      username: '',
+      colorCode: '',
+      academicDegree: '',
+      mobileNumber1: '',
+      mobileNumber2: '',
+      mobileNumber3: '',
+      whatsappNumber: '',
+      permissions: '',
+      isVip: false,
+      isBlacklisted: false,
+      referredBy: '',
+      facebook: '',
+      instagram: '',
+      twitter: ''
+    },
+    // transformValues: (values) => {
+    //   return Object.fromEntries(
+    //     Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
+    //   );
+    // }
   });
 
   // Initialize form data when initialData prop changes
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      Object.entries(initialData).forEach(([key, value]) => {
+        setValue(key, value);
+      });
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
   // Close picker on outside click
   useEffect(() => {
@@ -65,22 +124,17 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
-
   const handleColorChange = (color) => {
-    setFormData({ ...formData, colorCode: color.hex });
+    setValue('colorCode', color.hex);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmitForm = (data) => {
+    const transformedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, value === '' ? null : value])
+    );
+
     if (onSubmit) {
-      onSubmit(formData);
+      onSubmit(transformedData);
     }
   };
 
@@ -93,291 +147,261 @@ export default function PatientForm({ initialData, onSubmit, onCancel, mode = "c
   };
 
   return (
-    <div className="form-container">
-      <form className="form" onSubmit={handleSubmit}>
+    <div className="main-form-container">
+      <form className="main-form" onSubmit={handleSubmit(onSubmitForm)}>
         <div className="input-container">
           <div className='left'>
-            <div className="form-group">
-              <label htmlFor="username">İstifadəçi adı</label>
+            <div className="main-form-group">
+              <label htmlFor="name">Ad <span className="text-red-500">*</span></label>
               <input
-                id="username"
+                id="name"
                 type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
+                {...register('name')}
               />
             </div>
-            
-            <div className="form-group">
-              <label htmlFor="firstName">Ad</label>
+            <div className="main-form-group">
+              <label htmlFor="surname">Soyad <span className="text-red-500">*</span></label>
               <input
-                id="firstName"
+                id="surname"
                 type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
+                {...register('surname')}
               />
             </div>
-            
-            <div className="form-group">
-              <label htmlFor="lastName">Soyad</label>
+
+            <div className="main-form-group">
+              <label htmlFor="patronymic">Ata adı <span className="text-red-500">*</span></label>
               <input
-                id="lastName"
+                id="patronymic"
                 type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
+                {...register('patronymic')}
               />
             </div>
-            
-            <div className="form-group">
-              <label htmlFor="fatherName">Ata adı</label>
-              <input
-                id="fatherName"
-                type="text"
-                name="fatherName"
-                value={formData.fatherName}
-                onChange={handleChange}
+
+            <div className="main-form-group">
+              <label htmlFor="genderStatus">Cinsiyyət <span className="text-red-500">*</span></label>
+              <CustomDropdown
+                name="genderStatus"
+                value={watch('genderStatus')}
+                onChange={(option) => setValue('genderStatus', option.value)}
+                placeholder="Cins seçin"
+                options={
+                  [
+                    {
+                      "value": "MAN",
+                      "label": "Kişi"
+                    },
+                    {
+                      "value": "WOMAN",
+                      "label": "Qadın"
+                    }
+                  ]
+                }
               />
             </div>
-            
-            <div className="form-group">
-              <label htmlFor="gender">Cinsiyyət</label>
-              <select
-                id="gender"
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Seçin</option>
-                <option value="Kişi">Kişi</option>
-                <option value="Qadın">Qadın</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
+
+            <div className="main-form-group">
               <label htmlFor="finCode">FIN kod</label>
               <input
                 id="finCode"
                 type="text"
-                name="finCode"
-                value={formData.finCode}
-                onChange={handleChange}
-                required
+                {...register('finCode')}
               />
             </div>
 
-            <div className="form-group color-selector-group">
+            <div className="main-form-group color-selector-group">
               <label htmlFor="colorCode">Rəng kodu</label>
               <input
                 id="colorCode"
                 type="text"
-                name="colorCode"
-                value={formData.colorCode}
+                {...register('colorCode')}
                 readOnly
               />
-              <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
-                <MdColorLens />
-              </span>
+              {
+                mode !== 'view' && (
+                  <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+                    <MdColorLens />
+                  </span>
+                )
+              }
               <span
                 className="color-swatch"
-                style={{ backgroundColor: formData.colorCode }}
+                style={{ backgroundColor: watch('colorCode') }}
               ></span>
 
               {showColorPicker && (
                 <div ref={colorPickerRef} className="color-picker-dropdown">
                   <SketchPicker
                     disableAlpha={true}
-                    color={formData.colorCode}
+                    color={watch('colorCode')}
                     onChangeComplete={handleColorChange}
-                  />  
+                  />
                 </div>
               )}
             </div>
 
-            <div className="form-group">
-              <label htmlFor="birthDate">Doğum tarixi</label>
+            <div className="main-form-group">
+              <label htmlFor="dateOfBirth">Doğum tarixi</label>
               <input
-                id="birthDate"
+                id="dateOfBirth"
                 type="date"
-                name="birthDate"
-                value={formData.birthDate}
-                onChange={handleChange}
-                required
+                {...register('dateOfBirth')}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="priceCategory">Qiymət kateqoriyası</label>
+            <div className="main-form-group">
+              <label htmlFor="priceCategoryStatus">Qiymət kateqoriyası <span className="text-red-500">*</span></label>
               <CustomDropdown
-                name="priceCategory"
-                value={formData.priceCategory}
-                onChange={handleChange}
+                name="priceCategoryStatus"
+                value={watch('priceCategoryStatus')}
+                onChange={(option) => setValue('priceCategoryStatus', option.value)}
                 placeholder="Qiymet kategoriyasini seçin"
-                options={[
-                  { value: 'Regular', label: 'Regular' },
-                  { value: 'Premium', label: 'Premium' },
-                  { value: 'VIP', label: 'VIP' }  
-                ]}
-              />   
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="specialization">İxtisas</label>
-              <CustomDropdown
-                name="specialization"
-                value={formData.specialization}
-                onChange={handleChange}
-                placeholder="İxtisas seçin"
-                options={[
-                  { value: 'General Medicine', label: 'General Medicine' },
-                  { value: 'Orthodontics', label: 'Orthodontics' },
-                  { value: 'Periodontics', label: 'Periodontics' },
-                  { value: 'Endodontics', label: 'Endodontics' },
-                  { value: 'Surgery', label: 'Surgery' },
-                  { value: 'Pediatric', label: 'Pediatric' }
-                ]}
+                options={
+                  [
+                    {
+                      "value": "Standard",
+                      "label": "Standart"
+                    },
+                    {
+                      "value": "Vip",
+                      "label": "VIP"
+                    }
+                  ]
+                }
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="doctor">Həkim</label>
-              <CustomDropdown
-                name="doctor"
-                value={formData.doctor}
-                onChange={handleChange}
+            <div className="main-form-group">
+              <label htmlFor="specializationStatus">İxtisas</label>
+              <input
+                id="specializationStatus"
+                type="text"
+                {...register('specializationStatus')}
+              />
+            </div>
+
+            <div className="main-form-group">
+              <label htmlFor="doctor_id">Həkim</label>
+              {/* <CustomDropdown
+                name="doctor_id"
+                value={watch('doctor_id')}
+                onChange={(option) => setValue('doctor_id', option.value)}
                 placeholder="Həkim seçin"
-                options={[
-                  { value: 'Dr. Smith', label: 'Dr. Smith' },
-                  { value: 'Dr. Johnson', label: 'Dr. Johnson' },
-                  { value: 'Dr. Williams', label: 'Dr. Williams' }
-                ]}
+                options={doctors?.map(doctor => ({
+                  value: doctor.doctorId,
+                  label: `${doctor.name} ${doctor.surname}` // Combine name and surname for the label
+                }))}
+              /> */}
+              <CustomDropdown
+                name="doctor_id"
+                value={watch('doctor_id')}
+                onChange={(option) => {
+                  console.log(option.value); // Debugging the selected option
+                  setValue('doctor_id', option.value);
+                }}
+                placeholder="Həkim seçin"
+                options={doctors?.map(doctor => ({
+                  value: doctor.doctorId,
+                  label: `${doctor.name} ${doctor.surname}`
+                }))}
               />
             </div>
 
-            <div className="form-group permissions-checklist">
+            <div className="main-form-group permissions-checklist">
               <label>
                 <input
                   type="checkbox"
-                  name="isVip"
-                  checked={formData.isVip}
-                  onChange={handleChange}
+                  {...register('isVip')}
                 />
                 VIP
               </label>
             </div>
 
-            <div className="form-group permissions-checklist">
+            <div className="main-form-group permissions-checklist">
               <label>
                 <input
                   type="checkbox"
-                  name="isBlacklisted"
-                  checked={formData.isBlacklisted}
-                  onChange={handleChange}
+                  {...register('isBlacklisted')}
                 />
                 Qara siyahı
               </label>
             </div>
-          </div>     
+          </div>
 
           <div className='right'>
-            <div className="form-group">
-              <label htmlFor="mobileNumber1">Mobil nömrə 1</label>
+            <div className="main-form-group">
+              <label htmlFor="phone">Mobil nömrə <span className="text-red-500">*</span></label>
               <input
-                id="mobileNumber1"
+                id="phone"
                 type="tel"
-                name="mobileNumber1"
-                value={formData.mobileNumber1}
-                onChange={handleChange}
-                required
+                {...register('phone')}
               />
             </div>
-            
-            <div className="form-group">
-              <label htmlFor="mobileNumber2">Mobil nömrə 2</label>
-              <input
-                id="mobileNumber2"
-                type="tel"
-                name="mobileNumber2"
-                value={formData.mobileNumber2}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="mobileNumber3">Mobil nömrə 3</label>
-              <input
-                id="mobileNumber3"
-                type="tel"
-                name="mobileNumber3"
-                value={formData.mobileNumber3}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
-              <input
-                id="whatsappNumber"
-                type="tel"
-                name="whatsappNumber"
-                value={formData.whatsappNumber}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="form-group">
+
+            <div className="main-form-group">
               <label htmlFor="workPhone">İş telefonu</label>
               <input
                 id="workPhone"
                 type="tel"
-                name="workPhone"
-                value={formData.workPhone}
-                onChange={handleChange}
+                {...register('workPhone')}
               />
             </div>
-            
-            <div className="form-group">
+
+            <div className="main-form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
               <input
                 id="homePhone"
                 type="tel"
-                name="homePhone"
-                value={formData.homePhone}
-                onChange={handleChange}
+                {...register('homePhone')}
               />
             </div>
-            
-            <div className="form-group">
+
+            <div className="main-form-group">
+              <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
+              <input
+                id="whatsappNumber"
+                type="tel"
+                {...register('whatsappNumber')}
+              />
+            </div>
+
+            <div className="main-form-group">
               <label htmlFor="email">E-poçt ünvanı</label>
               <input
                 id="email"
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
+                {...register('email')}
               />
             </div>
-            
-            <div className="form-group">
+
+            <div className="main-form-group">
               <label htmlFor="homeAddress">Ev ünvanı</label>
               <input
                 id="homeAddress"
                 type="text"
-                name="homeAddress"
-                value={formData.homeAddress}
-                onChange={handleChange}
+                {...register('homeAddress')}
               />
             </div>
-          </div> 
-        </div> 
 
-        <div className="form-actions">
+            <div className="main-form-group">
+              <label htmlFor="workAddress">İş ünvanı</label>
+              <input
+                id="workAddress"
+                type="text"
+                {...register('workAddress')}
+              />
+            </div>
+          </div>
+        </div>
+        {Object.keys(errors).length > 0 && (
+          <div className="error-summary">
+            <ul>
+              {Object.values(errors).map((error, index) => (
+                <li key={index} className="text-red-500 text-xs error-message">{error.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <div className="main-form-actions">
           <button type="submit" className="btn-submit">
             {mode === "create" ? "Yarat" : "Yadda Saxla"}
           </button>

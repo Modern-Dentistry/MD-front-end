@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ToothSelector from "../../components/ToothSelector";
 import "../../assets/style/examination.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import DropdownMenuChecklist from "../../components/DropdownChecklist";
 import { useNavigate } from "react-router-dom";
 import ListWithCheckbox from "../../components/list/ListWithCheckbox";
@@ -52,7 +52,6 @@ const EditPlan = () => {
 
    return (
      <div className="examination-container">
-       <ToastContainer />
        <div className="flex justify-between">
          <div className="flex">
            <DropdownMenuChecklist

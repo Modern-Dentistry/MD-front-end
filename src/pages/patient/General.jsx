@@ -1,63 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import ProfileImage from '../../components/ProfileImage';
 import '../../assets/style/form.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import PatientForm from '../../components/PatientForm';
+import { usePatient, useUpdatePatient, useDeletePatient } from '../../hooks/usePatients';
+import { useParams } from 'react-router-dom';
+import EditIcon from '../../assets/icons/edit';
+import DeleteIcon from '../../assets/icons/delete';
+import BlurLoader from '../../components/layout/BlurLoader';
 
 const General = () => {
   const [isEditing, setIsEditing] = useState(false);
-  // Mock data - in a real app, this would come from your API/state management
-  const [patientData, setPatientData] = useState({
-    userId: '12345',
-    userImage: '',
-    username: 'john.doe',
-    firstName: 'John',
-    lastName: 'Doe',
-    fatherName: 'James',
-    gender: 'Kişi',
-    finCode: '1234567890',
-    colorCode: '#FF5733',
-    birthDate: '1990-01-01',
-    academicDegree: 'Bachelor',
-    mobileNumber1: '+994501234567',
-    mobileNumber2: '+994502345678',
-    mobileNumber3: '+994503456789',
-    homePhone: '+994124567890',
-    email: 'john.doe@example.com',
-    address: 'Baku, Azerbaijan',
-    permissions: 'Standard',
-    priceCategory: 'Regular',
-    specialization: 'General Medicine',
-    doctor: 'Dr. Smith',
-    isVip: 'Xeyr',
-    isBlacklisted: 'Xeyr',
-    whatsappNumber: '+994501234567',
-    workPhone: '+994124567890',
-    homeAddress: '123 Main St, Baku',
-    workAddress: '456 Business Ave, Baku',
-    referredBy: 'Dr. Johnson',
-    facebook: 'john.doe',
-    instagram: 'john.doe',
-    twitter: 'john.doe'
-  });
+  const { id } = useParams();
+  const { data: patient, isLoading, error } = usePatient(id);
+  const { mutate: deletePatient, isPending: deletingPatient } = useDeletePatient();
+  const { mutate: updatePatient, isPending: updatingPatient } = useUpdatePatient();
 
+  // Handle Edit
   const handleEdit = () => {
     setIsEditing(true);
   };
 
+  // Handle Delete
   const handleDelete = () => {
-    // Add delete confirmation and API call here
-    console.log('Delete patient:', patientData.userId);
+      deletePatient(id, {
+        onSuccess: () => {
+          toast.success("Patient deleted successfully");
+        },
+        onError: () => {
+          toast.error("Error deleting patient");
+        },
+      });
   };
 
+  // Handle Form Submit
   const handleFormSubmit = (formData) => {
-    setPatientData(formData);
-    setIsEditing(false);
-    console.log(formData);
-    // Here you would typically make an API call to update the patient data
+    formData.id = id; // Ensure the ID is included in the form data
+    updatePatient(formData, {
+      onSuccess: () => {
+        toast.success("Patient updated successfully");
+        setIsEditing(false); // Close the form after successful submission
+      },
+      onError: () => {
+        toast.error("Error updating patient");
+      },
+    });
   };
 
+  // Handle Cancel
   const handleCancel = () => {
     setIsEditing(false);
   };
@@ -66,7 +57,7 @@ const General = () => {
     return (
       <div className='flex flex-col gap-2'>
         <PatientForm 
-          initialData={patientData}
+          initialData={patient}
           onSubmit={handleFormSubmit}
           onCancel={handleCancel}
           mode="edit"
@@ -74,180 +65,170 @@ const General = () => {
       </div>
     );
   }
-
+//isLoading={isLoading || updatingPatient}>
   return (
+    <BlurLoader isLoading={false}>
     <div className='flex flex-col gap-2'>
       <div className='flex self-end gap-4'>
         <button onClick={handleEdit}>
-          <FontAwesomeIcon icon={faPen} />
+          <EditIcon />
         </button>
         <button onClick={handleDelete}>
-          <FontAwesomeIcon icon={faTrash} />
+          <DeleteIcon />
         </button>
       </div>
       <div className="input-container">
         <div className='left'>
-          <div className='flex flex-col gap-3 bg-[#D1E0FF] rounded-lg'>
-            <div className="form-group">
+          <div className='flex flex-col gap-3 bg-[#D1E0FF] rounded-lg p-4'>
+            <div className="main-form-group">
               <label htmlFor="status">Status</label>
               <input
                 id="status"
                 type="text"
                 name="status"
-                value={patientData.permissions}
+                value={patient?.permissions}
                 readOnly
                 className='readonly'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="userId">ID</label>
+            <div className="main-form-group">
+              <label htmlFor="id">ID</label>
               <input
-                id="userId"
+                id="id"
                 type="text"
-                name="userId"
-                value={patientData.userId}
+                name="id"
+                value={patient?.id}
                 readOnly
                 className='readonly'
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="registrationDate">Qeydiyyat Tarixi</label>
               <input
                 id="registrationDate"
                 type="date"
                 name="registrationDate"
-                value="2023-01-01" // Replace with actual registration date if available
+                value={patient?.registrationDate || ''} // Replace with actual registration date
                 readOnly
                 className='readonly'
               />
             </div>
-            <div className="form-group">
+            <div className="main-form-group">
               <label htmlFor="lastEdited">Son redakte</label>
               <input
                 id="lastEdited"
                 type="date"
                 name="lastEdited"
-                value="2023-01-15" // Replace with actual last edited date if available
+                value={patient?.lastEdited || ''} // Replace with actual last edited date
                 readOnly
                 className='readonly'
               />
             </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="username">İstifadəçi adı</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={patientData.username}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="form-group">
+  
+          <div className="main-form-group">
             <label htmlFor="firstName">Ad</label>
             <input
               id="firstName"
               type="text"
               name="firstName"
-              value={patientData.firstName}
+              value={patient?.name}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="lastName">Soyad</label>
             <input
               id="lastName"
               type="text"
               name="lastName"
-              value={patientData.lastName}
+              value={patient?.surname}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="fatherName">Ata adı</label>
             <input
               id="fatherName"
               type="text"
               name="fatherName"
-              value={patientData.fatherName}
+              value={patient?.patronymic}
               readOnly
               className='readonly'
             />
           </div>
     
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="gender">Cinsiyyət</label>
             <input
               id="gender"
               type="text"
               name="gender"
-              value={patientData.gender}
+              value={patient?.genderStatus}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="finCode">FIN kod</label>
             <input
               id="finCode"
               type="text"
               name="finCode"
-              value={patientData.finCode}
+              value={patient?.finCode}
               readOnly
               className='readonly'
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="birthDate">Doğum tarixi</label>
             <input
               id="birthDate"
               type="date"
               name="birthDate"
-              value={patientData.birthDate}
+              value={patient?.dateOfBirth}
               readOnly
               className='readonly'
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="priceCategory">Qiymət kateqoriyası</label>
             <input
               id="priceCategory"
               type="text"
               name="priceCategory"
-              value={patientData.priceCategory}
+              value={patient?.priceCategoryStatus}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="specialization">İxtisas</label>
             <input
               id="specialization"
               type="text"
               name="specialization"
-              value={patientData.specialization}
+              value={patient?.specializationStatus}
               readOnly
               className='readonly'
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="doctor">Həkim</label>
             <input
               id="doctor"
               type="text"
               name="doctor"
-              value={patientData.doctor}
+              value={patient?.doctor_id}
               readOnly
               className='readonly'
             />
@@ -256,128 +237,128 @@ const General = () => {
         </div>
 
         <div className='right'>
-        <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="isVip">VIP</label>
             <input
               id="isVip"
               type="text"
               name="isVip"
-              value={patientData.isVip}
+              value={patient?.isVip}
               readOnly
               className='readonly'
             />
           </div>
 
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="isBlacklisted">Qara siyahı</label>
             <input
               id="isBlacklisted"
               type="text"
               name="isBlacklisted"
-              value={patientData.isBlacklisted}
+              value={patient?.isBlacklisted}
               readOnly
               className='readonly'
             />
           </div>
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber1">Mobil nömrə 1</label>
             <input
               id="mobileNumber1"
               type="tel"
               name="mobileNumber1"
-              value={patientData.mobileNumber1}
+              value={patient?.mobileNumber1}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber2">Mobil nömrə 2</label>
             <input
               id="mobileNumber2"
               type="tel"
               name="mobileNumber2"
-              value={patientData.mobileNumber2}
+              value={patient?.mobileNumber2}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="mobileNumber3">Mobil nömrə 3</label>
             <input
               id="mobileNumber3"
               type="tel"
               name="mobileNumber3"
-              value={patientData.mobileNumber3}
+              value={patient?.mobileNumber3}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
             <input
               id="whatsappNumber"
               type="tel"
               name="whatsappNumber"
-              value={patientData.whatsappNumber}
+              value={patient?.whatsappNumber}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="workPhone">İş telefonu</label>
             <input
               id="workPhone"
               type="tel"
               name="workPhone"
-              value={patientData.workPhone}
+              value={patient?.workPhone}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="homePhone">Ev telefonu</label>
             <input
               id="homePhone"
               type="tel"
               name="homePhone"
-              value={patientData.homePhone}
+              value={patient?.homePhone}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="email">E-poçt ünvanı</label>
             <input
               id="email"
               type="email"
               name="email"
-              value={patientData.email}
+              value={patient?.email}
               readOnly
               className='readonly'
             />
           </div>
           
-          <div className="form-group">
+          <div className="main-form-group">
             <label htmlFor="homeAddress">Ev ünvanı</label>
             <input
               id="homeAddress"
               type="text"
               name="homeAddress"
-              value={patientData.homeAddress}
+              value={patient?.homeAddress}
               readOnly
               className='readonly'
             />
           </div>
         </div>
       </div>
-      </div>
-      
+    </div>
+    </BlurLoader>
   );
 };
 

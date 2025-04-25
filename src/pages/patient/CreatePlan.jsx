@@ -17,13 +17,13 @@ const CreatePlan = () => {
                 <input type='text' id='plan-name' placeholder='Plan adı' className='flex-8 w-full h-[44px] p-4 border border-gray-300 rounded-lg' />
             </div>
             <div className='flex self-end gap-8 m-4'>
-                <button className='flex justify-center items-center text-blue-500 border border-blue-500 rounded-md p-2 gap-2'
+                <button className='flex justify-center items-center text-[#155EEF] border border-[#155EEF] rounded-md p-2 gap-2'
                 onClick={() => navigate('/patient/plans')}
                 >
                     <FontAwesomeIcon icon={faXmark} />
                     İmtina et
                 </button>
-                <button className='flex justify-center items-center bg-blue-500 text-white rounded-md p-2 gap-2'
+                <button className='flex justify-center items-center bg-[#155EEF] text-white rounded-md p-2 gap-2'
                 onClick={handleCreatePlan}>
                     <FontAwesomeIcon icon={faCheck} />
                     Yadda saxla
