@@ -56,7 +56,7 @@ const List = ({
                 {enableView && (
                   <button 
                     onClick={() => handleView?.(item.id)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-[#155EEF] hover:text-[#155EEF]"
                   >
                     <InfoIcon />
                   </button>
@@ -112,12 +112,17 @@ const SimpleList = ({
         handleView={handleView}
         handleDelete={handleDelete}
       />
-      <Paginator
-        startPage={startPage}
-        endPage={endPage}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      />
+      {
+        startPage && endPage && currentPage && onPageChange && (
+          <Paginator
+            startPage={startPage}
+            endPage={endPage}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        )
+      }
+      
     </div>
   );
 };

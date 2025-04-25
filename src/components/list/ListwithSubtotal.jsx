@@ -64,7 +64,7 @@ const ListWithSubtotal = ({
                 {enableView && (
                   <button 
                     onClick={() => handleView?.(item.id)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-[#155EEF] hover:text-[#155EEF]"
                   >
                     <InfoIcon />
                   </button>
