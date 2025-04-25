@@ -37,9 +37,9 @@ const SidebarMenu = () => {
       title: 'İşçilər',
       icon: (isActive) => <DoctorIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 11, title: 'İşçilərin siyahısı', path: '/employees-list' },
+        { id: 11, title: 'İşçilərin siyahısı', path: '/employees' },
         { id: 12, title: 'İşçilərin iş qrafiki', path: '/employee-schedule' },
-        { id: 13, title: 'Yeni işçi əlavə et', path: '/add-user' }
+        { id: 13, title: 'Yeni işçi əlavə et', path: '/user/add' }
       ]
     },
     {
@@ -49,7 +49,8 @@ const SidebarMenu = () => {
       icon: (isActive) => <CalendarIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 21, title: 'Bütün Randevular', path: '/appointments' },
-        { id: 22, title: 'Yeni Randevu', path: '/add-new-appointment' }
+        { id: 22, title: 'Yeni Randevu', path: '/add-new-appointment' },
+        { id: 23, title: 'Randevu Kartı', path: '/randevu-card' }
       ]
     },
     {
@@ -58,8 +59,8 @@ const SidebarMenu = () => {
       path: '/patients',
       icon: (isActive) => <PatientsIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 31, title: 'Pasiyent Siyahısı', path: '/' },
-        { id: 32, title: 'Yeni Pasiyent', path: '/' }
+        { id: 31, title: 'Pasiyent Siyahısı', path: '/patients' },
+        { id: 32, title: 'Yeni Pasiyent', path: '/patient/add' }
       ]
     },
     {
@@ -69,7 +70,7 @@ const SidebarMenu = () => {
       icon: (isActive) => <WorkDoneIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 41, title: 'Həkim Siyahısı', path: '/' },
-        { id: 42, title: 'Yeni Həkim',  path: '/new-patient' }
+        { id: 42, title: 'Yeni Həkim',  path: '/user/add' }
       ]
     },
     {
@@ -78,8 +79,8 @@ const SidebarMenu = () => {
       path: '/laboratory',
       icon: (isActive) => <LaboratoryIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 51, title: 'Otaq Siyahısı', path: '/' },
-        { id: 52, title: 'Yeni Otaq', path: '/' }
+        { id: 51, title: 'Sifarişlərin qəbulu', path: '/receiving-orders' },
+        { id: 52, title: 'Yeni Sifariş', path: '/lab/order/add' }
       ]
     },
     {
@@ -88,8 +89,13 @@ const SidebarMenu = () => {
       path: '/warehouse',
       icon: (isActive) => <WarehouseIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 61, title: 'Əməliyyat Siyahısı', path: '/' },
-        { id: 62, title: 'Yeni Əməliyyat', path: '/' }
+        { id: 61, title: 'Klinika Anbarı', path: '/stock/clinic' },
+        { id: 62, title: 'Kabinet Anbarı', path: '/stock/cabinet' },
+        { id: 63, title: 'Medaxil', path: '/stock/import' },
+        { id: 64, title: 'Sifarişlər', path: '/stock/order' },
+        { id: 65, title: 'Daxilolma', path: '/stock/entry' },
+        { id: 66, title: 'Silinmə', path: '/stock/delete' },
+        { id: 67, title: 'İstifadə', path: '/stock/usage' }
       ]
     },
     {
@@ -98,8 +104,9 @@ const SidebarMenu = () => {
       path: '/settings',
       icon: (isActive) => <SettingsIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 71, title: 'Gəlirlər', path: '/' },
-        { id: 72, title: 'Xərclər', path: '/' }
+        { id: 71, title: 'Müayinələr', path: '/settings/examination' },
+        { id: 72, title: 'Rənglər', path: '/settings/color' },
+        { id: 73, title: 'Sığorta', path: '/settings/insurance' }
       ]
     },
     {

@@ -44,7 +44,6 @@ function EmployeeSchedule() {
       { date: '2025-03-25', startTime: '10:00', endTime: '13:00' },
       { date: '2025-03-26', startTime: '09:00', endTime: '17:00' },
       { date: '2025-03-25', startTime: '10:00', endTime: '12:00' },
-
       { date: '2025-03-28', startTime: '10:00', endTime: '16:00' },
       { date: '2025-04-01', startTime: '09:00', endTime: '15:00' },
       { date: '2025-04-03', startTime: '10:30', endTime: '17:30' },

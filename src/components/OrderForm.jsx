@@ -239,7 +239,7 @@ const OrderForm = ({ initialData, mode="create", onSubmit, onCancel }) => {
                 <FontAwesomeIcon icon={faXmark} />
                 Ləğv et
             </button>
-            <button className="flex items-center justify-center px-4 py-2 bg-[#155EEF] text-white rounded-lg hover:bg-blue-600 w-[184px] h-[44px] gap-2">
+            <button className="flex items-center justify-center px-4 py-2 bg-[#155EEF] text-white rounded-lg hover:bg-[#155EEF] w-[184px] h-[44px] gap-2">
                 <FontAwesomeIcon icon={faCheck} />
                 Yadda saxla
             </button>

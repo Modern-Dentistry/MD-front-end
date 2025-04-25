@@ -5,17 +5,17 @@ const CustomDropdown = ({
   options = [], 
   value, 
   onChange, 
+  onSearchChange,
   placeholder = "Seçin",
   name,
   isMulti = false,
   className = "",
-  disabled = false, // Add disabled prop
-  enableSearch = true // Add enableSearch prop
+  disabled = false,
+  isLoading = false // Add isLoading prop
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const dropdownRef = useRef(null);
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,6 +36,7 @@ const CustomDropdown = ({
 
   const handleSelect = (option) => {
     if (disabled) return; // Prevent selection if disabled
+    
     if (isMulti) {
       // Çoxlu seçim halında
       const currentValue = Array.isArray(value) ? value : [];
@@ -43,7 +44,9 @@ const CustomDropdown = ({
       const newValue = isSelected
         ? currentValue.filter(v => v !== option.value)
         : [...currentValue, option.value];
-        onChange(newValue);
+      
+      // Seçilmiş dəyərlər düzgün formatda qaytarılır
+      onChange(newValue);
     } else {
       onChange(option);
       setIsOpen(false);
@@ -52,6 +55,7 @@ const CustomDropdown = ({
 
   const getDisplayValue = () => {
     if (!value) return placeholder;
+    
     if (isMulti && Array.isArray(value)) {
       // Çoxlu seçim üçün bütün seçilmiş elementlərin adlarını göstəririk
       const selectedOptions = options.filter(opt => value.includes(opt.value));
@@ -61,6 +65,11 @@ const CustomDropdown = ({
     }
     
     // Tək seçim üçün
+    if (typeof value === 'string') {
+      const selectedOption = options.find(opt => opt.value === value);
+      return selectedOption ? selectedOption.label : placeholder;
+    }
+    
     const selectedOption = options.find(opt => value === opt || (opt && value && opt.value === value.value));
     return selectedOption ? selectedOption.label : placeholder;
   };
@@ -76,56 +85,60 @@ const CustomDropdown = ({
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    onSearchChange(event.target.value);
   };
 
   const filteredOptions = options.filter(option =>
     option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (-
-    <div 
-      className={`custom-dropdown ${className} ${disabled ? 'disabled' : ''}`} 
-      ref={dropdownRef}
-      style={disabled ? { opacity: 0.5, pointerEvents: 'none' } : {}}
-    >
+  return (
+    <div className={`custom-dropdown ${className} ${disabled ? 'disabled' : ''}`} ref={dropdownRef}>
       <div 
         className={`dropdown-header ${isOpen ? 'open' : ''}`} 
         onClick={handleToggle}
       >
-        <span className="dropdown-value">{getDisplayValue()}</span>
-        <span className="dropdown-arrow">▼</span>
+        <span className="dropdown-value">
+          {isLoading ? 'Loading...' : getDisplayValue()}
+        </span>
+        {!disabled && (
+          <span className="dropdown-arrow">▼</span>
+        )}
       </div>
       
       {isOpen && !disabled && (
         <div className="dropdown-menu">
-          {enableSearch && ( // Conditionally render the search input
-            <div className="dropdown-search">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                placeholder="Axtarış..."
-                className="search-input"
-              />
-            </div>
+          <div className="dropdown-search">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Axtarış..."
+              className="search-input"
+              disabled={isLoading}
+            />
+          </div>
+          {isLoading ? (
+            <div className="dropdown-loading">Loading...</div>
+          ) : (
+            filteredOptions.map((option) => (
+              <div
+                key={option.value}
+                className={`dropdown-item ${isSelected(option) ? 'selected' : ''}`}
+                onClick={() => handleSelect(option)}
+              >
+                {isMulti && (
+                  <input
+                    type="checkbox"
+                    checked={isSelected(option)}
+                    onChange={() => {}}
+                    className="checkbox-input"
+                  />
+                )}
+                <span className="item-label">{option.label}</span>
+              </div>
+            ))
           )}
-          {filteredOptions.map((option) => (
-            <div
-              key={option.value}
-              className={`dropdown-item ${isSelected(option) ? 'selected' : ''}`}
-              onClick={() => handleSelect(option)}
-            >
-              {isMulti && (
-                <input
-                  type="checkbox"
-                  checked={isSelected(option)}
-                  onChange={() => {}}
-                  className="checkbox-input"
-                />
-              )}
-              <span className="item-label">{option.label}</span>
-            </div>
-          ))}
         </div>
       )}
     </div>
