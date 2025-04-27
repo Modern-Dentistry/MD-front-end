@@ -1,0 +1,51 @@
+.workersSearchInputs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    >.leftPart{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        >input{
+            padding: 8px ;
+            width: 170px;
+            padding-left: 5px;
+            border: 1px solid #CDD5DF;
+            border-radius: 8px;
+            &:focus{
+                outline: none;
+            }
+        }
+        >.searchBTN{
+            font-size: 20px;
+        }
+    }
+    >.rightPart{
+        >.workersStatusChecker{
+            width: 140px;
+            padding: 8px;
+            border: 1px solid #CDD5DF;
+            border-radius: 8px;
+            >option{
+
+                padding-right: 10px;
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+    }
+}
+
+
+
+/* Web kit */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
