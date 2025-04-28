@@ -10,8 +10,51 @@ import 'swiper/css';
 const XRay = () => {
     const { id } = useParams();
     const image_url = "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"; 
-    const [showImage, setShowImage] = useState(true);
+    const [showImage, setShowImage] = useState(false);
     const [showImageId, setShowImageId] = useState();
+    const images = 
+    [
+        {
+            id: 1,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 2,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 3,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 4,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 5,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 6,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 7,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+        {
+            id: 8,
+            image_url: ["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg", "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"],
+            date: "08.98.1000",
+        },
+    ]
     const xrayData =
         [
             {
