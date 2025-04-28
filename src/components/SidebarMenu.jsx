@@ -44,13 +44,13 @@ const SidebarMenu = () => {
     },
     {
       id: 2,
-      title: 'Ümumi təqvim',
-      path: '/calendar',
+      title: 'Randevular',
+      path: '/appointments',
       icon: (isActive) => <CalendarIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 21, title: 'Bütün Randevular', path: '/appointments' },
-        { id: 22, title: 'Yeni Randevu', path: '/add-new-appointment' },
-        { id: 23, title: 'Randevu Kartı', path: '/randevu-card' }
+        { id: 22, title: 'Yeni Randevu', path: '/appointment/add' },
+        { id: 23, title: 'Randevu Kartı', path: '/appointment/card' }
       ]
     },
     {
@@ -60,7 +60,8 @@ const SidebarMenu = () => {
       icon: (isActive) => <PatientsIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 31, title: 'Pasiyent Siyahısı', path: '/patients' },
-        { id: 32, title: 'Yeni Pasiyent', path: '/patient/add' }
+        { id: 32, title: 'Yeni Pasiyent', path: '/patient/add' },
+        { id: 33, title: 'Növbə', path: '/queue' }
       ]
     },
     {
@@ -69,8 +70,8 @@ const SidebarMenu = () => {
       path: '/work-done',
       icon: (isActive) => <WorkDoneIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        { id: 41, title: 'Həkim Siyahısı', path: '/' },
-        { id: 42, title: 'Yeni Həkim',  path: '/user/add' }
+        { id: 41, title: 'Həkim Siyahısı', path: '/employees' },
+        { id: 42, title: 'Yeni Həkim', path: '/user/add' }
       ]
     },
     {
@@ -106,7 +107,10 @@ const SidebarMenu = () => {
       children: [
         { id: 71, title: 'Müayinələr', path: '/settings/examination' },
         { id: 72, title: 'Rənglər', path: '/settings/color' },
-        { id: 73, title: 'Sığorta', path: '/settings/insurance' }
+        { id: 73, title: 'Sığorta', path: '/settings/insurance' },
+        { id: 74, title: 'Qiymət kateqoriyaları', path: '/settings/price-category' },
+        { id: 75, title: 'Diş dəstləri', path: '/settings/dental-set' },
+        { id: 76, title: 'Kabinetlər', path: '/settings/cabinet' }
       ]
     },
     {
