@@ -1,0 +1,532 @@
+/* employee-schedule.css - Yeni təkmilləşdirilmiş versiya */
+
+.schedule-out{
+  padding: 20px;
+}
+
+.employee-schedule-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #FCFCFD;
+  padding: 20px;
+  border: 1px solid #CDD5DF;
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Yuxarı hissə - Header */
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-and-selects{
+  width: 45%;
+  display: flex;
+  align-items: center;
+}
+
+.date-and-navigation{
+  display: flex;
+  width: 55%;
+  justify-content: space-between;
+}
+
+/* Axtarış bölməsi */
+.search-container {
+  position: relative;
+  width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9e9e9e;
+  font-size: 18px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #EEF8FE;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* Tarix göstəricisi */
+.date-display {
+  text-align: center;
+}
+
+.current-month {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.date-range {
+  font-size: 15px;
+  color: #666;
+}
+
+/* Naviqasiya düymələri */
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.nav-button, .calendar-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button:hover, .calendar-button:hover {
+  background-color: #f1f1f1;
+}
+
+.nav-button svg, .calendar-button svg {
+  font-size: 18px;
+}
+
+/* Açılan Kalendar */
+.calendar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.simple-calendar {
+  width: 300px;
+  padding: 15px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 5px;
+}
+
+.calendar-day {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.calendar-day:hover {
+  background-color: #f1f1f1;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day.today {
+  background-color: #A9CEE7;
+  color: white;
+}
+
+/* Əsas məzmun - Kalendar görünüşü */
+.schedule-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  height: fit-content;
+  min-width: fit-content;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.time-column {
+  background-color: #EEF2F6;
+}
+
+/* Başlıq sətri */
+.day-header, .time-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-cell {
+  height: 60px;
+  padding: 10px;
+  text-align: center;
+  border-left: 1px solid #e0e0e0;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.day-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.day-date {
+  font-size: 18px;
+  margin-left: 3px;
+  color: #555;
+}
+
+/* Saat sütunu */
+.time-cell {
+  height: 60px;
+  padding: 10px;
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+  border-right: 1px solid #e0e0e0;
+  position: relative;
+}
+
+/* Planlaşdırma hücrələri */
+.schedule-cell {
+  height: 60px;
+  position: relative;
+  padding: 0;
+  border-left: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* İş saatı blokları üçün konteyner */
+.time-blocks-container {
+  position: relative;
+  height: 100%;
+}
+
+/* ----- ÜST-ÜSTƏ DÜŞƏN İŞÇİ BLOKLAR ÜÇÜN YENİ STİLLƏR ----- */
+
+/* İşçi blokları stilləri */
+.employee-full-block {
+  position: absolute;
+  padding: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 1;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; 
+}
+
+/* Aktiv blok (klik edilmiş) üçün xüsusi stillər */
+.employee-full-block.active {
+  z-index: 1000 !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+/* Hover stillərini dəyişdirək ki, yalnız kiçik bir effekt versin amma üstə çıxarmasın */
+.employee-full-block:hover:not(.active) {
+  filter: brightness(1.02);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Paralel bloklar üçün şəffaflıq və border dəyişiklikləri */
+.employee-color-0 {
+  background-color: rgba(66, 133, 244, 0.9);
+  color: white;
+  border-left: 3px solid rgba(66, 133, 244, 1);
+}
+
+.employee-color-1 {
+  background-color: rgba(219, 68, 55, 0.9);
+  color: white;
+  border-left: 3px solid rgba(219, 68, 55, 1);
+}
+
+.employee-color-2 {
+  background-color: rgba(15, 157, 88, 0.9);
+  color: white;
+  border-left: 3px solid rgba(15, 157, 88, 1);
+}
+
+.employee-color-3 {
+  background-color: rgba(244, 180, 0, 0.9);
+  color: black;
+  border-left: 3px solid rgba(244, 180, 0, 1);
+}
+
+.employee-color-4 {
+  background-color: rgba(171, 71, 188, 0.9);
+  color: white;
+  border-left: 3px solid rgba(171, 71, 188, 1);
+}
+
+.employee-full-block:hover {
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Zaman aralığı və işçi adı */
+.block-time {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.employee-name {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Paralel bloklar üçün rənglər */
+.employee-color-0 {
+  background-color: rgba(66, 133, 244, 0.85);
+  color: white;
+}
+
+.employee-color-1 {
+  background-color: rgba(219, 68, 55, 0.85);
+  color: white;
+}
+
+.employee-color-2 {
+  background-color: rgba(15, 157, 88, 0.85);
+  color: white;
+}
+
+.employee-color-3 {
+  background-color: rgba(244, 180, 0, 0.85);
+  color: white;
+}
+
+.employee-color-4 {
+  background-color: rgba(171, 71, 188, 0.85);
+  color: white;
+}
+
+/* Dar bloklar üçün mətn ölçüsü tənzimləmələri */
+.employee-full-block[style*="width: 50"] .block-time,
+.employee-full-block[style*="width: 33"] .block-time {
+  font-size: 10px;
+}
+
+.employee-full-block[style*="width: 50"] .employee-name,
+.employee-full-block[style*="width: 33"] .employee-name {
+  font-size: 12px;
+}
+
+/* Çox dar bloklar üçün əlavə tənzimləmələr */
+.employee-full-block[style*="width: 25"] .block-time,
+.employee-full-block[style*="width: 20"] .block-time {
+  font-size: 9px;
+  margin-bottom: 2px;
+}
+
+.employee-full-block[style*="width: 25"] .employee-name,
+.employee-full-block[style*="width: 20"] .employee-name {
+  font-size: 10px;
+}
+
+/* Kiçik hündürlüklü bloklar üçün ayarlamalar */
+.employee-full-block[style*="height: 60px"] .employee-name {
+  font-size: 12px;
+}
+
+.employee-full-block[style*="height: 30px"] {
+  padding: 2px 8px;
+}
+
+.employee-full-block[style*="height: 30px"] .block-time {
+  margin-bottom: 0;
+  font-size: 10px;
+}
+
+.employee-full-block[style*="height: 30px"] .employee-name {
+  font-size: 11px;
+}
+
+/* Çox kiçik bloklar üçün kompakt stil */
+.employee-full-block.compact {
+  padding: 4px;
+}
+
+.compact-content {
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Select Options Styles */
+.select-options-container {
+  display: flex;
+  gap: 16px;
+  max-width: 100%;
+}
+
+.doctor-select, .room-select {
+  min-width: 180px;
+  flex: 1;
+}
+
+/* React-select özəlləşdirmələri */
+.select__control {
+  border-radius: 6px !important;
+  border-color: #e0e0e0 !important;
+  box-shadow: none !important;
+  min-height: 38px !important;
+}
+
+.select__control:hover {
+  border-color: #1976d2 !important;
+}
+
+.select__control--is-focused {
+  border-color: #1976d2 !important;
+  box-shadow: 0 0 0 1px #1976d2 !important;
+}
+
+.select__menu {
+  z-index: 99 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+}
+
+.select__option {
+  padding: 10px 12px !important;
+}
+
+.select__option--is-focused {
+  background-color: #f0f7ff !important;
+}
+
+.select__option--is-selected {
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+  font-weight: 500 !important;
+}
+
+/* Responsive dizayn */
+@media (max-width: 1024px) {
+  .schedule-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .search-and-selects {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .select-options-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .search-container {
+    width: 100%;
+  }
+  
+  .date-and-navigation {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-grid {
+    grid-template-columns: 60px repeat(7, 1fr);
+  }
+  
+  .time-cell {
+    padding: 5px;
+    font-size: 12px;
+  }
+  
+  .day-cell {
+    padding: 5px;
+  }
+  
+  .day-name {
+    font-size: 12px;
+  }
+  
+  .day-date {
+    font-size: 14px;
+  }
+  
+  .select-options-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
