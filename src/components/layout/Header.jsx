@@ -22,10 +22,10 @@ function Header() {
           <div className="user-profile-link">
             <img src={adminUser} alt="" />
             <div className="rightPart">
-              <p className="title">
+              <div className="title">
                 <p className="namePart">Admin</p>
                 <p className="rolePart">Vəzifə</p>
-              </p>
+              </div>
               <IoIosArrowBack className="arrowIcon" />
             </div>
           </div>
