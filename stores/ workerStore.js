@@ -47,7 +47,7 @@ const useWorkerStore = create((set) => ({
   addWorker: async (workerData) => {
     try {
       await createWorker(workerData);
-      await useWorkerStore.getState().fetchWorkers(); 
+      await useWorkerStore.getState().fetchWorkers();
     } catch (err) {
       set({ error: err.message });
     }
