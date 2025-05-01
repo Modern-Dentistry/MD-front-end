@@ -1,0 +1,173 @@
+.specialitiesContainer {
+    height: 100vh;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .specialitiesContainerTopPart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .leftPart {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .leftPart select {
+    width: 140px;
+    height: 40px;
+    border: 1px solid #cdd5df;
+    border-radius: 8px;
+    padding-left: 8px;
+    font-size: 14px;
+  }
+  
+  .specialitiesQuickSearch {
+    position: relative;
+    width: 260px;
+    height: 40px;
+    border: 1px solid #cdd5df;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    background-color: #f9fafb;
+  }
+  
+  .specialitiesQuickSearch input {
+    flex: 1;
+    height: 100%;
+    padding: 0 12px;
+    border: none;
+    font-size: 14px;
+  }
+  
+  .specialitiesQuickSearch input:focus {
+    outline: none;
+  }
+  
+  .searchSpecialityIcon {
+    position: absolute;
+    right: 12px;
+    font-size: 20px;
+    color: #6b7280;
+  }
+  
+  .rightPart {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .addSpeciality {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #155eef;
+    border-radius: 8px;
+    color: #155eef;
+    font-weight: 500;
+    font-size: 14px;
+    transition: 0.3s ease;
+  }
+  
+  .addSpecialityIcon {
+    font-size: 18px;
+  }
+  
+  .addSpeciality:hover {
+    background-color: #155eef;
+    color: white;
+  }
+  
+  .exportSpecialitiesIcon {
+    font-size: 20px;
+    color: #155eef;
+    cursor: pointer;
+  }
+  
+  .specialitiesTableWrapper {
+    overflow-x: auto;
+  }
+  
+  .specialitiesTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .specialitiesTable th,
+  .specialitiesTable td {
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    text-align: left;
+    
+  }
+  
+  .specialitiesTable{
+    >th{
+        >span{
+            display: flex !important;
+        }
+    }
+  }
+
+  .specialitiesTable th {
+    background-color: #f3f6fb;
+    color: #374151;
+    >span{
+
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+  }
+  
+  .statusBadge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .statusBadge.active {
+    background-color: #22c55e;
+    color: white;
+  }
+  
+  .statusBadge.passive {
+    background-color: #FD4A3D;
+    color: white;
+  }
+  
+  .actionIcons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .editBtn {
+    color: #3b82f6;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .info{
+    color: #3b82f6;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .deleteBtn {
+    color: #ef4444;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .specialityName{
+    width: 600px;
+  }
+  

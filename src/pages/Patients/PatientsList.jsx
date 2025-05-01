@@ -21,6 +21,7 @@ const initialData = [
     gender: "Qadın",
     phone: "(050) 123 45 67",
     registeration: "06.05.2023",
+    blocked:true,
     status: "Aktiv",
   },
   {
@@ -30,80 +31,56 @@ const initialData = [
     gender: "Kişi",
     phone: "(051) 234 56 78",
     registeration: "12.06.2023",
+    blocked:false,
     status: "Passiv",
   },
+ 
   {
-    id: "125",
-    name: "Aynur Məmmədova",
-    fin: "14525F3",
-    gender: "Qadın",
-    phone: "(055) 345 67 89",
-    registeration: "18.07.2023",
-    status: "Aktiv",
-  },
-  {
-    id: "126",
-    name: "Kamran Əliyev",
-    fin: "14525F4",
+    id: "124",
+    name: "Nicat Qasımov",
+    fin: "14525F2",
     gender: "Kişi",
-    phone: "(070) 456 78 90",
-    registeration: "24.08.2023",
+    phone: "(051) 234 56 78",
+    registeration: "12.06.2023",
+    blocked:true,
     status: "Passiv",
   },
+ 
   {
-    id: "127",
-    name: "Leyla Hüseynova",
-    fin: "14525F5",
-    gender: "Qadın",
-    phone: "(077) 567 89 01",
-    registeration: "30.09.2023",
-    status: "Aktiv",
-  },
-  {
-    id: "128",
-    name: "Tural Rəhimov",
-    fin: "14525F6",
+    id: "124",
+    name: "Nicat Qasımov",
+    fin: "14525F2",
     gender: "Kişi",
-    phone: "(050) 678 90 12",
-    registeration: "05.10.2023",
-    status: "Aktiv",
-  },
-  {
-    id: "129",
-    name: "Günel Abbasova",
-    fin: "14525F7",
-    gender: "Qadın",
-    phone: "(051) 789 01 23",
-    registeration: "11.11.2023",
+    phone: "(051) 234 56 78",
+    registeration: "12.06.2023",
+    blocked:true,
     status: "Passiv",
   },
+ 
   {
-    id: "130",
-    name: "Elvin Məmmədov",
-    fin: "14525F8",
+    id: "124",
+    name: "Nicat Qasımov",
+    fin: "14525F2",
     gender: "Kişi",
-    phone: "(055) 890 12 34",
-    registeration: "17.12.2023",
-    status: "Aktiv",
-  },
-  {
-    id: "131",
-    name: "Zəhra İsmayılova",
-    fin: "14525F9",
-    gender: "Qadın",
-    phone: "(070) 901 23 45",
-    registeration: "23.01.2024",
-    status: "Aktiv",
-  },
-  {
-    id: "132",
-    name: "Orxan Vəliyev",
-    fin: "14525F10",
-    gender: "Kişi",
-    phone: "(077) 012 34 56",
-    registeration: "29.02.2024",
+    phone: "(051) 234 56 78",
+    registeration: "12.06.2023",
+    blocked:true,
     status: "Passiv",
   },
+ 
+  {
+    id: "124",
+    name: "Nicat Qasımov",
+    fin: "14525F2",
+    gender: "Kişi",
+    phone: "(051) 234 56 78",
+    registeration: "12.06.2023",
+    blocked:true,
+    status: "Passiv",
+  },
+ 
+  
+ 
 ];
 
 function PatientsList() {
@@ -153,6 +130,8 @@ function PatientsList() {
 
   return (
     <>
+    <div className="patientsListWrapper">
+
       <OrdinaryListHeader
         title="Pasiyentlər"
         addText="Yenisini əlavə et"
@@ -181,7 +160,7 @@ function PatientsList() {
             onChange={(e) => setSearch({ ...search, fin: e.target.value })}
           />
           <input
-            type="text"
+            type="number"
             placeholder='Mobil nömrə'
             value={search.phone}
             onChange={(e) => setSearch({ ...search, phone: e.target.value })}
@@ -216,11 +195,13 @@ function PatientsList() {
           "Cinsiyyət",
           "Mobil nömrə",
           "Qeydiyyat",
+          "Qara siyahı",
           "Status"
         ]}
         tableData={filteredData}
         icons={icons}
       />
+    </div>
     </>
   );
 }

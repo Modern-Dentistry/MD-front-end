@@ -31,6 +31,9 @@ import ViewPrescription from "./pages/patient/ViewPrescription";
 import CreateInsurance from "./pages/patient/CreateInsurance";
 import ViewInsurance from "./pages/patient/ViewInsurance";
 import EmployeesList from "./pages/Employees/EmployeesList";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import EditSpeciality from "./pages/SpecialitiesPage/EditSpeciality";
+import AcademicDegrees from "./pages/AcademicDegrees/AcademicDegrees";
 // import Video from "./pages/patient/Video";
 import Insurance from "./pages/patient/Insurance";
 import XRay from "./pages/patient/XRay";
@@ -46,7 +49,20 @@ import EmployeeSchedule from "./pages/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
 import RandevuCard from "./pages/RandevuCard";
+import Specialities from "./pages/SpecialitiesPage/Specialities";
+import AddSpeciality from "./pages/SpecialitiesPage/AddSpeciality";
+import EditMetal from "./pages/Metals/EditMetal";
 
+import Ceramics from "./pages/Ceramics/Ceramics";
+
+// Blaclist Page
+import Blacklist from "./pages/Blacklist/Blacklist";
+// Blaclist Page
+
+import AddAcademicDegrees from "./pages/AcademicDegrees/AddAcademicDegrees";
+import EditAcademicDegrees from "./pages/AcademicDegrees/EditAcademicDegrees";
+
+import Metals from "./pages/Metals/Metals";
 
 
 import PatientsList from "./pages/Patients/PatientsList";
@@ -99,6 +115,9 @@ import CabinetDetail from "./pages/settings/cabinets/CabinetDetail";
 import ClinicStock from "./pages/ClinicStock";
 import AddOrder from "./pages/AddOrder";
 import CabinetStock from "./pages/CabinetStock";
+import AddMetal from "./pages/Metals/AddMetal";
+import EditCeramic from "./pages/Ceramics/EditCeramic";
+import AddCeramic from "./pages/Ceramics/AddCeramic";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: '1', label: 'Otaq 1' },
@@ -180,13 +199,29 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
+      <div className="app-wrapper">
       <Routes location={location} key={location.pathname} >
         {/* Authentication Routes */}
         <Route path="/login" element={<LogIn />} />
         
         <Route element={<Layout />}>
           {/* Default Route */}
+          <Route path="/specialities" element={<Specialities/>}/>
+          <Route path="/edit-speciality/:id" element={<EditSpeciality/>}/>
+          <Route path="/add-speciality" element={<AddSpeciality/>}/>
+          <Route path="/blacklist" element={<Blacklist/>}/>
+          <Route path="/change-password" element={<ChangePassword/> }/>
           <Route path="*" element={<PatientsList />} />
+          <Route path="/ceramics" element={<Ceramics/>}/>
+          <Route path="/edit-ceramic/:id" element={<EditCeramic/>}/>
+          <Route path="/add-ceramic" element={<AddCeramic/>}/>
+
+          <Route path="/metals" element={<Metals/>}/>
+          <Route path="/edit-metal/:id" element={<EditMetal/>}/>
+          <Route path="/add-metal" element={<AddMetal/>}/>
+          <Route path="/academic-degrees" element={<AcademicDegrees/>}/>
+          <Route path="/edit-degree/:id" element={<EditAcademicDegrees/>}/>
+          <Route path="/add-degree" element={<AddAcademicDegrees/>}/>          
 
           {/* User Management Routes */}
           <Route path="/user/add" element={<AddUser />} />
@@ -316,6 +351,7 @@ const AnimatedRoutes = () => {
           <Route path="/queue" element={<QueueList />} />
         </Route>
       </Routes>
+      </div>
     </AnimatePresence>
   );
 };
