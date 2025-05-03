@@ -6,7 +6,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import PatientForm from '../../components/PatientForm';
 import { usePatient, useUpdatePatient, useDeletePatient } from '../../hooks/usePatients';
 import { useParams } from 'react-router-dom';
-import EditIcon from '../../assets/icons/edit';
+// import EditIcon from '../../assets/icons/edit';
 import DeleteIcon from '../../assets/icons/delete';
 import BlurLoader from '../../components/layout/BlurLoader';
 
@@ -71,7 +71,7 @@ const General = () => {
     <div className='flex flex-col gap-2'>
       <div className='flex self-end gap-4'>
         <button onClick={handleEdit}>
-          <EditIcon />
+          {/* <EditIcon /> */}
         </button>
         <button onClick={handleDelete}>
           <DeleteIcon />

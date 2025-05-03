@@ -1,9 +1,8 @@
-
 // React-Icons
 import { IoIosArrowBack, IoIosArrowForward, IoIosArrowDown, IoIosArrowForward as IoIosChevronRight } from 'react-icons/io';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 // Style
@@ -45,9 +44,9 @@ const SidebarMenu = () => {
       icon: (isActive) => <CalendarIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
         { id: 21, title: 'Növbə gözləyənlər', path: '/queue' },
-        { id: 21, title: 'Bütün Randevular', path: '/appointments' },
-        { id: 22, title: 'Yeni Randevu', path: '/appointment/add' },
-        { id: 23, title: 'Randevu Kartı', path: '/appointment/card' }
+        { id: 22, title: 'Bütün Randevular', path: '/appointments' },
+        { id: 23, title: 'Yeni Randevu', path: '/appointment/add' },
+        { id: 24, title: 'Randevu Kartı', path: '/appointment/card' }
       ]
     },
     {
@@ -99,7 +98,6 @@ const SidebarMenu = () => {
       title: 'Tənzimləmələr',
       icon: (isActive) => <SettingsIcon width={20} height={20} stroke={isActive ? "#fff" : "#155EEF"} />,
       children: [
-        
         { id: 71, title: 'Müayinələr', path: '/settings/examination' },
         { id: 72, title: 'Rənglər', path: '/settings/color' },
         { id: 73, title: 'Sığorta', path: '/settings/insurance' },
@@ -115,22 +113,15 @@ const SidebarMenu = () => {
         { id: 83, title: 'Elmi dərəcələr', path: '/academic-degrees' },
         { id: 84, title: 'Metallar', path: '/metals' },
       ]
-      
-    },
-    {
-      id: 8,
-      title: 'Çıxış',
-      icon: (isActive)=><ExitIcon width={20} height={20} fill={isActive ? "#fff" : "#155EEF"} />,
-      children: []
     }
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const currentPath = location.pathname;
     const expanded = [];
 
     menuItems.forEach(item => {
-      const hasActiveChild = item.children.some(child => child.path === currentPath);
+      const hasActiveChild = item.children?.some(child => child.path === currentPath);
       if (hasActiveChild) {
         expanded.push(item.id);
       }
@@ -153,6 +144,10 @@ const SidebarMenu = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  const handleLogout = () => {
+    alert('Loged out!')
+  };
+
   return (
     <div className={`sidebar-menu ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
@@ -166,58 +161,63 @@ const SidebarMenu = () => {
         {menuItems.map(item => {
           const isItemActive = expandedItems.includes(item.id);
           const isItemPathActive = isActive(item.path);
-          const hasActiveChild = item.children.some(child => isActive(child.path));
+          const hasActiveChild = item.children?.some(child => isActive(child.path));
           const isHighlighted = isItemPathActive || hasActiveChild;
 
           return (
-            <Link to={item.path}  className="menu-item" >
-              <div key={item.id}>
-                <div
-                  className={`menu-item-header ${isHighlighted ? 'active-header' : ''}`}
-                  onClick={() => {
-                    if (item.children.length > 0) {
-                      toggleItem(item.id);
-                    }
-                  }}
-                >
-                  <span className={`menu-item-icon ${isHighlighted ? 'active' : ''}`} onClick={()=>toggleSidebar()}>
-                    {typeof item.icon === 'function' ? item.icon(isHighlighted) : item.icon}
-                  </span>
-                  {!isCollapsed && (
-                    <>
-                      <span className="menu-item-title">{item.title}</span>
-                      {item.children.length > 0 && (
-                        <IoIosArrowDown
-                          className={`arrow-icon ${expandedItems.includes(item.id) ? 'rotated' : ''}`}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-
-                {!isCollapsed && expandedItems.includes(item.id) && item.children.length > 0 && (
-                  <div className="submenu">
-                    {item.children.map(child => {
-                      const isChildActive = isActive(child.path);
-                      return (
-                        <Link
-                          key={child.id}
-                          to={child.path}
-                          className={`submenu-item ${isChildActive ? 'active-rov' : ''}`}
-                        >
-                          {isChildActive && (
-                            <IoIosChevronRight className="submenu-active-indicator" />
-                          )}
-                          <span className="submenu-item-title">{child.title}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
+            <div key={item.id}>
+              <div
+                className={`menu-item-header ${isHighlighted ? 'active-header' : ''}`}
+                onClick={() => {
+                  if (item.children.length > 0) {
+                    toggleItem(item.id);
+                  }
+                }}
+              >
+                <span className={`menu-item-icon ${isHighlighted ? 'active' : ''}`}>
+                  {typeof item.icon === 'function' ? item.icon(isHighlighted) : item.icon}
+                </span>
+                {!isCollapsed && (
+                  <>
+                    <span className="menu-item-title">{item.title}</span>
+                    {item.children.length > 0 && (
+                      <IoIosArrowDown
+                        className={`arrow-icon ${expandedItems.includes(item.id) ? 'rotated' : ''}`}
+                      />
+                    )}
+                  </>
                 )}
               </div>
-            </Link>
+
+              {!isCollapsed && expandedItems.includes(item.id) && item.children.length > 0 && (
+                <div className="submenu">
+                  {item.children.map(child => {
+                    const isChildActive = isActive(child.path);
+                    return (
+                      <Link
+                        key={child.id}
+                        to={child.path}
+                        className={`submenu-item ${isChildActive ? 'active-rov' : ''}`}
+                      >
+                        {isChildActive && (
+                          <IoIosChevronRight className="submenu-active-indicator" />
+                        )}
+                        <span className="submenu-item-title">{child.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           );
         })}
+
+        <div className="menu-item-header logout-button" onClick={handleLogout}>
+          <span className="menu-item-icon">
+            <ExitIcon width={20} height={20} fill="#155EEF" />
+          </span>
+          {!isCollapsed && <span className="menu-item-title">Çıxış</span>}
+        </div>
       </div>
     </div>
   );
