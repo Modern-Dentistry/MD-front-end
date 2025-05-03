@@ -33,14 +33,14 @@ import ViewInsurance from "./pages/patient/ViewInsurance";
 import EmployeesList from "./pages/Employees/EmployeesList";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import EditSpeciality from "./pages/SpecialitiesPage/EditSpeciality";
-// import AcademicDegrees from "./pages/AcademicDegrees/AcademicDegrees";
-// import Video from "./pages/patient/Video";
+import AcademicDegrees from "./pages/AcademicDegrees/AcademicDegrees";
+import Video from "./pages/patient/Video";
 import Insurance from "./pages/patient/Insurance";
 import XRay from "./pages/patient/XRay";
-// import History from "./pages/patient/History";
-// import Appointments from "./pages/patient/Appointments";
-// import Documents from "./pages/patient/Documents";
-// import Notes from "./pages/patient/Notes";
+import History from "./pages/patient/History";
+import Appointments from "./pages/patient/Appointments";
+import Documents from "./pages/patient/Documents";
+import Notes from "./pages/patient/Notes";
 import PlanCompare from "./pages/patient/PlanCompare";
 import EditPlan from "./pages/patient/EditPlan";
 import CreatePlan from "./pages/patient/CreatePlan";
@@ -59,8 +59,8 @@ import Ceramics from "./pages/Ceramics/Ceramics";
 import Blacklist from "./pages/Blacklist/Blacklist";
 // Blaclist Page
 
-// import AddAcademicDegrees from "./pages/AcademicDegrees/AddAcademicDegrees";
-// import EditAcademicDegrees from "./pages/AcademicDegrees/EditAcademicDegrees";
+import AddAcademicDegrees from "./pages/AcademicDegrees/AddAcademicDegrees";
+import EditAcademicDegrees from "./pages/AcademicDegrees/EditAcademicDegrees";
 
 import Metals from "./pages/Metals/Metals";
 
@@ -78,9 +78,9 @@ import AddStockOrder from "./pages/stockOrder/AddStockOrder";
 import StockOrderList from "./pages/stockOrder/StockOrderList";
 import StockOrderDetail from "./pages/stockOrder/StockOrderDetail";
 
-// import AddStockDelete from "./pages/stockDelete/AddStockDelete";
-// import StockDeleteList from "./pages/stockDelete/stockDeleteList";
-// import StockDeleteDetail from "./pages/stockDelete/stockDeleteDetail";
+import AddStockDelete from "./pages/stockDelete/AddStockDelete";
+import StockDeleteList from "./pages/stockDelete/StockDeleteList";
+import StockDeleteDetail from "./pages/stockDelete/StockDeleteDetail";
 
 import StockEntryList from "./pages/stockEntry/StockEntryList";
 import StockEntryDetail from "./pages/stockEntry/StockEntryDetail";
@@ -219,9 +219,9 @@ const AnimatedRoutes = () => {
           <Route path="/metals" element={<Metals/>}/>
           <Route path="/edit-metal/:id" element={<EditMetal/>}/>
           <Route path="/add-metal" element={<AddMetal/>}/>
-          {/* <Route path="/academic-degrees" element={<AcademicDegrees/>}/> */}
-          {/* <Route path="/edit-degree/:id" element={<EditAcademicDegrees/>}/> */}
-          {/* <Route path="/add-degree" element={<AddAcademicDegrees/>}/>           */}
+          <Route path="/academic-degrees" element={<AcademicDegrees/>}/>
+          <Route path="/edit-degree/:id" element={<EditAcademicDegrees/>}/>
+          <Route path="/add-degree" element={<AddAcademicDegrees/>}/>          
 
           {/* User Management Routes */}
           <Route path="/user/add" element={<AddUser />} />
@@ -287,7 +287,7 @@ const AnimatedRoutes = () => {
           
           {/* Stock Import Routes */}
           <Route path="/stock/import" element={<StockImportList />} />
-          {/* <Route path="/stock/import/add" element={<AddStockImport />} /> */}
+          <Route path="/stock/import/add" element={<AddStockImport />} />
           <Route path="/stock/import/:id" element={<ImportDetail mode="view" />} />
           <Route path="/stock/import/:id/edit" element={<ImportDetail mode="edit" />} />
 
@@ -302,10 +302,10 @@ const AnimatedRoutes = () => {
           <Route path="/stock/entry/:id" element={<StockEntryDetail />} />
 
           {/* Stock Delete Routes */}
-          {/* <Route path="/stock/delete" element={<StockDeleteList />} /> */}
-          {/* <Route path="/stock/delete/:id" element={<StockDeleteDetail />} /> */}
-          {/* <Route path="/stock/delete/add" element={<AddStockDelete />} /> */}
-          {/* <Route path="/stock/delete/:id/edit" element={<StockDeleteDetail mode="edit" />} /> */}
+          <Route path="/stock/delete" element={<StockDeleteList />} />
+          <Route path="/stock/delete/:id" element={<StockDeleteDetail />} />
+          <Route path="/stock/delete/add" element={<AddStockDelete />} />
+          <Route path="/stock/delete/:id/edit" element={<StockDeleteDetail mode="edit" />} />
 
           {/* Stock Usage Routes */}
           <Route path="/stock/usage" element={<ProductUsageList />} />
@@ -344,7 +344,7 @@ const AnimatedRoutes = () => {
           <Route path="/settings/cabinet/:id" element={<CabinetDetail />} />
 
           {/* Laboratory Routes */}
-          {/* <Route path="/lab/order/add" element={<AddOrder />} /> */}
+          <Route path="/lab/order/add" element={<AddOrder />} />
           <Route path="/receiving-orders" element={<ReceivingOrders />} />
 
           {/* Queue Management */}
