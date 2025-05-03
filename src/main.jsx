@@ -10,6 +10,8 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AnimatePresence, motion } from "framer-motion";
 
+
+
 // Style
 import "./assets/style/index.css";
 
