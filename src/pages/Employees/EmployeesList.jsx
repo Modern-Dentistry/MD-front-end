@@ -1,146 +1,172 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // Components
-import OrdinaryListHeader from '../../components/OrdinaryList/OrdinaryListHeader'
-import OrdinaryList from '../../components/OrdinaryList/OrdinaryList';
+import OrdinaryListHeader from '../../components/OrdinaryList/OrdinaryListHeader';
 
 // Icons
-import { CiSearch } from "react-icons/ci";
-import { CiCircleInfo } from "react-icons/ci";
-import { GoTrash } from "react-icons/go";
-import { FiEdit3 } from "react-icons/fi";
+import { CiSearch, CiCircleInfo } from 'react-icons/ci';
+import { GoTrash } from 'react-icons/go';
+import { FiEdit3 } from 'react-icons/fi';
+import { HiArrowsUpDown } from "react-icons/hi2";
+
 
 // Style
-import "../../assets/style/EmployeesPage/employeespage.css"
+import '../../assets/style/EmployeesPage/employeespage.css';
 
 const employeesData = [
   {
-    username: "Dr.elmira",
-    name: "Elmira",
-    surname: "Aliyeva",
-    fatherName: "Rüstəm",
-    phone: "(050) xxx xx xx",
-    permission: "Tam icazə",
-    schedule: "09:00-17:00",
-    status: "Aktiv",
-    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+    id: 1,
+    username: 'Dr.elmira',
+    name: 'Elmira',
+    surname: 'Aliyeva',
+    patronymic: 'Rüstam',
+    phone: '(050) xxx xx xx',
+    authorities: ['Tam icazə'],
+    workSchedule: '09:00-17:00',
+    enabled: true,
+  },
+  {
+    id: 2,
+    username: 'Dr.elmira',
+    name: 'Elmira',
+    surname: 'Aliyeva',
+    patronymic: 'Rüstam',
+    phone: '(050) xxx xx xx',
+    authorities: ['Tam icazə'],
+    workSchedule: '09:00-17:00',
+    enabled: true,
+  },
+  {
+    id: 3,
+    username: 'Dr.elmira',
+    name: 'Elmira',
+    surname: 'Aliyeva',
+    patronymic: 'Rüstam',
+    phone: '(050) xxx xx xx',
+    authorities: ['Tam icazə'],
+    workSchedule: '09:00-17:00',
+    enabled: false,
   },
 ];
-
-while (employeesData.length < 8) {
-  employeesData.push({
-    ...employeesData[0],
-    status: employeesData.length < 4 ? "Aktiv" : "Passiv"
-  });
-}
 
 const icons = [
   {
     icon: CiCircleInfo,
     action: (row) => alert(`Məlumat: ${row.username}`),
-    className: "info"
+    className: 'info',
   },
   {
     icon: FiEdit3,
     action: (row) => alert(`Redaktə: ${row.username}`),
-    className: "edit"
+    className: 'edit',
   },
   {
     icon: GoTrash,
     action: (row) => alert(`Silindi: ${row.username}`),
-    className: "delete"
-  }
+    className: 'delete',
+  },
 ];
 
 function EmployeesList() {
   const [searchUsername, setSearchUsername] = useState('');
   const [searchName, setSearchName] = useState('');
   const [searchSurname, setSearchSurname] = useState('');
-  const [searchFatherName, setSearchFatherName] = useState('');
+  const [searchPatronymic, setSearchPatronymic] = useState('');
   const [searchPhone, setSearchPhone] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
 
-  // Filter employees based on search criteria
-  const filteredEmployees = employeesData.filter((employee) => {
+  const getStatus = (emp) => (emp.enabled ? 'Aktiv' : 'Passiv');
+
+  const filteredEmployees = employeesData.filter((e) => {
+    const status = getStatus(e).toLowerCase();
     return (
-      (employee.username.toLowerCase().includes(searchUsername.toLowerCase()) || searchUsername === '') &&
-      (employee.name.toLowerCase().includes(searchName.toLowerCase()) || searchName === '') &&
-      (employee.surname.toLowerCase().includes(searchSurname.toLowerCase()) || searchSurname === '') &&
-      (employee.fatherName.toLowerCase().includes(searchFatherName.toLowerCase()) || searchFatherName === '') &&
-      (employee.phone.includes(searchPhone) || searchPhone === '') &&
-      (employee.status.toLowerCase().includes(searchStatus.toLowerCase()) || searchStatus === '')
+      (e.username.toLowerCase().includes(searchUsername.toLowerCase()) || !searchUsername) &&
+      (e.name.toLowerCase().includes(searchName.toLowerCase()) || !searchName) &&
+      (e.surname.toLowerCase().includes(searchSurname.toLowerCase()) || !searchSurname) &&
+      (e.patronymic.toLowerCase().includes(searchPatronymic.toLowerCase()) || !searchPatronymic) &&
+      (e.phone.includes(searchPhone) || !searchPhone) &&
+      (status.includes(searchStatus.toLowerCase()) || !searchStatus)
     );
   });
 
   return (
-    <>
+    <div className="employeesListWrapper">
       <OrdinaryListHeader
         title="İşçilər siyahısı"
         addText="Yeni işçi əlavə et"
-        addLink="/employees/add"
+        addLink="/employee-add"
         exportLink="/employees/export"
       />
+
       <div className="workersSearchInputs">
         <div className="leftPart">
-          <input 
-            type="text" 
-            placeholder='Istifadəçi adı' 
-            value={searchUsername}
-            onChange={(e) => setSearchUsername(e.target.value)} 
-          />
-          <input 
-            type="text"  
-            placeholder='Ad'
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)} 
-          />
-          <input 
-            type="text" 
-            placeholder='Soyad'
-            value={searchSurname}
-            onChange={(e) => setSearchSurname(e.target.value)} 
-          />
-          <input 
-            type="text" 
-            placeholder='Ata adı' 
-            value={searchFatherName}
-            onChange={(e) => setSearchFatherName(e.target.value)} 
-          />
-          <input 
-            type="number" 
-            placeholder='Mobil nömrə'
-            value={searchPhone}
-            onChange={(e) => setSearchPhone(e.target.value)} 
-          />
-          <CiSearch className='searchBTN'/>
+          <input placeholder="İstifadəçi adı" value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
+          <input placeholder="Ad" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+          <input placeholder="Soyad" value={searchSurname} onChange={(e) => setSearchSurname(e.target.value)} />
+          <input placeholder="Ata adı" value={searchPatronymic} onChange={(e) => setSearchPatronymic(e.target.value)} />
+          <input placeholder="Telefon" value={searchPhone} onChange={(e) => setSearchPhone(e.target.value)} />
+          <CiSearch className="searchBTN" />
         </div>
+
         <div className="rightPart">
-          <select 
-            value={searchStatus} 
-            onChange={(e) => setSearchStatus(e.target.value)} 
-            className='workersStatusChecker'
-          >
-            <option value="">Status</option>
+          <select className="workersStatusChecker" value={searchStatus} onChange={(e) => setSearchStatus(e.target.value)}>
+            <option value="">Hamısı</option>
             <option value="Aktiv">Aktiv</option>
             <option value="Passiv">Passiv</option>
           </select>
         </div>
       </div>
-      <OrdinaryList
-        tableHead={[
-          "İstifadəçi adı",
-          "Adı",
-          "Soyadı",
-          "Ata adı",
-          "Mobil nömrə",
-          "İcazələr",
-          "İş qrafiki",
-          "Status"
-        ]}
-        tableData={filteredEmployees}
-        icons={icons}
-      />
-    </>
+
+      <div className="employeesTableWrapper">
+        <table className="employeesTable">
+          <thead>
+            <tr>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> İstifadəçi adı</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> Ad</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> Soyad</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> Ata adı</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> Telefon</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> Rollar</span></div></th>
+              <th><div className="th-content"><span><HiArrowsUpDown className='tableArrowIcon'/> İş qrafiki</span></div></th>
+              <th><div className="th-content"><span>Status</span></div></th>
+              <th><div className="th-content"><span>Düzəliş</span></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredEmployees.map((emp) => (
+              <tr key={emp.id}>
+                <td>{emp.username}</td>
+                <td>{emp.name}</td>
+                <td>{emp.surname}</td>
+                <td>{emp.patronymic}</td>
+                <td>{emp.phone}</td>
+                <td>{emp.authorities.join(', ')}</td>
+                <td>{emp.workSchedule}</td>
+                <td>
+                  <span className={`status ${emp.enabled ? 'active' : 'passive'}`}>
+                    {getStatus(emp)}
+                  </span>
+                </td>
+                <td>
+                  <div className="actionsWrapper">
+                    {icons.map((iconObj, index) => {
+                      const Icon = iconObj.icon;
+                      return (
+                        <Icon
+                          key={index}
+                          className={`icon ${iconObj.className}`}
+                          onClick={() => iconObj.action(emp)}
+                        />
+                      );
+                    })}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 
