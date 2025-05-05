@@ -102,30 +102,7 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
             onSubmit(formData);
         }
     };
-
-    const samplDataforList = [
-        {
-            id: 1,
-            name: "Məhsul 1",
-            price: 100,
-        },
-        {
-            id: 2,
-            name: "Məhsul 2",
-            price: 200,
-        },
-        {
-            id: 3,
-            name: "Məhsul 3",
-            price: 300,
-        },
-        {
-            id: 4,
-            name: "Məhsul 4",
-            price: 400,
-        },
-    ];
-
+    
     const columns = [
         {
             key: "categoryName",

@@ -21,7 +21,9 @@ function AddUser() {
         if (isSuccess) {
             toast.success("Uğurla yaradıldı");
             navigate("/users");
+            
         }
+
     }, [isError, isSuccess]);
 
     return (

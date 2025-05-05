@@ -3,6 +3,7 @@ import "../../assets/style/OrdinaryListStyle/ordinarylist.css";
 
 // Icons
 import { HiArrowsUpDown } from "react-icons/hi2";
+import { TbUserCancel } from "react-icons/tb";
 
 function OrdinaryList({ tableHead, tableData, icons = [] }) {
   return (
@@ -10,17 +11,16 @@ function OrdinaryList({ tableHead, tableData, icons = [] }) {
       <table className="employeeTable">
         <thead>
           <tr>
-            {/* Yeni column üçün başlıq əlavə edirik */}
             <th>
               <div className="th-content">
                 <HiArrowsUpDown className="arrowsIcon" />
-                <span>{tableData.length===0?"0":`1-${tableData.length}`}</span>
+                <span>{tableData.length === 0 ? "0" : `1-${tableData.length}`}</span>
               </div>
             </th>
             {tableHead.map((title, idx) => (
               <th key={idx}>
                 <div className="th-content">
-                  <HiArrowsUpDown className="arrowsIcon"/>
+                  <HiArrowsUpDown className="arrowsIcon" />
                   <span>{title}</span>
                 </div>
               </th>
@@ -38,7 +38,6 @@ function OrdinaryList({ tableHead, tableData, icons = [] }) {
         <tbody>
           {tableData.map((row, rowIndex) => (
             <tr key={rowIndex}>
-              {/* Sıra nömrəsi */}
               <td>{rowIndex + 1}</td>
               {tableHead.map((headKey, colIndex) => {
                 const key = Object.keys(row)[colIndex];
@@ -67,23 +66,43 @@ function OrdinaryList({ tableHead, tableData, icons = [] }) {
                   );
                 }
 
+                // Qara siyahı üçün xüsusi icon və rəng
+                if (key === "blocked") {
+                  return (
+                    <td key={colIndex}>
+                      <span
+                        style={{
+                          backgroundColor: value ? "#E74848" : "#A6A6A6",
+                          color: "#fff",
+                          padding: "5px 10px",
+                          borderRadius: "5px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "5px"
+                        }}
+                      >
+                        <TbUserCancel />
+                      </span>
+                    </td>
+                  );
+                }
+
                 return <td key={colIndex}>{value}</td>;
               })}
               {icons.length > 0 && (
-                <td className="actions">
-                  <div className="actionsWrapper">
-                    {icons.map((iconObj, iconIdx) => (
-                      <span
-                        key={iconIdx}
-                        onClick={() => iconObj.action(row)}
-                        style={{ cursor: "pointer" }}
+                <td className="actionsCell">
+                  {icons.map((iconItem, idx) => {
+                    const IconComp = iconItem.icon;
+                    return (
+                      <button
+                        key={idx}
+                        className={`actionBtn ${iconItem.className}`}
+                        onClick={() => iconItem.action(row)}
                       >
-                        {React.createElement(iconObj.icon, {
-                          className: `icon ${iconObj.className || ""}`,
-                        })}
-                      </span>
-                    ))}
-                  </div>
+                        <IconComp />
+                      </button>
+                    );
+                  })}
                 </td>
               )}
             </tr>
