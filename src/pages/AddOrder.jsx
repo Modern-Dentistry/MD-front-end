@@ -1,6 +1,6 @@
 import React from "react";
-import EditIcon from "../assets/icons/edit";
-import DeleteIcon from "../assets/icons/delete";
+import EditIcon from "../assets/icons/Edit";
+import DeleteIcon from "../assets/icons/Delete";
 import OrderForm from "../components/OrderForm";
 const AddOrder = () => {
     return (

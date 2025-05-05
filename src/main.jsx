@@ -21,6 +21,7 @@ import AddUser from "./pages/AddUser";
 import ViewUser from "./pages/ViewUser";
 import AddPatient from "./pages/AddPatient";
 // import General from "./pages/patient/General";
+import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
 import Plans from "./pages/patient/Plans";
 import Treatment from "./pages/patient/Treatment";
@@ -34,13 +35,13 @@ import EmployeesList from "./pages/Employees/EmployeesList";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import EditSpeciality from "./pages/SpecialitiesPage/EditSpeciality";
 import AcademicDegrees from "./pages/AcademicDegrees/AcademicDegrees";
-import Video from "./pages/patient/Video";
+// import Video from "./pages/patient/Video";
 import Insurance from "./pages/patient/Insurance";
 import XRay from "./pages/patient/XRay";
-import History from "./pages/patient/History";
-import Appointments from "./pages/patient/Appointments";
-import Documents from "./pages/patient/Documents";
-import Notes from "./pages/patient/Notes";
+// import History from "./pages/patient/History";
+// import Appointments from "./pages/patient/Appointments";
+// import Documents from "./pages/patient/Documents";
+// import Notes from "./pages/patient/Notes";
 import PlanCompare from "./pages/patient/PlanCompare";
 import EditPlan from "./pages/patient/EditPlan";
 import CreatePlan from "./pages/patient/CreatePlan";
@@ -113,7 +114,7 @@ import CabinetList from "./pages/settings/cabinets/CabinetList";
 import CabinetDetail from "./pages/settings/cabinets/CabinetDetail";
 
 import ClinicStock from "./pages/ClinicStock";
-// import AddOrder from "./pages/AddOrder";
+import AddOrder from "./pages/AddOrder";
 import CabinetStock from "./pages/CabinetStock";
 import AddMetal from "./pages/Metals/AddMetal";
 import EditCeramic from "./pages/Ceramics/EditCeramic";
@@ -202,7 +203,7 @@ const AnimatedRoutes = () => {
       <div className="app-wrapper">
       <Routes location={location} key={location.pathname} >
         {/* Authentication Routes */}
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/" element={<LogIn />} />
         
         <Route element={<Layout />}>
           {/* Default Route */}
@@ -215,6 +216,7 @@ const AnimatedRoutes = () => {
           <Route path="/ceramics" element={<Ceramics/>}/>
           <Route path="/edit-ceramic/:id" element={<EditCeramic/>}/>
           <Route path="/add-ceramic" element={<AddCeramic/>}/>
+          <Route path="/employee-add" element={<EmployeeAdd/>}/>
 
           <Route path="/metals" element={<Metals/>}/>
           <Route path="/edit-metal/:id" element={<EditMetal/>}/>

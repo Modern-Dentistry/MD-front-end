@@ -9,7 +9,7 @@ import { GoTrash } from "react-icons/go";
 import { HiOutlineArrowsUpDown } from "react-icons/hi2";
 
 // Style
-import "../../assets/style/AcademicDegrees/AcademicDegrees.css";
+import "../../assets/style/AcademicDegrees/academicdegrees.css";
 
 // Libraries
 import { Link } from 'react-router-dom';
