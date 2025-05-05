@@ -54,6 +54,8 @@ import Specialities from "./pages/SpecialitiesPage/Specialities";
 import AddSpeciality from "./pages/SpecialitiesPage/AddSpeciality";
 import EditMetal from "./pages/Metals/EditMetal";
 
+import OrderStatus from "./pages/OrderStatus/OrderStatus";
+
 import Ceramics from "./pages/Ceramics/Ceramics";
 
 // Blaclist Page
@@ -119,6 +121,11 @@ import CabinetStock from "./pages/CabinetStock";
 import AddMetal from "./pages/Metals/AddMetal";
 import EditCeramic from "./pages/Ceramics/EditCeramic";
 import AddCeramic from "./pages/Ceramics/AddCeramic";
+import AddOrderStatus from "./pages/OrderStatus/AddOrderStatus";
+import EditOrderStatus from "./pages/OrderStatus/EditOrderStatus";
+import Permissions from "./pages/PermissionsPage/Permissions";
+import AddPermission from "./pages/PermissionsPage/AddPermisssion";
+import EditPermission from "./pages/PermissionsPage/EditPermission";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: '1', label: 'Otaq 1' },
@@ -224,7 +231,13 @@ const AnimatedRoutes = () => {
           <Route path="/academic-degrees" element={<AcademicDegrees/>}/>
           <Route path="/edit-degree/:id" element={<EditAcademicDegrees/>}/>
           <Route path="/add-degree" element={<AddAcademicDegrees/>}/>          
+          <Route path="/order-status" element={<OrderStatus/>}/>
+          <Route path="/add-order-status" element={<AddOrderStatus/>}/>
+          <Route path="/edit-order-status" element={<EditOrderStatus/>}/>
 
+          <Route path="/permissions" element={<Permissions/>}/>
+          <Route path="/add-permission" element={<AddPermission/>}/>
+          <Route path="/edit-permission" element={<EditPermission/>}/>
           {/* User Management Routes */}
           <Route path="/user/add" element={<AddUser />} />
           <Route path="/user/:id" element={<ViewUser />} />

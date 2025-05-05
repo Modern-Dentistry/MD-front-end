@@ -112,6 +112,8 @@ const SidebarMenu = () => {
         { id: 82, title: 'Keramikalar', path: '/ceramics' },
         { id: 83, title: 'Elmi dərəcələr', path: '/academic-degrees' },
         { id: 84, title: 'Metallar', path: '/metals' },
+        { id: 85, title: 'İcazələr', path: '/permissions' },
+        { id: 86, title: 'Sifariş statusları', path: '/order-status' },
       ]
     }
   ];
