@@ -1,13 +1,19 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route, useParams, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Style
@@ -29,7 +35,7 @@ import History from "./pages/patient/History";
 import EditHistory from "./pages/patient/EditHistory";
 import Prescription from "./pages/patient/Prescription";
 import ViewPrescription from "./pages/patient/ViewPrescription";
-import CreateInsurance from "./pages/patient/CreateInsurance"
+import CreateInsurance from "./pages/patient/CreateInsurance";
 import ViewInsurance from "./pages/patient/ViewInsurance";
 import EmployeesList from "./pages/Employees/EmployeesList";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
@@ -45,7 +51,7 @@ import XRay from "./pages/patient/XRay";
 import PlanCompare from "./pages/patient/PlanCompare";
 import EditPlan from "./pages/patient/EditPlan";
 import CreatePlan from "./pages/patient/CreatePlan";
-import EmployeeDetails from "./pages/EmployeeDetails"
+import EmployeeDetails from "./pages/EmployeeDetails";
 import EmployeeSchedule from "./pages/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
@@ -66,7 +72,6 @@ import AddAcademicDegrees from "./pages/AcademicDegrees/AddAcademicDegrees";
 import EditAcademicDegrees from "./pages/AcademicDegrees/EditAcademicDegrees";
 
 import Metals from "./pages/Metals/Metals";
-
 
 import PatientsList from "./pages/Patients/PatientsList";
 import QueueList from "./pages/Queue/QueueList";
@@ -128,11 +133,11 @@ import AddPermission from "./pages/PermissionsPage/AddPermisssion";
 import EditPermission from "./pages/PermissionsPage/EditPermission";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
-  { value: '1', label: 'Otaq 1' },
-  { value: '2', label: 'Otaq 2' },
-  { value: '3', label: 'Otaq 3' },
-  { value: '4', label: 'Otaq 4' },
-  { value: '5', label: 'Otaq 5' },
+  { value: "1", label: "Otaq 1" },
+  { value: "2", label: "Otaq 2" },
+  { value: "3", label: "Otaq 3" },
+  { value: "4", label: "Otaq 4" },
+  { value: "5", label: "Otaq 5" },
 ];
 
 const employees = [
@@ -141,52 +146,71 @@ const employees = [
     name: "Rüstəm Məmmədov",
     position: "Diş həkimi",
     schedule: [
-      { date: '2025-03-25', startTime: '09:00', endTime: '14:00', room: '1' },
-      { date: '2025-03-26', startTime: '10:00', endTime: '17:00', room: '2' },
-      { date: '2025-03-27', startTime: '09:00', endTime: '13:00', room: '3' },
-      { date: '2025-03-28', startTime: '14:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-29', startTime: '09:00', endTime: '15:00', room: '2' }
-    ]
+      { date: "2025-03-25", startTime: "09:00", endTime: "14:00", room: "1" },
+      { date: "2025-03-26", startTime: "10:00", endTime: "17:00", room: "2" },
+      { date: "2025-03-27", startTime: "09:00", endTime: "13:00", room: "3" },
+      { date: "2025-03-28", startTime: "14:00", endTime: "18:00", room: "1" },
+      { date: "2025-03-29", startTime: "09:00", endTime: "15:00", room: "2" },
+    ],
   },
   {
     id: 2,
     name: "Aysel Hüseynova",
     position: "Ortodont",
     schedule: [
-      { date: '2025-03-25', startTime: '11:00', endTime: '18:00', room: '2' },
-      { date: '2025-03-26', startTime: '09:00', endTime: '14:00', room: '3' },
-      { date: '2025-03-27', startTime: '13:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-28', startTime: '09:00', endTime: '13:00', room: '2' },
-      { date: '2025-03-29', startTime: '14:00', endTime: '18:00', room: '3' }
-    ]
+      { date: "2025-03-25", startTime: "11:00", endTime: "18:00", room: "2" },
+      { date: "2025-03-26", startTime: "09:00", endTime: "14:00", room: "3" },
+      { date: "2025-03-27", startTime: "13:00", endTime: "18:00", room: "1" },
+      { date: "2025-03-28", startTime: "09:00", endTime: "13:00", room: "2" },
+      { date: "2025-03-29", startTime: "14:00", endTime: "18:00", room: "3" },
+    ],
   },
   {
     id: 3,
     name: "Fərid Qafarov",
     position: "Cərrah",
     schedule: [
-      { date: '2025-03-25', startTime: '09:00', endTime: '13:00', room: '3' },
-      { date: '2025-03-26', startTime: '14:00', endTime: '18:00', room: '1' },
-      { date: '2025-03-27', startTime: '09:00', endTime: '15:00', room: '2' },
-      { date: '2025-03-28', startTime: '10:00', endTime: '16:00', room: '3' },
-      { date: '2025-03-29', startTime: '09:00', endTime: '12:00', room: '1' }
-    ]
+      { date: "2025-03-25", startTime: "09:00", endTime: "13:00", room: "3" },
+      { date: "2025-03-26", startTime: "14:00", endTime: "18:00", room: "1" },
+      { date: "2025-03-27", startTime: "09:00", endTime: "15:00", room: "2" },
+      { date: "2025-03-28", startTime: "10:00", endTime: "16:00", room: "3" },
+      { date: "2025-03-29", startTime: "09:00", endTime: "12:00", room: "1" },
+    ],
   },
 ];
 
 // İş saatları
 const WORK_HOURS = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
-  '18:00'
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
+  "12:00",
+  "12:30",
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30",
+  "18:00",
 ];
 
 // Həftə günlərinin qısaldılmış adları
-const WEEKDAYS_SHORT = ['B.e', 'Ç.a', 'Ç', 'C.a', 'C', 'Ş', 'B'];
+const WEEKDAYS_SHORT = ["B.e", "Ç.a", "Ç", "C.a", "C", "Ş", "B"];
 
 // Create a client
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
+// src/index.js və ya src/App.js
+console.log("✅ API_BASE_URL:", import.meta.env.VITE_BASE_URL);
+console.log("✅ All Env Variables:", import.meta.env);
+
 
 const PageTransition = ({ children }) => {
   return (
@@ -195,8 +219,7 @@ const PageTransition = ({ children }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      style={{ width: '100%', height: '100%' }}
-    >
+      style={{ width: "100%", height: "100%" }}>
       {children}
     </motion.div>
   );
@@ -208,164 +231,221 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <div className="app-wrapper">
-      <Routes location={location} key={location.pathname} >
-        {/* Authentication Routes */}
-        <Route path="/" element={<LogIn />} />
-        
-        <Route element={<Layout />}>
-          {/* Default Route */}
-          <Route path="/specialities" element={<Specialities/>}/>
-          <Route path="/edit-speciality/:id" element={<EditSpeciality/>}/>
-          <Route path="/add-speciality" element={<AddSpeciality/>}/>
-          <Route path="/blacklist" element={<Blacklist/>}/>
-          <Route path="/change-password" element={<ChangePassword/> }/>
-          <Route path="*" element={<PatientsList />} />
-          <Route path="/ceramics" element={<Ceramics/>}/>
-          <Route path="/edit-ceramic/:id" element={<EditCeramic/>}/>
-          <Route path="/add-ceramic" element={<AddCeramic/>}/>
-          <Route path="/employee-add" element={<EmployeeAdd/>}/>
+        <Routes location={location} key={location.pathname}>
+          {/* Authentication Routes */}
+          <Route path="/" element={<LogIn />} />
 
-          <Route path="/metals" element={<Metals/>}/>
-          <Route path="/edit-metal/:id" element={<EditMetal/>}/>
-          <Route path="/add-metal" element={<AddMetal/>}/>
-          <Route path="/academic-degrees" element={<AcademicDegrees/>}/>
-          <Route path="/edit-degree/:id" element={<EditAcademicDegrees/>}/>
-          <Route path="/add-degree" element={<AddAcademicDegrees/>}/>          
-          <Route path="/order-status" element={<OrderStatus/>}/>
-          <Route path="/add-order-status" element={<AddOrderStatus/>}/>
-          <Route path="/edit-order-status" element={<EditOrderStatus/>}/>
+          <Route element={<Layout />}>
+            {/* Default Route */}
+            <Route path="/specialities" element={<Specialities />} />
+            <Route path="/edit-speciality/:id" element={<EditSpeciality />} />
+            <Route path="/add-speciality" element={<AddSpeciality />} />
+            <Route path="/blacklist" element={<Blacklist />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="*" element={<PatientsList />} />
+            <Route path="/ceramics" element={<Ceramics />} />
+            <Route path="/edit-ceramic/:id" element={<EditCeramic />} />
+            <Route path="/add-ceramic" element={<AddCeramic />} />
+            <Route path="/employee-add" element={<EmployeeAdd />} />
 
-          <Route path="/permissions" element={<Permissions/>}/>
-          <Route path="/add-permission" element={<AddPermission/>}/>
-          <Route path="/edit-permission" element={<EditPermission/>}/>
-          {/* User Management Routes */}
-          <Route path="/user/add" element={<AddUser />} />
-          <Route path="/user/:id" element={<ViewUser />} />
+            <Route path="/metals" element={<Metals />} />
+            <Route path="/edit-metal/:id" element={<EditMetal />} />
+            <Route path="/add-metal" element={<AddMetal />} />
+            <Route path="/academic-degrees" element={<AcademicDegrees />} />
+            <Route path="/edit-degree/:id" element={<EditAcademicDegrees />} />
+            <Route path="/add-degree" element={<AddAcademicDegrees />} />
+            <Route path="/order-status" element={<OrderStatus />} />
+            <Route path="/add-order-status" element={<AddOrderStatus />} />
+            <Route path="/edit-order-status" element={<EditOrderStatus />} />
 
-          {/* Patient Management Routes */}
-          <Route path="/patient/add" element={<AddPatient />} />
-          <Route path="/patients" element={<PatientsList />} />
-          <Route path="/patient/:id" element={<PatientLayout />}>
-            {/* <Route path="general" element={<General />} /> */}
-            <Route path="examination" element={<Examination />} />
-            <Route path="plans" element={<Plans />} />
-            <Route path="plan/edit" element={<EditPlan />} />
-            <Route path="plan/create" element={<CreatePlan />} />
-            <Route path="compare-plans" element={<PlanCompare />} />
-            <Route path="history" element={<History />} />
-            <Route path="history/edit" element={<EditHistory />} />
-            <Route path="insurance" element={<Insurance />} />
-            <Route path="insurance/:id" element={<ViewInsurance mode="view" />} />
-            <Route path="insurance/:id/edit" element={<ViewInsurance mode="edit" />} />
-            <Route path="insurance/create" element={<CreateInsurance />} />
-            <Route path="treatment" element={<Treatment />} />
-            <Route path="xray" element={<XRay />} />
-            <Route path="prescription" element={<Prescription />} />
-            <Route path="prescription/:id" element={<ViewPrescription mode="view" />} />
-            <Route path="prescription/:id/edit" element={<ViewPrescription mode="edit" />} />
+            <Route path="/permissions" element={<Permissions />} />
+            <Route path="/add-permission" element={<AddPermission />} />
+            <Route path="/edit-permission" element={<EditPermission />} />
+            {/* User Management Routes */}
+            <Route path="/user/add" element={<AddUser />} />
+            <Route path="/user/:id" element={<ViewUser />} />
+
+            {/* Patient Management Routes */}
+            <Route path="/patient/add" element={<AddPatient />} />
+            <Route path="/patients" element={<PatientsList />} />
+            <Route path="/patient/:id" element={<PatientLayout />}>
+              {/* <Route path="general" element={<General />} /> */}
+              <Route path="examination" element={<Examination />} />
+              <Route path="plans" element={<Plans />} />
+              <Route path="plan/edit" element={<EditPlan />} />
+              <Route path="plan/create" element={<CreatePlan />} />
+              <Route path="compare-plans" element={<PlanCompare />} />
+              <Route path="history" element={<History />} />
+              <Route path="history/edit" element={<EditHistory />} />
+              <Route path="insurance" element={<Insurance />} />
+              <Route
+                path="insurance/:id"
+                element={<ViewInsurance mode="view" />}
+              />
+              <Route
+                path="insurance/:id/edit"
+                element={<ViewInsurance mode="edit" />}
+              />
+              <Route path="insurance/create" element={<CreateInsurance />} />
+              <Route path="treatment" element={<Treatment />} />
+              <Route path="xray" element={<XRay />} />
+              <Route path="prescription" element={<Prescription />} />
+              <Route
+                path="prescription/:id"
+                element={<ViewPrescription mode="view" />}
+              />
+              <Route
+                path="prescription/:id/edit"
+                element={<ViewPrescription mode="edit" />}
+              />
+            </Route>
+
+            {/* Appointment Management Routes */}
+            <Route
+              path="/appointments"
+              element={
+                <Appointments
+                  roomOptions={roomOptions}
+                  employees={employees}
+                  WORK_HOURS={WORK_HOURS}
+                  WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+                />
+              }
+            />
+            <Route
+              path="/appointment/add"
+              element={
+                <AddNewAppointment
+                  roomOptions={roomOptions}
+                  employees={employees}
+                  WORK_HOURS={WORK_HOURS}
+                  WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+                />
+              }
+            />
+            <Route
+              path="/appointment/card"
+              element={
+                <RandevuCard
+                  roomOptions={roomOptions}
+                  employees={employees}
+                  WORK_HOURS={WORK_HOURS}
+                  WEEKDAYS_SHORT={WEEKDAYS_SHORT}
+                />
+              }
+            />
+
+            {/* Employee Management Routes */}
+            <Route path="/employees" element={<EmployeesList />} />
+            <Route path="/employee/:id" element={<EmployeeDetails />} />
+            <Route path="/employee-schedule" element={<EmployeeSchedule />} />
+
+            {/* Stock Management Routes */}
+            <Route path="/stock/clinic" element={<ClinicStock />} />
+            <Route path="/stock/cabinet" element={<CabinetStock />} />
+
+            {/* Stock Import Routes */}
+            <Route path="/stock/import" element={<StockImportList />} />
+            <Route path="/stock/import/add" element={<AddStockImport />} />
+            <Route
+              path="/stock/import/:id"
+              element={<ImportDetail mode="view" />}
+            />
+            <Route
+              path="/stock/import/:id/edit"
+              element={<ImportDetail mode="edit" />}
+            />
+
+            {/* Stock Order Routes */}
+            <Route path="/stock/order" element={<StockOrderList />} />
+            <Route path="/stock/order/:id" element={<StockOrderDetail />} />
+            <Route path="/stock/order/add" element={<AddStockOrder />} />
+            <Route
+              path="/stock/order/:id/edit"
+              element={<StockOrderDetail mode="edit" />}
+            />
+
+            {/* Stock Entry Routes */}
+            <Route path="/stock/entry" element={<StockEntryList />} />
+            <Route path="/stock/entry/:id" element={<StockEntryDetail />} />
+
+            {/* Stock Delete Routes */}
+            <Route path="/stock/delete" element={<StockDeleteList />} />
+            <Route path="/stock/delete/:id" element={<StockDeleteDetail />} />
+            <Route path="/stock/delete/add" element={<AddStockDelete />} />
+            <Route
+              path="/stock/delete/:id/edit"
+              element={<StockDeleteDetail mode="edit" />}
+            />
+
+            {/* Stock Usage Routes */}
+            <Route path="/stock/usage" element={<ProductUsageList />} />
+            <Route path="/stock/usage/:id" element={<ProductUsageDetail />} />
+
+            {/* Settings Routes */}
+            {/* Examination Settings */}
+            <Route path="/settings/examination" element={<ExaminationList />} />
+            <Route
+              path="/settings/examination/add"
+              element={<AddExamination />}
+            />
+            <Route
+              path="/settings/examination/:id"
+              element={<ExaminationDetail />}
+            />
+
+            {/* Color Settings */}
+            <Route path="/settings/color" element={<ColorList />} />
+            <Route path="/settings/color/add" element={<AddColor />} />
+            <Route path="/settings/color/:id" element={<ColorDetail />} />
+
+            {/* Insurance Settings */}
+            <Route path="/settings/insurance" element={<InsuranceList />} />
+            <Route path="/settings/insurance/add" element={<AddInsurance />} />
+            <Route
+              path="/settings/insurance/:id"
+              element={<InsuranceDetail />}
+            />
+
+            {/* Price Category Settings */}
+            <Route
+              path="/settings/price-category"
+              element={<PriceCategoryList />}
+            />
+            <Route
+              path="/settings/price-category/add"
+              element={<AddPriceCategory />}
+            />
+            <Route
+              path="/settings/price-category/:id"
+              element={<PriceCategoryDetail />}
+            />
+            <Route
+              path="/settings/price-category/:id/edit"
+              element={<PriceCategoryDetail mode="edit" />}
+            />
+
+            {/* Dental Set Settings */}
+            <Route path="/settings/dental-set" element={<DentalSetList />} />
+            <Route path="/settings/dental-set/add" element={<AddDentalSet />} />
+            <Route
+              path="/settings/dental-set/:id"
+              element={<DentalSetDetail />}
+            />
+
+            {/* Cabinet Settings */}
+            <Route path="/settings/cabinet" element={<CabinetList />} />
+            <Route path="/settings/cabinet/add" element={<AddCabinet />} />
+            <Route path="/settings/cabinet/:id" element={<CabinetDetail />} />
+
+            {/* Laboratory Routes */}
+            <Route path="/lab/order/add" element={<AddOrder />} />
+            <Route path="/receiving-orders" element={<ReceivingOrders />} />
+
+            {/* Queue Management */}
+            <Route path="/queue" element={<QueueList />} />
           </Route>
-
-          {/* Appointment Management Routes */}
-          <Route path="/appointments" element={
-            <Appointments
-              roomOptions={roomOptions}
-              employees={employees}
-              WORK_HOURS={WORK_HOURS}
-              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-            />
-          } />
-          <Route path="/appointment/add" element={
-            <AddNewAppointment
-              roomOptions={roomOptions}
-              employees={employees}
-              WORK_HOURS={WORK_HOURS}
-              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-            />
-          } />
-          <Route path="/appointment/card" element={
-            <RandevuCard
-              roomOptions={roomOptions}
-              employees={employees}
-              WORK_HOURS={WORK_HOURS}
-              WEEKDAYS_SHORT={WEEKDAYS_SHORT}
-            />
-          } />
-
-          {/* Employee Management Routes */}
-          <Route path="/employees" element={<EmployeesList />} />
-          <Route path="/employee/:id" element={<EmployeeDetails />} />
-          <Route path="/employee-schedule" element={<EmployeeSchedule />} />
-
-          {/* Stock Management Routes */}
-          <Route path="/stock/clinic" element={<ClinicStock />} />
-          <Route path="/stock/cabinet" element={<CabinetStock />} />
-          
-          {/* Stock Import Routes */}
-          <Route path="/stock/import" element={<StockImportList />} />
-          <Route path="/stock/import/add" element={<AddStockImport />} />
-          <Route path="/stock/import/:id" element={<ImportDetail mode="view" />} />
-          <Route path="/stock/import/:id/edit" element={<ImportDetail mode="edit" />} />
-
-          {/* Stock Order Routes */}
-          <Route path="/stock/order" element={<StockOrderList />} />
-          <Route path="/stock/order/:id" element={<StockOrderDetail />} />
-          <Route path="/stock/order/add" element={<AddStockOrder />} />
-          <Route path="/stock/order/:id/edit" element={<StockOrderDetail mode="edit" />} />
-
-          {/* Stock Entry Routes */}
-          <Route path="/stock/entry" element={<StockEntryList />} />
-          <Route path="/stock/entry/:id" element={<StockEntryDetail />} />
-
-          {/* Stock Delete Routes */}
-          <Route path="/stock/delete" element={<StockDeleteList />} />
-          <Route path="/stock/delete/:id" element={<StockDeleteDetail />} />
-          <Route path="/stock/delete/add" element={<AddStockDelete />} />
-          <Route path="/stock/delete/:id/edit" element={<StockDeleteDetail mode="edit" />} />
-
-          {/* Stock Usage Routes */}
-          <Route path="/stock/usage" element={<ProductUsageList />} />
-          <Route path="/stock/usage/:id" element={<ProductUsageDetail />} />
-
-          {/* Settings Routes */}
-          {/* Examination Settings */}
-          <Route path="/settings/examination" element={<ExaminationList />} />
-          <Route path="/settings/examination/add" element={<AddExamination />} />
-          <Route path="/settings/examination/:id" element={<ExaminationDetail />} />
-
-          {/* Color Settings */}
-          <Route path="/settings/color" element={<ColorList />} />
-          <Route path="/settings/color/add" element={<AddColor />} />
-          <Route path="/settings/color/:id" element={<ColorDetail />} />
-
-          {/* Insurance Settings */}
-          <Route path="/settings/insurance" element={<InsuranceList />} />
-          <Route path="/settings/insurance/add" element={<AddInsurance />} />
-          <Route path="/settings/insurance/:id" element={<InsuranceDetail />} />
-
-          {/* Price Category Settings */}
-          <Route path="/settings/price-category" element={<PriceCategoryList />} />
-          <Route path="/settings/price-category/add" element={<AddPriceCategory />} />
-          <Route path="/settings/price-category/:id" element={<PriceCategoryDetail />} />
-          <Route path="/settings/price-category/:id/edit" element={<PriceCategoryDetail mode="edit" />} />
-
-          {/* Dental Set Settings */}
-          <Route path="/settings/dental-set" element={<DentalSetList />} />
-          <Route path="/settings/dental-set/add" element={<AddDentalSet />} />
-          <Route path="/settings/dental-set/:id" element={<DentalSetDetail />} />
-
-          {/* Cabinet Settings */}
-          <Route path="/settings/cabinet" element={<CabinetList />} />
-          <Route path="/settings/cabinet/add" element={<AddCabinet />} />
-          <Route path="/settings/cabinet/:id" element={<CabinetDetail />} />
-
-          {/* Laboratory Routes */}
-          <Route path="/lab/order/add" element={<AddOrder />} />
-          <Route path="/receiving-orders" element={<ReceivingOrders />} />
-
-          {/* Queue Management */}
-          <Route path="/queue" element={<QueueList />} />
-        </Route>
-      </Routes>
+        </Routes>
       </div>
     </AnimatePresence>
   );

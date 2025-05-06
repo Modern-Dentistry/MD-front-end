@@ -2,6 +2,9 @@ import axiosInstance from "./temp-axios-auth";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+
+console.log("✅ API_BASE_URL:", API_BASE_URL);
+
 export const createWorker = async (workerData) => {
   try {
     const response = await axiosInstance.post(
@@ -10,11 +13,10 @@ export const createWorker = async (workerData) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error creating worker:", error);
+    console.error("❌ Error creating worker:", error);
     throw error;
   }
 };
-
 export const readWorkers = async () => {
   try {
     const response = await axiosInstance.get(`${API_BASE_URL}/add-worker/read`);
