@@ -131,6 +131,9 @@ import EditOrderStatus from "./pages/OrderStatus/EditOrderStatus";
 import Permissions from "./pages/PermissionsPage/Permissions";
 import AddPermission from "./pages/PermissionsPage/AddPermisssion";
 import EditPermission from "./pages/PermissionsPage/EditPermission";
+import BlacklistReasons from "./pages/BlackListReasons/BlacklistReasons";
+import AddReason from "./pages/BlackListReasons/AddReason";
+import EditReason from "./pages/BlackListReasons/EditReason";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -233,9 +236,11 @@ const AnimatedRoutes = () => {
       <div className="app-wrapper">
         <Routes location={location} key={location.pathname}>
           {/* Authentication Routes */}
-          <Route path="/" element={<LogIn />} />
-
+            <Route path="/" element={<LogIn />} />
           <Route element={<Layout />}>
+            <Route path="/blacklist-reasons" element={<BlacklistReasons/>}/>
+            <Route path="/add-reason" element={<AddReason/>}/>
+            <Route path="/edit-reason" element={<EditReason/>}/>
             {/* Default Route */}
             <Route path="/specialities" element={<Specialities />} />
             <Route path="/edit-speciality/:id" element={<EditSpeciality />} />

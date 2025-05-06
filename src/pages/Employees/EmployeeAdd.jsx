@@ -105,10 +105,10 @@ function EmployeeAdd() {
     const lastName = surnameRef.current.value.trim();
   
     let finalProfileImage = profileImage;
-    if (finalProfileImage === deffaultPFP && firstName && lastName) {
-      const fullName = `${firstName}${lastName}`.replace(/\s/g, '');
-      finalProfileImage = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(fullName)}`;
-    }
+    // if (finalProfileImage === deffaultPFP && firstName && lastName) {
+    //   const fullName = ${firstName}${lastName}.replace(/\s/g, '');
+    //   finalProfileImage = https://avatar.iran.liara.run/username?username=${encodeURIComponent(fullName)};
+    // }
   
     const newWorker = {
       username: usernameRef.current.value,
@@ -402,4 +402,4 @@ function EmployeeAdd() {
   );
 }
 
-export default EmployeeAdd;
+export default EmployeeAdd;

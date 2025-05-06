@@ -182,6 +182,7 @@ const SidebarMenu = () => {
         { id: 84, title: "Metallar", path: "/metals" },
         { id: 85, title: "İcazələr", path: "/permissions" },
         { id: 86, title: "Sifariş statusları", path: "/order-status" },
+        { id: 86, title: "Qara siyahı səbəblər", path: "/blacklist-reasons" },
       ],
     },
   ];
