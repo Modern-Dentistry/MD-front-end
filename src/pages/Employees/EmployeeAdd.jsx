@@ -133,7 +133,7 @@ function EmployeeAdd() {
       await addWorker(newWorker);
       alert("İşçi uğurla əlavə edildi!");
       // Reset form after successful submission
-      handleCancel();
+      // handleCancel();
     } catch (error) {
       alert(
         "Xəta baş verdi: " + (error.response?.data?.message || error.message)
