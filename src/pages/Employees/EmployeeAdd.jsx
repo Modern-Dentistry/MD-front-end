@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 import "../../assets/style/EmployeesPage/addemployee.css";
 import deffaultPFP from "../../assets/images/EmployeesPage/exampleEmployee.png";
 import verifyIcon from "../../assets/images/EmployeesPage/verifyProcess.png";
 import cancelIcon from "../../assets/images/EmployeesPage/cancelProcess.png";
-import useWorkerStore from "../../../stores/ workerStore"; 
+import useWorkerStore from "../../../stores/workerStore";
 
 function EmployeeAdd() {
   const { addWorker } = useWorkerStore();
@@ -14,42 +14,29 @@ function EmployeeAdd() {
   const usernameRef = useRef();
   const nameRef = useRef();
   const surnameRef = useRef();
-  const fatherNameRef = useRef();
-  const finRef = useRef();
+  const patronymicRef = useRef();
+  const finCodeRef = useRef();
   const passwordRef = useRef();
-  const colorRef = useRef();
-  const birthDateRef = useRef();
-  const academicDegreeRef = useRef();
-  const mobile1Ref = useRef();
-  const mobile2Ref = useRef();
-  const mobile3Ref = useRef();
+  const colorCodeRef = useRef();
+  const dateOfBirthRef = useRef();
+  const degreeRef = useRef();
+  const phoneRef = useRef();
+  const phone2Ref = useRef();
+  const phone3Ref = useRef();
   const homePhoneRef = useRef();
   const emailRef = useRef();
   const addressRef = useRef();
-  const surgeryRef = useRef();
-  const endodonticsRef = useRef();
-  const implantologyRef = useRef();
-  const orthopedicsRef = useRef();
-  const hygieneRef = useRef();
-  const therapyRef = useRef();
-  const pediatricRef = useRef();
-  const periodontologyRef = useRef();
-  const orthodonticsRef = useRef();
-  const xrayRef = useRef();
-  const laserRef = useRef();
-  const anesthesiaRef = useRef();
-  const passiveRef = useRef();
-  const otherRef = useRef();
+  const experienceRef = useRef();
 
-  const permissions = [
-    "TAM İCAZƏ",
-    "RESEPSİONİST",
-    "TİBB BACISI",
-    "DİŞ TEXNİKLƏRİ",
-    "MALİYYƏ HESABAT",
-    "ANBAR",
-    "Həkim tam icazə",
-    "Həkim limitli"
+  const authorities = [
+    "ADMIN",
+    "RECEPTIONIST",
+    "NURSE",
+    "DENTAL_TECHNICIAN",
+    "FINANCE_REPORT",
+    "WAREHOUSE",
+    "DOCTOR_FULL",
+    "DOCTOR_LIMITED",
   ];
 
   const handleImageUpload = (e) => {
@@ -69,24 +56,38 @@ function EmployeeAdd() {
 
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!usernameRef.current.value) newErrors.username = "İstifadəçi adı tələb olunur";
+
+    if (!usernameRef.current.value)
+      newErrors.username = "İstifadəçi adı tələb olunur";
     if (!nameRef.current.value) newErrors.name = "Ad tələb olunur";
     if (!surnameRef.current.value) newErrors.surname = "Soyad tələb olunur";
-    if (!fatherNameRef.current.value) newErrors.fatherName = "Ata adı tələb olunur";
-    if (!document.querySelector('input[name="gender"]:checked')) newErrors.gender = "Cinsiyyət tələb olunur";
-    if (!finRef.current.value) newErrors.fin = "Fin kodu tələb olunur";
+    if (!patronymicRef.current.value)
+      newErrors.patronymic = "Ata adı tələb olunur";
+    if (!document.querySelector('input[name="genderStatus"]:checked'))
+      newErrors.genderStatus = "Cinsiyyət tələb olunur";
+
+    // FIN code validation - must be exactly 7 uppercase letters/numbers
+    if (!finCodeRef.current.value) {
+      newErrors.finCode = "Fin kodu tələb olunur";
+    } else if (!/^[A-Z0-9]{7}$/.test(finCodeRef.current.value)) {
+      newErrors.finCode =
+        "FIN kod yalnız böyük hərflər və rəqəmlərdən ibarət 7 simvol olmalıdır";
+    }
+
     if (!passwordRef.current.value) newErrors.password = "Şifrə tələb olunur";
-    if (!birthDateRef.current.value) newErrors.birthDate = "Doğum tarixi tələb olunur";
-    if (!mobile1Ref.current.value) newErrors.mobile1 = "Mobil nömrə tələb olunur";
-    if (!homePhoneRef.current.value) newErrors.homePhone = "Ev telefonu tələb olunur";
+    if (!dateOfBirthRef.current.value)
+      newErrors.dateOfBirth = "Doğum tarixi tələb olunur";
+    if (!phoneRef.current.value) newErrors.phone = "Mobil nömrə tələb olunur";
+    if (!homePhoneRef.current.value)
+      newErrors.homePhone = "Ev telefonu tələb olunur";
     if (!emailRef.current.value) {
       newErrors.email = "E-poçt tələb olunur";
     } else if (!/^\S+@\S+\.\S+$/.test(emailRef.current.value)) {
       newErrors.email = "Yanlış e-poçt formatı";
     }
     if (!addressRef.current.value) newErrors.address = "Ünvan tələb olunur";
-    if (!document.querySelector('input[name="permission"]:checked')) newErrors.permission = "İcazə növü tələb olunur";
+    if (!document.querySelector('input[name="authority"]:checked'))
+      newErrors.authority = "İcazə növü tələb olunur";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -94,99 +95,89 @@ function EmployeeAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-  
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    const permission = document.querySelector('input[name="permission"]:checked').value;
-  
-    // Ad və soyadla avatar linki qur
-    const firstName = nameRef.current.value.trim();
-    const lastName = surnameRef.current.value.trim();
-  
-    let finalProfileImage = profileImage;
-    if (finalProfileImage === deffaultPFP && firstName && lastName) {
-      const fullName = `${firstName}${lastName}`.replace(/\s/g, '');
-      finalProfileImage = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(fullName)}`;
-    }
-  
+
+    const genderStatus = document.querySelector(
+      'input[name="genderStatus"]:checked'
+    ).value;
+    const authority = document.querySelector(
+      'input[name="authority"]:checked'
+    ).value;
+
     const newWorker = {
       username: usernameRef.current.value,
-      name: firstName,
-      surname: lastName,
-      fatherName: fatherNameRef.current.value,
-      gender,
-      fin: finRef.current.value,
       password: passwordRef.current.value,
-      color: colorRef.current.value,
-      birthDate: birthDateRef.current.value,
-      academicDegree: academicDegreeRef.current.value,
-      profileImage: finalProfileImage,
-      contacts: {
-        mobile1: mobile1Ref.current.value,
-        mobile2: mobile2Ref.current?.value || '',
-        mobile3: mobile3Ref.current?.value || '',
-        homePhone: homePhoneRef.current.value,
-        email: emailRef.current.value,
-        address: addressRef.current.value
-      },
-      permissions: permission,
-      maxDiscounts: {
-        surgery: surgeryRef.current.value || 0,
-        endodontics: endodonticsRef.current.value || 0,
-        implantology: implantologyRef.current.value || 0,
-        orthopedics: orthopedicsRef.current.value || 0,
-        hygiene: hygieneRef.current.value || 0,
-        therapy: therapyRef.current.value || 0,
-        pediatric: pediatricRef.current.value || 0,
-        periodontology: periodontologyRef.current.value || 0,
-        orthodontics: orthodonticsRef.current.value || 0,
-        xray: xrayRef.current.value || 0,
-        laser: laserRef.current.value || 0,
-        anesthesia: anesthesiaRef.current.value || 0,
-        passive: passiveRef.current.value || 0,
-        other: otherRef.current.value || 0
-      }
+      name: nameRef.current.value,
+      surname: surnameRef.current.value,
+      patronymic: patronymicRef.current.value,
+      finCode: finCodeRef.current.value.toUpperCase(), // Ensure uppercase
+      colorCode: colorCodeRef.current.value || "#000000",
+      genderStatus,
+      dateOfBirth: dateOfBirthRef.current.value,
+      degree: degreeRef.current.value || "",
+      phone: phoneRef.current.value,
+      phone2: phone2Ref.current?.value || "",
+      phone3: phone3Ref.current?.value || "",
+      homePhone: homePhoneRef.current.value,
+      email: emailRef.current.value,
+      address: addressRef.current.value,
+      experience: experienceRef.current?.value
+        ? parseInt(experienceRef.current.value)
+        : 0,
+      authorities: [authority],
+      profileImage,
     };
-  
+
     try {
       await addWorker(newWorker);
-      alert('İşçi uğurla əlavə edildi!');
-      // Burada yönləndirmə və ya form sıfırlama ola bilər
+      alert("İşçi uğurla əlavə edildi!");
+      // Reset form after successful submission
+      handleCancel();
     } catch (error) {
-      alert('Xəta baş verdi: ' + error.message);
+      alert(
+        "Xəta baş verdi: " + (error.response?.data?.message || error.message)
+      );
     }
   };
-  
 
   const handleCancel = () => {
-    // Reset form or navigate back
-    if (window.confirm('Formu təmizləmək istədiyinizə əminsinizmi?')) {
-      // Reset all refs
+    if (window.confirm("Formu təmizləmək istədiyinizə əminsinizmi?")) {
       const refs = [
-        usernameRef, nameRef, surnameRef, fatherNameRef, finRef, passwordRef,
-        birthDateRef, mobile1Ref, mobile2Ref, mobile3Ref, homePhoneRef,
-        emailRef, addressRef, surgeryRef, endodonticsRef, implantologyRef,
-        orthopedicsRef, hygieneRef, therapyRef, pediatricRef, periodontologyRef,
-        orthodonticsRef, xrayRef, laserRef, anesthesiaRef, passiveRef, otherRef
+        usernameRef,
+        nameRef,
+        surnameRef,
+        patronymicRef,
+        finCodeRef,
+        passwordRef,
+        colorCodeRef,
+        dateOfBirthRef,
+        degreeRef,
+        phoneRef,
+        phone2Ref,
+        phone3Ref,
+        homePhoneRef,
+        emailRef,
+        addressRef,
+        experienceRef,
       ];
-      
-      refs.forEach(ref => {
-        if (ref.current) ref.current.value = '';
+
+      refs.forEach((ref) => {
+        if (ref.current) ref.current.value = "";
       });
-      
-      // Reset radio buttons
-      const genderRadios = document.querySelectorAll('input[name="gender"]');
-      genderRadios.forEach(radio => radio.checked = false);
-      
-      const permissionRadios = document.querySelectorAll('input[name="permission"]');
-      permissionRadios.forEach(radio => radio.checked = false);
-      
-      // Reset color and image
-      if (colorRef.current) colorRef.current.value = '#000000';
+
+      const genderRadios = document.querySelectorAll(
+        'input[name="genderStatus"]'
+      );
+      genderRadios.forEach((radio) => (radio.checked = false));
+
+      const authorityRadios = document.querySelectorAll(
+        'input[name="authority"]'
+      );
+      authorityRadios.forEach((radio) => (radio.checked = false));
+
+      if (colorCodeRef.current) colorCodeRef.current.value = "#000000";
       setProfileImage(deffaultPFP);
-      
-      // Clear errors
       setErrors({});
     }
   };
@@ -201,197 +192,221 @@ function EmployeeAdd() {
             type="file"
             id="profileImageUpload"
             accept="image/*"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             onChange={handleImageUpload}
           />
-          <label htmlFor="profileImageUpload" className='addEmployeePFP'>
+          <label htmlFor="profileImageUpload" className="addEmployeePFP">
             Şəkil əlavə et
           </label>
-          <button type='button' className='deleteEmployeePFP' onClick={handleRemoveImage}>
+          <button
+            type="button"
+            className="deleteEmployeePFP"
+            onClick={handleRemoveImage}>
             Sil
           </button>
         </div>
       </div>
       <div className="addEmployeeFormPart">
-        <form onSubmit={handleSubmit} className='addEmployeeForm'>
+        <form onSubmit={handleSubmit} className="addEmployeeForm">
           <div className="addEmployeeFormSectionFirst">
             <div className="addEmployeeFormSectionFirstLeft">
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>İstifadəçi adı<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  İstifadəçi adı<span className="requiredStar">*</span>
+                </p>
                 <input type="text" ref={usernameRef} />
-                {errors.username && <span className="error-message">{errors.username}</span>}
+                {errors.username && (
+                  <span className="error-message">{errors.username}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Adı<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  Adı<span className="requiredStar">*</span>
+                </p>
                 <input type="text" ref={nameRef} />
-                {errors.name && <span className="error-message">{errors.name}</span>}
+                {errors.name && (
+                  <span className="error-message">{errors.name}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Soyadı<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  Soyadı<span className="requiredStar">*</span>
+                </p>
                 <input type="text" ref={surnameRef} />
-                {errors.surname && <span className="error-message">{errors.surname}</span>}
+                {errors.surname && (
+                  <span className="error-message">{errors.surname}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Ata adı<span className='requiredStar'>*</span></p>
-                <input type="text" ref={fatherNameRef} />
-                {errors.fatherName && <span className="error-message">{errors.fatherName}</span>}
+                <p className="nameTagForInput">
+                  Ata adı<span className="requiredStar">*</span>
+                </p>
+                <input type="text" ref={patronymicRef} />
+                {errors.patronymic && (
+                  <span className="error-message">{errors.patronymic}</span>
+                )}
               </div>
               <div className="addEmployeeCheckboxGender">
-                <label>Cinsiyyəti<span className='requiredStar'>*</span></label>
+                <label>
+                  Cinsiyyəti<span className="requiredStar">*</span>
+                </label>
                 <div className="inputsForGenders">
                   <div className="malePartSelection">
-                    <input type="radio" name="gender" value="male" /> 
-                    <p className='genderTitleForAdd'>Kişi</p>
+                    <input type="radio" name="genderStatus" value="MAN" />
+                    <p className="genderTitleForAdd">Kişi</p>
                   </div>
                   <div className="femalePartSelection">
-                    <input type="radio" name="gender" value="female" /> 
-                    <p className='genderTitleForAdd'>Qadın</p>
+                    <input type="radio" name="genderStatus" value="WOMAN" />
+                    <p className="genderTitleForAdd">Qadın</p>
                   </div>
                 </div>
-                {errors.gender && <span className="error-message">{errors.gender}</span>}
-              </div>
-              <div className="addEmployeeDataPart ">
-                <p className='nameTagForInput'>Fin kodu<span className='requiredStar'>*</span></p>
-                <input className='uppercase' type="text" ref={finRef} />
-                {errors.fin && <span className="error-message">{errors.fin}</span>}
+                {errors.genderStatus && (
+                  <span className="error-message">{errors.genderStatus}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Şifrə<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  Fin kodu<span className="requiredStar">*</span>
+                </p>
+                <input
+                  type="text"
+                  ref={finCodeRef}
+                  maxLength={7}
+                  onChange={(e) => {
+                    // Automatically convert to uppercase and remove invalid characters
+                    e.target.value = e.target.value
+                      .toUpperCase()
+                      .replace(/[^A-Z0-9]/g, "");
+                  }}
+                />
+                {errors.finCode && (
+                  <span className="error-message">{errors.finCode}</span>
+                )}
+              </div>
+              <div className="addEmployeeDataPart">
+                <p className="nameTagForInput">
+                  Şifrə<span className="requiredStar">*</span>
+                </p>
                 <input type="password" ref={passwordRef} />
-                {errors.password && <span className="error-message">{errors.password}</span>}
+                {errors.password && (
+                  <span className="error-message">{errors.password}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Rəng kodu<span className='requiredStar'>*</span></p>
-                <input type="color" ref={colorRef} defaultValue="#000000" />
+                <p className="nameTagForInput">
+                  Rəng kodu<span className="requiredStar">*</span>
+                </p>
+                <input type="color" ref={colorCodeRef} defaultValue="#000000" />
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Doğum tarixi<span className='requiredStar'>*</span></p>
-                <input type="date" ref={birthDateRef} />
-                {errors.birthDate && <span className="error-message">{errors.birthDate}</span>}
+                <p className="nameTagForInput">
+                  Doğum tarixi<span className="requiredStar">*</span>
+                </p>
+                <input type="date" ref={dateOfBirthRef} />
+                {errors.dateOfBirth && (
+                  <span className="error-message">{errors.dateOfBirth}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Elmi dərəcəsi<span className='requiredStar'>*</span></p>
-                <select ref={academicDegreeRef}>
-                  <option value="">Seçin</option>
-                  <option value="Option 1">Option 1</option>
-                  <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option>
-                </select>
+                <p className="nameTagForInput">Elmi dərəcəsi</p>
+                <input type="text" ref={degreeRef} />
+              </div>
+              <div className="addEmployeeDataPart">
+                <p className="nameTagForInput">Təcrübə (il)</p>
+                <input type="number" ref={experienceRef} min="0" />
               </div>
             </div>
 
             <div className="addEmployeeFormSectionFirstRight">
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Mobil nömrə 1<span className='requiredStar'>*</span></p>
-                <input type="tel" ref={mobile1Ref} />
-                {errors.mobile1 && <span className="error-message">{errors.mobile1}</span>}
+                <p className="nameTagForInput">
+                  Mobil nömrə 1<span className="requiredStar">*</span>
+                </p>
+                <input
+                  type="tel"
+                  ref={phoneRef}
+                  placeholder="(xxx)-xxx-xx-xx"
+                />
+                {errors.phone && (
+                  <span className="error-message">{errors.phone}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Mobil nömrə 2</p>
-                <input type="tel" ref={mobile2Ref} />
+                <p className="nameTagForInput">Mobil nömrə 2</p>
+                <input
+                  type="tel"
+                  ref={phone2Ref}
+                  placeholder="(xxx)-xxx-xx-xx"
+                />
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Mobil nömrə 3</p>
-                <input type="tel" ref={mobile3Ref} />
+                <p className="nameTagForInput">Mobil nömrə 3</p>
+                <input
+                  type="tel"
+                  ref={phone3Ref}
+                  placeholder="(xxx)-xxx-xx-xx"
+                />
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Ev telefonu<span className='requiredStar'>*</span></p>
-                <input type="tel" ref={homePhoneRef} />
-                {errors.homePhone && <span className="error-message">{errors.homePhone}</span>}
+                <p className="nameTagForInput">
+                  Ev telefonu<span className="requiredStar">*</span>
+                </p>
+                <input
+                  type="tel"
+                  ref={homePhoneRef}
+                  placeholder="(xxx)-xxx-xx-xx"
+                />
+                {errors.homePhone && (
+                  <span className="error-message">{errors.homePhone}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>E-poçt ünvanı<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  E-poçt ünvanı<span className="requiredStar">*</span>
+                </p>
                 <input type="email" ref={emailRef} />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+                {errors.email && (
+                  <span className="error-message">{errors.email}</span>
+                )}
               </div>
               <div className="addEmployeeDataPart">
-                <p className='nameTagForInput'>Ünvan<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  Ünvan<span className="requiredStar">*</span>
+                </p>
                 <input type="text" ref={addressRef} />
-                {errors.address && <span className="error-message">{errors.address}</span>}
+                {errors.address && (
+                  <span className="error-message">{errors.address}</span>
+                )}
               </div>
 
               <div className="permisionsDataPart">
-                <p className='nameTagForInput'>İcazələri<span className='requiredStar'>*</span></p>
+                <p className="nameTagForInput">
+                  İcazələri<span className="requiredStar">*</span>
+                </p>
                 <div className="permisionsList">
-                  {permissions.map((perm, idx) => (
+                  {authorities.map((auth, idx) => (
                     <div className="permisionRow" key={idx}>
-                      <input type="radio" name="permission" value={perm} />
-                      <p className='permisionTitle'>{perm}</p>
+                      <input type="radio" name="authority" value={auth} />
+                      <p className="permisionTitle">{auth}</p>
                     </div>
                   ))}
                 </div>
-                {errors.permission && <span className="error-message">{errors.permission}</span>}
+                {errors.authority && (
+                  <span className="error-message">{errors.authority}</span>
+                )}
               </div>
-            </div>
-          </div>
-
-          <div className="addEmployeeDivider" />
-
-          <div className="addEmployeeFormSectionSecond">
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Cərrahiyə)</label>
-              <input type="number" ref={surgeryRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Endodontiya)</label>
-              <input type="number" ref={endodonticsRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (İmplantalogiya)</label>
-              <input type="number" ref={implantologyRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Ortopediya)</label>
-              <input type="number" ref={orthopedicsRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Gigiyena)</label>
-              <input type="number" ref={hygieneRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Terapiya)</label>
-              <input type="number" ref={therapyRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Uşaq stamatologiyası)</label>
-              <input type="number" ref={pediatricRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Paradontologiya)</label>
-              <input type="number" ref={periodontologyRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Ortodontiya)</label>
-              <input type="number" ref={orthodonticsRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Rentgen)</label>
-              <input type="number" ref={xrayRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Lazer xidməti)</label>
-              <input type="number" ref={laserRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Anesteziya)</label>
-              <input type="number" ref={anesthesiaRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Passiv xidmətlər)</label>
-              <input type="number" ref={passiveRef} min="0" max="100000" />
-            </div>
-            <div className="maxDiscountDataPart">
-              <label>Maksimum endirim (Digər)</label>
-              <input type="number" ref={otherRef} min="0" max="100000" />
             </div>
           </div>
 
           <div className="adddEmployeeFormSubmitionButtons">
-            <button type='button' className='cancelProcessButton' onClick={handleCancel}>
+            <button
+              type="button"
+              className="cancelProcessButton"
+              onClick={handleCancel}>
               <img src={cancelIcon} alt="Ləğv et" />
               <p>İmtina et</p>
             </button>
-            <button type='submit' className='acceptProcessButton'>
+            <button type="submit" className="acceptProcessButton">
               <img src={verifyIcon} alt="Təsdiqlə" />
               <p>Yadda saxla</p>
             </button>
