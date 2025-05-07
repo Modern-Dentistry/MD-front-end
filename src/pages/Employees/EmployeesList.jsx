@@ -1,50 +1,109 @@
 import React, { useEffect, useState } from "react";
-
-// Components
 import OrdinaryListHeader from "../../components/OrdinaryList/OrdinaryListHeader";
-
-// Icons
 import { CiSearch, CiCircleInfo } from "react-icons/ci";
 import { GoTrash } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsUpDown } from "react-icons/hi2";
-
-// Style
 import "../../assets/style/EmployeesPage/employeespage.css";
-
-// Store
 import useEmployeeStore from "../../../stores/workerStore";
-const EmployeesList = () => {
-  const { workers, fetchWorkers, removeWorker, loading } = useEmployeeStore();
 
-  const [searchUsername, setSearchUsername] = useState("");
-  const [searchName, setSearchName] = useState("");
-  const [searchSurname, setSearchSurname] = useState("");
-  const [searchPatronymic, setSearchPatronymic] = useState("");
-  const [searchPhone, setSearchPhone] = useState("");
-  const [searchStatus, setSearchStatus] = useState("");
+const EmployeesList = () => {
+  const { workers, fetchWorkers, searchWorkers, removeWorker, loading } =
+    useEmployeeStore();
+
+  const [searchParams, setSearchParams] = useState({
+    username: "",
+    name: "",
+    surname: "",
+    patronymic: "",
+    phone: "",
+    status: "",
+  });
+
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
   useEffect(() => {
     fetchWorkers();
   }, [fetchWorkers]);
 
+  useEffect(() => {
+    setFilteredEmployees(workers);
+  }, [workers]);
+
   const getStatus = (emp) => (emp.enabled ? "Aktiv" : "Passiv");
 
-  const filteredEmployees = workers.filter((e) => {
-    const status = getStatus(e).toLowerCase();
-    return (
-      (e.username?.toLowerCase().includes(searchUsername.toLowerCase()) ||
-        !searchUsername) &&
-      (e.name?.toLowerCase().includes(searchName.toLowerCase()) ||
-        !searchName) &&
-      (e.surname?.toLowerCase().includes(searchSurname.toLowerCase()) ||
-        !searchSurname) &&
-      (e.patronymic?.toLowerCase().includes(searchPatronymic.toLowerCase()) ||
-        !searchPatronymic) &&
-      (e.phone?.includes(searchPhone) || !searchPhone) &&
-      (status.includes(searchStatus.toLowerCase()) || !searchStatus)
-    );
-  });
+  const handleSearch = async () => {
+    try {
+      // If all search fields are empty, fetch all workers
+      if (Object.values(searchParams).every((val) => !val)) {
+        await fetchWorkers();
+        return;
+      }
+
+      // Convert status to boolean for API
+      const enabled =
+        searchParams.status === "Aktiv"
+          ? true
+          : searchParams.status === "Passiv"
+          ? false
+          : undefined;
+
+      // Call search API
+      await searchWorkers({
+        username: searchParams.username || undefined,
+        name: searchParams.name || undefined,
+        surname: searchParams.surname || undefined,
+        patronymic: searchParams.patronymic || undefined,
+        phone: searchParams.phone || undefined,
+        enabled,
+      });
+
+      // Filter locally in the frontend if no backend data found
+      const filtered = workers.filter((worker) => {
+        return (
+          (worker.username
+            ?.toLowerCase()
+            .includes(searchParams.username.toLowerCase()) ||
+            !searchParams.username) &&
+          (worker.name
+            ?.toLowerCase()
+            .includes(searchParams.name.toLowerCase()) ||
+            !searchParams.name) &&
+          (worker.surname
+            ?.toLowerCase()
+            .includes(searchParams.surname.toLowerCase()) ||
+            !searchParams.surname) &&
+          (worker.patronymic
+            ?.toLowerCase()
+            .includes(searchParams.patronymic.toLowerCase()) ||
+            !searchParams.patronymic) &&
+          (worker.phone?.includes(searchParams.phone) || !searchParams.phone) &&
+          (getStatus(worker)
+            .toLowerCase()
+            .includes(searchParams.status.toLowerCase()) ||
+            !searchParams.status)
+        );
+      });
+      setFilteredEmployees(filtered);
+    } catch (error) {
+      console.error("Search error:", error);
+      alert("Axtarış zamanı xəta baş verdi");
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const icons = [
     {
@@ -88,38 +147,51 @@ const EmployeesList = () => {
       <div className="workersSearchInputs">
         <div className="leftPart">
           <input
+            name="username"
             placeholder="İstifadəçi adı"
-            value={searchUsername}
-            onChange={(e) => setSearchUsername(e.target.value)}
+            value={searchParams.username}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
           <input
+            name="name"
             placeholder="Ad"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            value={searchParams.name}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
           <input
+            name="surname"
             placeholder="Soyad"
-            value={searchSurname}
-            onChange={(e) => setSearchSurname(e.target.value)}
+            value={searchParams.surname}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
           <input
+            name="patronymic"
             placeholder="Ata adı"
-            value={searchPatronymic}
-            onChange={(e) => setSearchPatronymic(e.target.value)}
+            value={searchParams.patronymic}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
           <input
+            name="phone"
             placeholder="Telefon"
-            value={searchPhone}
-            onChange={(e) => setSearchPhone(e.target.value)}
+            value={searchParams.phone}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
-          <CiSearch className="searchBTN" />
+          <button className="cursor-pointer" onClick={handleSearch}>
+            <CiSearch className="searchBTN" />
+          </button>
         </div>
 
         <div className="rightPart">
           <select
             className="workersStatusChecker"
-            value={searchStatus}
-            onChange={(e) => setSearchStatus(e.target.value)}>
+            name="status"
+            value={searchParams.status}
+            onChange={handleInputChange}>
             <option value="">Hamısı</option>
             <option value="Aktiv">Aktiv</option>
             <option value="Passiv">Passiv</option>
@@ -215,17 +287,14 @@ const EmployeesList = () => {
                     </span>
                   </td>
                   <td>
-                    <div className="actionsWrapper">
-                      {icons.map((iconObj, index) => {
-                        const Icon = iconObj.icon;
-                        return (
-                          <Icon
-                            key={index}
-                            className={`icon ${iconObj.className}`}
-                            onClick={() => iconObj.action(emp)}
-                          />
-                        );
-                      })}
+                    <div className="icons flex gap-3 cursor-pointer">
+                      {icons.map((iconObj, idx) => (
+                        <iconObj.icon
+                          key={idx}
+                          className={iconObj.className}
+                          onClick={() => iconObj.action(emp)}
+                        />
+                      ))}
                     </div>
                   </td>
                 </tr>

@@ -72,11 +72,12 @@ const useWorkerStore = create((set) => ({
   },
 
   searchWorkers: async (params) => {
+    set({ loading: true });
     try {
       const data = await searchWorkers(params);
-      set({ workers: data });
+      set({ workers: data, loading: false, error: null });
     } catch (err) {
-      set({ error: err.message });
+      set({ error: err.message, loading: false });
     }
   },
 }));
