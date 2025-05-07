@@ -12,7 +12,6 @@ export const updatePatient = async (patientData) => {
   const response = await axiosInstance.put('/patient/update', patientData);
   return response.data;
 };
-
 // Search patients
 export const searchPatients = async (searchParams) => {
   const response = await fetch('/patient/search', {

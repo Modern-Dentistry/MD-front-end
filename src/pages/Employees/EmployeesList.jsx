@@ -13,8 +13,7 @@ import { HiArrowsUpDown } from "react-icons/hi2";
 import "../../assets/style/EmployeesPage/employeespage.css";
 
 // Store
-import useEmployeeStore from "../../../stores/workerStore"; // uyğun path-a bax
-
+import useEmployeeStore from "../../../stores/workerStore";
 const EmployeesList = () => {
   const { workers, fetchWorkers, removeWorker, loading } = useEmployeeStore();
 
