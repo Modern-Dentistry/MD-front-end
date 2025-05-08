@@ -77,13 +77,14 @@ export const updateWorker = async (workerData) => {
 
 export const searchWorkers = async (searchParams) => {
   try {
-    const response = await axiosInstance.get(`${API_BASE_URL}/add-worker/search`, { params: searchParams })
-    return response.data
+    const response = await axiosInstance.post(`${API_BASE_URL}/add-worker/search`, searchParams);
+    return response.data;
   } catch (error) {
-    console.error("Error searching workers:", error)
-    throw error
+    console.error("Error searching workers:", error);
+    throw error;
   }
-}
+};
+
 
 export const deleteWorker = async (id) => {
   try {

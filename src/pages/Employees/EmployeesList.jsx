@@ -9,6 +9,8 @@ import { CiSearch, CiCircleInfo } from "react-icons/ci";
 import { GoTrash } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsUpDown } from "react-icons/hi2";
+import "../../assets/style/EmployeesPage/employeespage.css";
+import useEmployeeStore from "../../../stores/workerStore";
 
 // Style
 import "../../assets/style/PatientsPage/patientslist.css";
@@ -184,18 +186,18 @@ function PatientsList() {
                           className={`icon ${iconObj.className}`}
                           onClick={() => iconObj.action(item)}
                         />
-                      );
-                    })}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
     </>
   );
-}
+};
 
 export default PatientsList;
