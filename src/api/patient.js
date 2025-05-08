@@ -3,11 +3,17 @@ import axiosInstance from "./temp-axios-auth";
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const createPatient = async (patientData) => {
-  const response = await axiosInstance.post(
-    `${API_BASE_URL}/patient/create`,
-    patientData
-  );
-  return response.data;
+  try {
+    console.log("Sending data to server:", patientData);
+    const response = await axios.post(
+      "http://159.89.3.81:5555/api/v1/patient/create",
+      patientData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ createPatient error:", error.response || error);
+    throw error;
+  }
 };
 
 // Update patient

@@ -27,7 +27,6 @@ import AddUser from "./pages/AddUser";
 import ViewUser from "./pages/ViewUser";
 // import AddPatient from "./pages/AddPatient";
 // import General from "./pages/patient/General"
-import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
 import Plans from "./pages/patient/Plans";
@@ -135,6 +134,7 @@ import EditPermission from "./pages/PermissionsPage/EditPermission";
 import BlacklistReasons from "./pages/BlackListReasons/BlacklistReasons";
 import AddReason from "./pages/BlackListReasons/AddReason";
 import EditReason from "./pages/BlackListReasons/EditReason";
+import PatientAdd from "./pages/Patients/PatientAdd";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
