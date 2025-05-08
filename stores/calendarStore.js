@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 import {
   getDoctors,
   getRooms,
@@ -8,7 +8,7 @@ import {
   createAppointment,
   updateAppointment,
   deleteAppointment,
-} from '../src/api/general-calendar'; 
+} from "../src/api/general-calendar";
 
 const useCalendarStore = create((set) => ({
   doctors: [],
@@ -18,7 +18,7 @@ const useCalendarStore = create((set) => ({
   loading: false,
   error: null,
 
-  // 🧑‍⚕️ Get all doctors
+  //  Get all doctors
   fetchDoctors: async () => {
     set({ loading: true, error: null });
     try {
@@ -29,7 +29,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 🏥 Get all rooms
+  // Get all rooms
   fetchRooms: async () => {
     set({ loading: true, error: null });
     try {
@@ -40,7 +40,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 📋 Create appointment
+  // Create appointment
   addAppointment: async (appointmentData) => {
     set({ loading: true, error: null });
     try {
@@ -52,7 +52,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // ✏️ Update appointment
+  //  Update appointment
   modifyAppointment: async (appointmentData) => {
     set({ loading: true, error: null });
     try {
@@ -64,7 +64,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // ❌ Delete appointment
+  //  Delete appointment
   removeAppointment: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -76,7 +76,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 👨‍⚕️ Get patients by doctor
+  // 👨 Get patients by doctor
   fetchDoctorPatients: async (doctorId) => {
     set({ loading: true, error: null });
     try {
@@ -87,7 +87,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 🏠 Get patients by room
+  //  Get patients by room
   fetchRoomPatients: async (roomId) => {
     set({ loading: true, error: null });
     try {
@@ -98,7 +98,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 🔍 Get patient details
+  //  Get patient details
   fetchPatientDetails: async (patientId) => {
     set({ loading: true, error: null });
     try {
@@ -109,7 +109,7 @@ const useCalendarStore = create((set) => ({
     }
   },
 
-  // 💧 Clear selected patient
+  //  Clear selected patient
   clearSelectedPatient: () => set({ selectedPatient: null }),
 }));
 
