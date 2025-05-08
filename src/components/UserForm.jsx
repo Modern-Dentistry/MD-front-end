@@ -13,7 +13,7 @@ import Modal from "./Modal";
 import { Controller } from "react-hook-form";
 import CustomDropdown from "./CustomDropdown";
 
-import useWorkerStore from "../../stores/ workerStore";
+import useWorkerStore from "../../stores/workerStore";
 
 function UserForm({ mode: initialMode, userData = null, onSubmit, onDelete }) {
   const { addWorker } = useWorkerStore();
