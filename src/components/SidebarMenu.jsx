@@ -95,7 +95,7 @@ const SidebarMenu = () => {
       ),
       children: [
         { id: 31, title: "Pasiyent Siyahısı", path: "/patients" },
-        { id: 32, title: "Yeni Pasiyent", path: "/patient/add" },
+        { id: 32, title: "Yeni Pasiyent", path: "/add-patient" },
         { id: 33, title: "Növbə", path: "/queue" },
       ],
     },

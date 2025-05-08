@@ -1,0 +1,144 @@
+.patientsGroupWrapper{
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+.patientsGroupContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 20px;
+    flex-wrap: wrap;
+    height: 100vh;
+    background-color: white;
+    border-radius: 10px;
+  }
+  
+  .patientsGroupLeft,
+  .patientsGroupRight {
+    flex: 1;
+
+  }
+  .patientsGroupLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .patientsGroupRight{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .patientsGroupField {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .patientsGroupLabel {
+    width: 150px;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .patientsGroupInputText {
+    width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .patientsGroupInputDate {
+    width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .patientsGroupSelect {
+    width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
+  .patientsGroupCheckbox {
+    margin-right: 5px;
+  }
+  
+  .patientsGroupRequired {
+    color: red;
+  }
+  
+  .patientsGroupGender {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .patientsGroupBlacklist {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .patientsGroupBlacklistSelect {
+    width: 300px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .submitAddPatientForm{
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+  }
+  .addPatientCancelButton{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 15px;
+    height: 36px;
+    width: 143px;
+    border-radius: 10px;
+    border: 1px solid #155EEF;
+    font-weight: 500;
+    >img{
+        height: 14px;
+    }
+    &:hover{
+        cursor: pointer;
+    }
+
+
+  }
+  .addPatientVerifyButton{
+    
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 36px;
+    width: 143px;
+    border-radius: 10px;
+    border: 1px solid #155EEF;
+    background-color: #155EEF;
+    font-weight: 500;
+    color: white;
+    padding: 10px;
+    margin-right: 70px;
+    margin-bottom: 20px;
+    >img{
+        height: 8px;
+    }
+    transition: 0.5s ease;
+    &:hover{
+        background-color: #0c47be;
+        cursor: pointer;
+    }
+
+
+  }

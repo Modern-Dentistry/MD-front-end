@@ -25,8 +25,9 @@ import PatientLayout from "./components/layout/PatientLayout";
 import LogIn from "./pages/LogIn";
 import AddUser from "./pages/AddUser";
 import ViewUser from "./pages/ViewUser";
-import AddPatient from "./pages/AddPatient";
-// import General from "./pages/patient/General";
+// import AddPatient from "./pages/AddPatient";
+// import General from "./pages/patient/General"
+import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
 import Plans from "./pages/patient/Plans";
@@ -238,6 +239,7 @@ const AnimatedRoutes = () => {
           {/* Authentication Routes */}
             <Route path="/" element={<LogIn />} />
           <Route element={<Layout />}>
+            <Route path="/add-patient" element={<PatientAdd/>}/>
             <Route path="/blacklist-reasons" element={<BlacklistReasons/>}/>
             <Route path="/add-reason" element={<AddReason/>}/>
             <Route path="/edit-reason" element={<EditReason/>}/>
@@ -271,7 +273,7 @@ const AnimatedRoutes = () => {
             <Route path="/user/:id" element={<ViewUser />} />
 
             {/* Patient Management Routes */}
-            <Route path="/patient/add" element={<AddPatient />} />
+            {/* <Route path="/patient/add" element={<AddPatient />} /> */}
             <Route path="/patients" element={<PatientsList />} />
             <Route path="/patient/:id" element={<PatientLayout />}>
               {/* <Route path="general" element={<General />} /> */}
