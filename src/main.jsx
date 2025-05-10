@@ -240,7 +240,7 @@ const AnimatedRoutes = () => {
           {/* Authentication Routes */}
             <Route path="/" element={<LogIn />} />
           <Route element={<Layout />}>
-            <Route path="/add-patient" element={<PatientAdd/>}/>
+            <Route path="/patients/add-patient" element={<PatientAdd/>}/>
             <Route path="/blacklist-reasons" element={<BlacklistReasons/>}/>
             <Route path="/add-reason" element={<AddReason/>}/>
             <Route path="/edit-reason" element={<EditReason/>}/>

@@ -10,6 +10,9 @@ import { FiEdit3 } from "react-icons/fi";
 // Style
 import "../../assets/style/PatientsPage/patientslist.css";
 
+// Components
+import OrdinaryListHeader from '../../components/OrdinaryList/OrdinaryListHeader';
+
 const initialSearch = {
   name: "",
   surname: "",
@@ -69,7 +72,14 @@ function PatientsList() {
   ];
 
   return (
+  <>
     <div className="patientsListWrapper">
+     <OrdinaryListHeader
+        title="Pasiyentlər"
+        addText="Yenisini əlavə et"
+        addLink="/patients/add-patient"
+        exportLink="/patients/export"
+      />
       <div className="patientsListSearch">
         <div className="leftPart">
           <input
@@ -77,13 +87,13 @@ function PatientsList() {
             placeholder='Ad'
             value={search.name}
             onChange={(e) => setSearch({ ...search, name: e.target.value })}
-          />
+            />
           <input
             type="text"
             placeholder='Soyad'
             value={search.surname}
             onChange={(e) => setSearch({ ...search, surname: e.target.value })}
-          />
+            />
           <input
             type="text"
             placeholder='Fin kodu'
@@ -110,7 +120,7 @@ function PatientsList() {
           <select
             value={search.status}
             onChange={(e) => setSearch({ ...search, status: e.target.value })}
-          >
+            >
             <option value="">Status</option>
             <option value="Vip">Vip</option>
             <option value="Standard">Standard</option>
@@ -150,9 +160,9 @@ function PatientsList() {
                       const IconComponent = iconObj.icon;
                       return (
                         <IconComponent
-                          key={idx}
-                          className={`icon ${iconObj.className}`}
-                          onClick={() => iconObj.action(item)}
+                        key={idx}
+                        className={`icon ${iconObj.className}`}
+                        onClick={() => iconObj.action(item)}
                         />
                       );
                     })}
@@ -164,6 +174,7 @@ function PatientsList() {
         </table>
       </div>
     </div>
+    </>
   );
 }
 
