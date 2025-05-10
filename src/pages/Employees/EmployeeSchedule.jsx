@@ -4,7 +4,7 @@ import { az } from "date-fns/locale";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
-import "../assets/style/employee-schedule.css";
+import "../../assets/style/employee-schedule.css";
 import SidebarMenu from "../../components/SidebarMenu.jsx";
 
 import CustomSelect from "../../components/CustomSelect.jsx"; 

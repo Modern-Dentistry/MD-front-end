@@ -41,7 +41,7 @@
 
 
 .employeesListWrapper{
-    height: 100%;
+    height: 100vh;
     background: white;
     border-radius: 8px;
 }
