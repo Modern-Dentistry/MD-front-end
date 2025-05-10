@@ -69,6 +69,7 @@ function PatientsList() {
       action: (row) => navigate(`/edit/id=${row.id}`),
       className: "edit"
     },
+    // salam
     {
       icon: GoTrash,
       action: (row) => {
