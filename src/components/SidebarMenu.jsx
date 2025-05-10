@@ -68,7 +68,6 @@ const SidebarMenu = () => {
     {
       id: 2,
       title: "Ümumi təqvim",
-      path: "/appointments",
       icon: (isActive) => (
         <CalendarIcon
           width={20}
@@ -86,6 +85,7 @@ const SidebarMenu = () => {
     {
       id: 3,
       title: "Pasiyentlər",
+      path: "/patients",
       icon: (isActive) => (
         <PatientsIcon
           width={20}
@@ -249,7 +249,7 @@ const SidebarMenu = () => {
 
           return (
             <div key={item.id}>
-              <div
+              <Link to={item.path}
                 className={`menu-item-header ${
                   isHighlighted ? "active-header" : ""
                 }`}
@@ -276,7 +276,7 @@ const SidebarMenu = () => {
                     )}
                   </>
                 )}
-              </div>
+              </Link>
 
               {!isCollapsed &&
                 expandedItems.includes(item.id) &&
