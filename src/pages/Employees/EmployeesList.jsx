@@ -6,6 +6,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import "../../assets/style/EmployeesPage/employeespage.css";
 import useEmployeeStore from "../../../stores/workerStore";
+import { useNavigate } from "react-router-dom";
 
 const EmployeesList = () => {
   const { workers, fetchWorkers, searchWorkers, removeWorker, loading } =
@@ -31,7 +32,7 @@ const EmployeesList = () => {
   }, [workers]);
 
   const getStatus = (emp) => (emp.enabled ? "Aktiv" : "Passiv");
-
+  const navigation = useNavigate()
   const handleSearch = async () => {
     try {
       // If all search fields are empty, fetch all workers
@@ -108,12 +109,12 @@ const EmployeesList = () => {
   const icons = [
     {
       icon: CiCircleInfo,
-      action: (row) => alert(`Məlumat: ${row.username}`),
+      action: (row) => navigation(`employee/${row.id}`),
       className: "info",
     },
     {
       icon: FiEdit3,
-      action: (row) => alert(`Redaktə: ${row.username}`),
+      action: (row) => navigation(`edit-employee/${row.id}`),
       className: "edit",
     },
     {
@@ -139,10 +140,10 @@ const EmployeesList = () => {
     <>
     <div className="patientsListWrapper">
       <OrdinaryListHeader
-        title="Pasiyentlər"
+        title="İşçilər"
         addText="Yenisini əlavə et"
-        addLink="/patients/add"
-        exportLink="/patients/export"
+        addLink="/employees/employee-add"
+        exportLink="/employees/export"
       />
 
       <div className="patientsListSearch">

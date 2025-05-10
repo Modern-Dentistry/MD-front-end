@@ -17,7 +17,7 @@ function OrdinaryListHeader({ title, addText, addLink, exportLink, onAddClick })
         <Link onClick={onAddClick} to={addLink} className='addTextBTN'>
           <IoPersonAddOutline className='addBTN' /> {addText}
         </Link>
-        <Link className='exportDataNow' to={exportLink}>
+        <Link target='_blank' className='exportDataNow' to={exportLink}>
           <FiDownload className='exportDataBTN' />
         </Link>
       </div>

@@ -61,13 +61,13 @@ const SidebarMenu = () => {
       ),
       children: [
         { id: 11, title: "İşçilərin siyahısı", path: "/employees" },
-        { id: 12, title: "İşçilərin iş qrafiki", path: "/employee-schedule" },
-        { id: 13, title: "Yeni işçi əlavə et", path: "/employee-add" },
+        { id: 12, title: "İşçilərin iş qrafiki", path: "/employees/employee-schedule" },
+        { id: 13, title: "Yeni işçi əlavə et", path: "/employees/employee-add" },
       ],
     },
     {
       id: 2,
-      title: "Randevular",
+      title: "Ümumi təqvim",
       path: "/appointments",
       icon: (isActive) => (
         <CalendarIcon
@@ -77,10 +77,10 @@ const SidebarMenu = () => {
         />
       ),
       children: [
+        { id: 22, title: "Randevular", path: "/appointments" },
         { id: 21, title: "Növbə gözləyənlər", path: "/queue" },
-        { id: 22, title: "Bütün Randevular", path: "/appointments" },
-        { id: 23, title: "Yeni Randevu", path: "/appointment/add" },
-        { id: 24, title: "Randevu Kartı", path: "/appointment/card" },
+        // { id: 23, title: "Yeni Randevu", path: "/appointment/add" },
+        // { id: 24, title: "Randevu Kartı", path: "/appointment/card" },
       ],
     },
     {
@@ -94,9 +94,9 @@ const SidebarMenu = () => {
         />
       ),
       children: [
-        { id: 31, title: "Pasiyent Siyahısı", path: "/patients" },
-        { id: 32, title: "Yeni Pasiyent", path: "/add-patient" },
-        { id: 33, title: "Növbə", path: "/queue" },
+        // { id: 31, title: "Pasiyent Siyahısı", path: "/patients" },
+        // { id: 32, title: "Yeni Pasiyent", path: "/add-patient" },
+        // { id: 33, title: "Növbə", path: "/queue" },
       ],
     },
     {
@@ -111,8 +111,8 @@ const SidebarMenu = () => {
         />
       ),
       children: [
-        { id: 41, title: "Həkim Siyahısı", path: "/employees" },
-        { id: 42, title: "Yeni Həkim", path: "/user/add" },
+        // { id: 41, title: "Həkim Siyahısı", path: "/employees" },
+        // { id: 42, title: "Yeni Həkim", path: "/user/add" },
       ],
     },
     {
@@ -142,13 +142,14 @@ const SidebarMenu = () => {
         />
       ),
       children: [
-        { id: 61, title: "Klinika Anbarı", path: "/stock/clinic" },
-        { id: 62, title: "Kabinet Anbarı", path: "/stock/cabinet" },
-        { id: 63, title: "Medaxil", path: "/stock/import" },
-        { id: 64, title: "Sifarişlər", path: "/stock/order" },
-        { id: 65, title: "Daxilolma", path: "/stock/entry" },
-        { id: 66, title: "Silinmə", path: "/stock/delete" },
-        { id: 67, title: "İstifadə", path: "/stock/usage" },
+        { id: 61, title: "Klinikanın stoku", path: "/stock/clinic" },
+        { id: 62, title: "Kabinet/Obyekt stoku", path: "/stock/cabinet" },
+        { id: 63, title: "Anbara mədaxil", path: "/stock/import" },
+        { id: 64, title: "Anbara sifariş", path: "/stock/order" },
+        { id: 65, title: "Anbardan məxaric", path: "/stock/entry" },
+        { id: 66, title: "Anbardan daxilolmalar", path: "/stock/delete" },
+        { id: 67, title: "Anbardan silinmə", path: "/stock/usage" },
+        { id: 68, title: "Məhsul istifadəsi", path: "/" },
       ],
     },
     {
@@ -162,28 +163,32 @@ const SidebarMenu = () => {
         />
       ),
       children: [
-        { id: 71, title: "Müayinələr", path: "/settings/examination" },
-        { id: 72, title: "Rənglər", path: "/settings/color" },
-        { id: 73, title: "Sığorta", path: "/settings/insurance" },
-        {
-          id: 74,
-          title: "Qiymət kateqoriyaları",
-          path: "/settings/price-category",
-        },
-        { id: 75, title: "Diş dəstləri", path: "/settings/dental-set" },
-        { id: 76, title: "Kabinetlər", path: "/settings/cabinet" },
-        { id: 77, title: "Əməliyyat növləri", path: "/operations" },
-        { id: 78, title: "Dişlər", path: "/teeth" },
-        { id: 79, title: "Rənglər", path: "/colors" },
-        { id: 80, title: "İmplantlar", path: "/implants" },
-        { id: 81, title: "İxtisaslar", path: "/specialities" },
-        { id: 82, title: "Keramikalar", path: "/ceramics" },
-        { id: 83, title: "Elmi dərəcələr", path: "/academic-degrees" },
-        { id: 84, title: "Metallar", path: "/metals" },
-        { id: 85, title: "İcazələr", path: "/permissions" },
-        { id: 86, title: "Sifariş statusları", path: "/order-status" },
-        { id: 86, title: "Qara siyahı səbəblər", path: "/blacklist-reasons" },
+        { id: 71, title: "İcazələr", path: "/permissions" },
+        { id: 72, title: "Admin istifadəçiləri", path: "/admin-users" },
+        { id: 73, title: "Texniklər", path: "/technicians" },
+        { id: 74, title: "Randevu tipləri", path: "/appointment-types" },
+        { id: 75, title: "Müayinə siyahısı", path: "/settings/examination" },
+        { id: 76, title: "Əməliyyat növləri", path: "/operations" },
+        { id: 77, title: "Dişlər", path: "/teeth" },
+        { id: 78, title: "Rənglər", path: "/colors" },
+        { id: 79, title: "İmplantlar", path: "/implants" },
+        { id: 80, title: "Qarniturlar", path: "/dental-set" }, // Sənin "Diş dəstləri" path-ı "/settings/dental-set" idi, istersen dəyiş
+        { id: 81, title: "Sığorta şirkətləri", path: "/settings/insurance" },
+        { id: 82, title: "Qiymət kateqoriyaları", path: "/settings/price-category" },
+        { id: 83, title: "Kabinetlər", path: "/settings/cabinet" },
+        { id: 84, title: "Digər obyektlər", path: "/other-objects" },
+        { id: 85, title: "Reseptlər", path: "/prescriptions" },
+        { id: 86, title: "Tövsiyə edilənlər", path: "/recommendations" },
+        { id: 87, title: "Anamnez siyahısı", path: "/anamnesis" },
+        { id: 88, title: "Elmi dərəcələr", path: "/academic-degrees" },
+        { id: 89, title: "İxtisaslar", path: "/specialities" },
+        { id: 90, title: "Metallar", path: "/metals" },
+        { id: 91, title: "Keramikalar", path: "/ceramics" },
+        { id: 92, title: "Məhsul kateqoriyaları", path: "/product-categories" },
+        { id: 93, title: "Qara siyahı səbəbləri", path: "/blacklist-reasons" },
+        { id: 94, title: "Ümumi tənzimləmələr", path: "/general-settings" },
       ],
+      
     },
   ];
 

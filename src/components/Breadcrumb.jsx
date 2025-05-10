@@ -88,6 +88,12 @@ const Breadcrumb = () => {
         return 'Randevular';
       case 'employee-schedule':
         return 'İş qrafiki';
+      case 'edit-employee':
+        return 'İşçi readaktəsi';
+      case 'employee-add':
+        return 'İşçi əlavə et';
+      case 'employee':
+        return 'İşçi';
       case 'randevu-card':
         return 'Randevu kartı';
       case 'add-new-appointment':

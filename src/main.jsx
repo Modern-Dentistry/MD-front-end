@@ -24,9 +24,10 @@ import Layout from "./components/layout/Layout";
 import PatientLayout from "./components/layout/PatientLayout";
 import LogIn from "./pages/LogIn";
 import AddUser from "./pages/AddUser";
-import ViewUser from "./pages/ViewUser";
+import EmployeeDetails from "./pages/Employees/EmployeeDetails";
 // import AddPatient from "./pages/AddPatient";
 // import General from "./pages/patient/General"
+// import EmployeeAdd from "./pages/Employees/EmployeeAddTest";
 import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
 import Plans from "./pages/patient/Plans";
@@ -51,8 +52,7 @@ import XRay from "./pages/patient/XRay";
 import PlanCompare from "./pages/patient/PlanCompare";
 import EditPlan from "./pages/patient/EditPlan";
 import CreatePlan from "./pages/patient/CreatePlan";
-import EmployeeDetails from "./pages/EmployeeDetails";
-import EmployeeSchedule from "./pages/EmployeeSchedule";
+import EmployeeSchedule from "./pages/Employees/EmployeeSchedule";
 import Appointments from "./pages/Appointments";
 import AddNewAppointment from "./pages/AddNewAppointment";
 import RandevuCard from "./pages/RandevuCard";
@@ -135,6 +135,7 @@ import BlacklistReasons from "./pages/BlackListReasons/BlacklistReasons";
 import AddReason from "./pages/BlackListReasons/AddReason";
 import EditReason from "./pages/BlackListReasons/EditReason";
 import PatientAdd from "./pages/Patients/PatientAdd";
+import EmployeeEdit from "./pages/Employees/EmployeeEdit";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -253,7 +254,7 @@ const AnimatedRoutes = () => {
             <Route path="/ceramics" element={<Ceramics />} />
             <Route path="/edit-ceramic/:id" element={<EditCeramic />} />
             <Route path="/add-ceramic" element={<AddCeramic />} />
-            <Route path="/employee-add" element={<EmployeeAdd />} />
+            {/* <Route path="/employee-add" element={<EmployeeAdd />} /> */}
 
             <Route path="/metals" element={<Metals />} />
             <Route path="/edit-metal/:id" element={<EditMetal />} />
@@ -269,8 +270,7 @@ const AnimatedRoutes = () => {
             <Route path="/add-permission" element={<AddPermission />} />
             <Route path="/edit-permission" element={<EditPermission />} />
             {/* User Management Routes */}
-            <Route path="/user/add" element={<AddUser />} />
-            <Route path="/user/:id" element={<ViewUser />} />
+            <Route path="/employee/:id" element={<EmployeeDetails />} />
 
             {/* Patient Management Routes */}
             {/* <Route path="/patient/add" element={<AddPatient />} /> */}
@@ -343,9 +343,12 @@ const AnimatedRoutes = () => {
             />
 
             {/* Employee Management Routes */}
-            <Route path="/employees" element={<EmployeesList />} />
-            <Route path="/employee/:id" element={<EmployeeDetails />} />
-            <Route path="/employee-schedule" element={<EmployeeSchedule />} />
+            <Route path="/employees" element={<EmployeesList />}>
+            </Route>
+            <Route path="/employees/employee-add" element={<EmployeeAdd />} />
+            <Route path="/employees/employee/:id" element={<EmployeeDetails />} />
+            <Route path="/employees/edit-employee/:id" element={<EmployeeEdit />} />
+            <Route path="/employees/employee-schedule" element={<EmployeeSchedule />} />
 
             {/* Stock Management Routes */}
             <Route path="/stock/clinic" element={<ClinicStock />} />

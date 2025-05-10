@@ -5,9 +5,9 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import "../assets/style/employee-schedule.css";
-import SidebarMenu from "../components/SidebarMenu.jsx";
+import SidebarMenu from "../../components/SidebarMenu.jsx";
 
-import CustomSelect from "../components/CustomSelect.jsx"; 
+import CustomSelect from "../../components/CustomSelect.jsx"; 
 
 const WORK_HOURS = [
   '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
