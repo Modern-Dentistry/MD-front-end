@@ -2,6 +2,7 @@
     overflow-x: auto;
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
   
     .employeeTable {
       width: 100%;
@@ -96,9 +97,7 @@
     font-size: 16px;
     transition: 0.2s;
   
-    &:hover {
-      transform: scale(1.2);
-    }
+    
   }
   
 

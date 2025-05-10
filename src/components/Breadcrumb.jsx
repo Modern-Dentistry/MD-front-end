@@ -94,6 +94,7 @@ const Breadcrumb = () => {
         return 'Yeni randevu';
       case 'receiving-orders':
         return 'Sifarişlərin qəbulu';
+
       default:
         return segment.charAt(0).toUpperCase() + segment.slice(1);
     }

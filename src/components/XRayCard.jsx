@@ -1,7 +1,7 @@
 import React from "react";
 import InfoIcon from "../assets/icons/Info";
-import DeleteIcon from "../assets/icons/delete";
-import EditIcon from "../assets/icons/edit";
+import DeleteIcon from "../assets/icons/Delete";
+import EditIcon from "../assets/icons/Edit";
 const XRayCard = ({image_url, date, handleClick}) => {
     
     return (

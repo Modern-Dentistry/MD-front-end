@@ -13,14 +13,7 @@ import { useCreateAppointment } from '../hooks/useCalendar.js';// Müvəqqəti p
 import BlurLoader from '../components/layout/BlurLoader.jsx';
 import { toast } from 'react-toastify';
 import { useRooms } from '../hooks/useRooms.js';
-const TEMP_PATIENTS = [
-  { value: '1', label: 'Orxan Məmmədov - 502286063', debt: 150 },
-  { value: '2', label: 'Əli Hüseynov - 502286064', debt: 0 },
-  { value: '3', label: 'Ayşə Əliyeva - 502286065', debt: 75 },
-  { value: '4', label: 'Mehriban Qasımova - 502286066', debt: 0 },
-  { value: '5', label: 'Rəşad Əhmədov - 502286067', debt: 200 },
-  { value: '6', label: 'Zəhra Məmmədova - 502286068', debt: 0 },
-];
+
 
 // Əməliyyatlar siyahısı
 const OPERATIONS = [

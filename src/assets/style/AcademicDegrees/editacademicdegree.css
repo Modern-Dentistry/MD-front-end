@@ -1,0 +1,72 @@
+.editAcademicDegreesContainer{
+    height: 100vh;
+}
+.editAcademicDegreesWrapper {
+    padding: 30px;
+    height: 200px;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .topPartForm{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    >label{
+        width: 120px;
+        display: flex;
+    }
+  }
+  .editAcademicDegreesForm {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+  }
+  
+  .editAcademicDegreesForm label {
+    font-weight: 500;
+    font-size: 15px;
+  }
+  
+  .editAcademicDegreesForm input {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    width: 100%;
+    background-color: #f1f5f9;
+  }
+  
+  .editAcademicDegreesActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  
+  .cancelBtn,
+  .saveBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .cancelBtn {
+    background-color: white;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+  }
+  
+  .saveBtn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+  }
+  

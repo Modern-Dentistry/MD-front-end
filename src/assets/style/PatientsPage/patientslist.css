@@ -11,7 +11,10 @@
             width: 140px;
             padding: 6px;
             border-radius: 8px;
-            border:1px solid #CDD5DF;
+            outline:1px solid #CDD5DF;
+            &:focus{
+                outline: 2px solid #85b5ef;
+            }
         }
         >.searchIconBTN{
             font-size: 20px;
@@ -23,9 +26,123 @@
         gap: 10px;
         >select{
             width: 160px;
-            border:1px solid #CDD5DF;
             border-radius: 8px;
             padding: 6px;
+            outline:1px solid #CDD5DF;
+            &:focus{
+                outline: 2px solid #85b5ef;
+            }
         }
     }
+}
+
+.patientsListWrapper{
+    background-color: white;
+    height: 100vh;
+    border-radius: 8px ;
+    border: 1px solid #CDD5DF;
+}
+
+.delete,
+.info,
+.edit
+{
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  
+    .employeeTable {
+      width: 100%;
+      border-collapse: collapse;
+        
+      th,
+      td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #CDD5DF;
+      }
+  
+      thead {
+        background-color: #EEF2F6;
+  
+        tr {
+          font-weight: 300;
+  
+          th {
+            border-bottom: none;
+            font-size: 14px;
+            font-weight: 600;
+  
+            .th-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 6px;
+  
+              svg {
+                font-size: 14px;
+              }
+  
+              span {
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+  
+      tbody {
+        tr {
+          td {
+            border-top: none;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+  
+  .status {
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+  
+    &.active {
+      background-color: #4CAF50;
+    }
+  
+    &.passive {
+      background-color: #f44336;
+    }
+  }
+
+.actionsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.icon.info, .icon.edit {
+  color: #155EEF;
+}
+
+.icon.delete {
+  color: #FD4A3D;
+}
+
+.arrowsIcon {
+  color: #9AA4B2;
 }

@@ -13,7 +13,7 @@ const Layout = () => {
   return (
     <div className="flex w-full">
         <div><SidebarMenu/></div>
-        <div className="flex flex-col w-full mt-0 m-4">
+        <div className="flex flex-col w-full mt-0 m-4 app-wrapper">
           <Header/>
           <Breadcrumb/>
           <Outlet/>

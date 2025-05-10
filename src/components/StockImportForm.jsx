@@ -7,9 +7,9 @@ import ToothSelector from "./ToothSelector";
 import MultiFileForm from "./MultiFileForm";
 import SimpleList from "../components/list/SimpleList";
 import ListWithSubtotal from "../components/list/ListwithSubtotal";
-import EditIcon from "../assets/icons/edit";
+import EditIcon from "../assets/icons/Edit";
 import SearchIcon from "../assets/icons/Search";
-import DeleteIcon from "../assets/icons/delete";
+import DeleteIcon from "../assets/icons/Delete";
 import { se } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 
@@ -102,30 +102,7 @@ const StockImportForm = ({ initialData, mode = "create", onSubmit, onCancel }) =
             onSubmit(formData);
         }
     };
-
-    const samplDataforList = [
-        {
-            id: 1,
-            name: "Məhsul 1",
-            price: 100,
-        },
-        {
-            id: 2,
-            name: "Məhsul 2",
-            price: 200,
-        },
-        {
-            id: 3,
-            name: "Məhsul 3",
-            price: 300,
-        },
-        {
-            id: 4,
-            name: "Məhsul 4",
-            price: 400,
-        },
-    ];
-
+    
     const columns = [
         {
             key: "categoryName",
