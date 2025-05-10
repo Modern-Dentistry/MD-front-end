@@ -61,11 +61,14 @@ const useWorkerStore = create((set) => ({
       set({ error: err.message });
     }
   },
-
   removeWorker: async (id) => {
     try {
-      await deleteWorker(id);
+      console.log("Deleting worker with id:", id);
+      const response = await deleteWorker(id);
+      console.log("Delete response:", response); // API-dən cavabı yoxlayın
+      // Worker-ları yeniləyin
       await useWorkerStore.getState().fetchWorkers();
+      console.log("Worker list fetched after delete");
     } catch (err) {
       set({ error: err.message });
     }

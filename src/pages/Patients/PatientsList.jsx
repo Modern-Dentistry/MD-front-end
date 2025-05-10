@@ -38,6 +38,16 @@ function PatientsList() {
       });
   }, []);
 
+  // Deleting a patient
+  const removePatient = async (id) => {
+    try {
+      await axios.delete(`http://159.89.3.81:5555/api/v1/patient/delete/${id}`);
+      setData(data.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting patient:', error);
+    }
+  };
+
   // Filtering data based on search criteria
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.name.toLowerCase()) &&
@@ -64,7 +74,7 @@ function PatientsList() {
       action: (row) => {
         const confirmed = window.confirm(`Silmək istədiyinizə əminsiniz? (${row.name})`);
         if (confirmed) {
-          setData(data.filter((item) => item.id !== row.id));
+          removePatient(row.id);
         }
       },
       className: "delete"
@@ -72,108 +82,108 @@ function PatientsList() {
   ];
 
   return (
-  <>
-    <div className="patientsListWrapper">
-     <OrdinaryListHeader
-        title="Pasiyentlər"
-        addText="Yenisini əlavə et"
-        addLink="/patients/add-patient"
-        exportLink="/patients/export"
-      />
-      <div className="patientsListSearch">
-        <div className="leftPart">
-          <input
-            type="text"
-            placeholder='Ad'
-            value={search.name}
-            onChange={(e) => setSearch({ ...search, name: e.target.value })}
+    <>
+      <div className="patientsListWrapper">
+        <OrdinaryListHeader
+          title="Pasiyentlər"
+          addText="Yenisini əlavə et"
+          addLink="/patients/add-patient"
+          exportLink="/patients/export"
+        />
+        <div className="patientsListSearch">
+          <div className="leftPart">
+            <input
+              type="text"
+              placeholder='Ad'
+              value={search.name}
+              onChange={(e) => setSearch({ ...search, name: e.target.value })}
             />
-          <input
-            type="text"
-            placeholder='Soyad'
-            value={search.surname}
-            onChange={(e) => setSearch({ ...search, surname: e.target.value })}
+            <input
+              type="text"
+              placeholder='Soyad'
+              value={search.surname}
+              onChange={(e) => setSearch({ ...search, surname: e.target.value })}
             />
-          <input
-            type="text"
-            placeholder='Fin kodu'
-            value={search.fin}
-            onChange={(e) => setSearch({ ...search, fin: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder='Mobil nömrə'
-            value={search.phone}
-            onChange={(e) => setSearch({ ...search, phone: e.target.value })}
-          />
-          <CiSearch className='searchIconBTN' />
-        </div>
-        <div className="rightPart">
-          <select
-            value={search.gender}
-            onChange={(e) => setSearch({ ...search, gender: e.target.value })}
-          >
-            <option value="">Cinsiyyət</option>
-            <option value="MAN">Kişi</option>
-            <option value="WOMAN">Qadın</option>
-          </select>
-          <select
-            value={search.status}
-            onChange={(e) => setSearch({ ...search, status: e.target.value })}
+            <input
+              type="text"
+              placeholder='Fin kodu'
+              value={search.fin}
+              onChange={(e) => setSearch({ ...search, fin: e.target.value })}
+            />
+            <input
+              type="number"
+              placeholder='Mobil nömrə'
+              value={search.phone}
+              onChange={(e) => setSearch({ ...search, phone: e.target.value })}
+            />
+            <CiSearch className='searchIconBTN' />
+          </div>
+          <div className="rightPart">
+            <select
+              value={search.gender}
+              onChange={(e) => setSearch({ ...search, gender: e.target.value })}
             >
-            <option value="">Status</option>
-            <option value="Vip">Vip</option>
-            <option value="Standard">Standard</option>
-          </select>
+              <option value="">Cinsiyyət</option>
+              <option value="MAN">Kişi</option>
+              <option value="WOMAN">Qadın</option>
+            </select>
+            <select
+              value={search.status}
+              onChange={(e) => setSearch({ ...search, status: e.target.value })}
+            >
+              <option value="">Status</option>
+              <option value="Vip">Vip</option>
+              <option value="Standard">Standard</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="tableWrapper">
+          <table className="employeeTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Pasiyent</th>
+                <th>Fin kodu</th>
+                <th>Cinsiyyət</th>
+                <th>Mobil nömrə</th>
+                <th>Doğum Tarixi</th>
+                <th>Status</th>
+                <th>Qara siyahı</th>
+                <th>Aksiyalar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name} {item.surname}</td>
+                  <td>{item.finCode}</td>
+                  <td>{item.genderStatus === "MAN" ? "Kişi" : "Qadın"}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.dateOfBirth}</td>
+                  <td>{item.priceCategoryStatus}</td>
+                  <td>{item.isBlocked ? "Bəli" : "Xeyr"}</td>
+                  <td>
+                    <div className="actionsWrapper">
+                      {icons.map((iconObj, idx) => {
+                        const IconComponent = iconObj.icon;
+                        return (
+                          <IconComponent
+                            key={idx}
+                            className={`icon ${iconObj.className}`}
+                            onClick={() => iconObj.action(item)}
+                          />
+                        );
+                      })}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div className="tableWrapper">
-        <table className="employeeTable">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Pasiyent</th>
-              <th>Fin kodu</th>
-              <th>Cinsiyyət</th>
-              <th>Mobil nömrə</th>
-              <th>Doğum Tarixi</th>
-              <th>Status</th>
-              <th>Qara siyahı</th>
-              <th>Aksiyalar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.name} {item.surname}</td>
-                <td>{item.finCode}</td>
-                <td>{item.genderStatus === "MAN" ? "Kişi" : "Qadın"}</td>
-                <td>{item.phone}</td>
-                <td>{item.dateOfBirth}</td>
-                <td>{item.priceCategoryStatus}</td>
-                <td>{item.isBlocked ? "Bəli" : "Xeyr"}</td>
-                <td>
-                  <div className="actionsWrapper">
-                    {icons.map((iconObj, idx) => {
-                      const IconComponent = iconObj.icon;
-                      return (
-                        <IconComponent
-                        key={idx}
-                        className={`icon ${iconObj.className}`}
-                        onClick={() => iconObj.action(item)}
-                        />
-                      );
-                    })}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
     </>
   );
 }
