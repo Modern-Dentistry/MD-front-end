@@ -138,7 +138,7 @@ const EmployeesList = () => {
 
   return (
     <>
-    <div className="patientsListWrapper">
+    <div className="employeesListWrapper">
       <OrdinaryListHeader
         title="İşçilər"
         addText="Yenisini əlavə et"
