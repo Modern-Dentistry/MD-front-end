@@ -51,12 +51,12 @@ function PatientsList() {
   const icons = [
     {
       icon: CiCircleInfo,
-      action: (row) => navigate(`/details/id=${row.id}`),
+      action: (row) => navigate(`patient/${row.id}`),
       className: "info"
     },
     {
       icon: FiEdit3,
-      action: (row) => navigate(`/edit/id=${row.id}`),
+      action: (row) => navigate(`patient/${row.id}`),
       className: "edit"
     },
     {
