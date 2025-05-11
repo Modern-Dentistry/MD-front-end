@@ -35,7 +35,7 @@ const PatientLayout = () => {
       <header className="patient-header">
         <nav className="patient-nav">
           <button className={isActive(`/patient/${id}/general`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/general`}>
+            <Link to={`/patients/patient/${id}/general`}>
               <FontAwesomeIcon icon={faUser} /> Ümumi
             </Link>
           </button>
@@ -85,7 +85,7 @@ const PatientLayout = () => {
             </Link>
           </button>
           <button className={isActive(`/patient/${id}/report`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/report`}>
+            <Link to={`/patients/patient/${id}/report`}>
               <FontAwesomeIcon icon={faFileAlt} /> Hesabat
             </Link>
           </button>

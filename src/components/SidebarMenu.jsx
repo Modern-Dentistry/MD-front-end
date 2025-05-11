@@ -307,18 +307,18 @@ const SidebarMenu = () => {
         })}
 
         {isLoggingOut && <Spinner />}
+        <div
+          onClick={handleLogout}
+          className="menu-item-header logout-button">
+          <span className="menu-item-icon">
+           <ExitIcon width={20} height={20} fill="#155EEF" />
+          </span>
+           {!isCollapsed && <span className="menu-item-title">Çıxış</span>}
+         </div>
+
         <div className={`sidebar-container ${isCollapsed ? "collapsed" : ""}`}>
           {/* qalan sidebar menyu kodları */}
         </div>
-        <button
-          onClick={handleLogout}
-          className="menu-item-header logout-button">
-          {" "}
-          <span className="menu-item-icon">
-            <ExitIcon width={20} height={20} fill="#155EEF" />
-          </span>
-          Çıxış
-        </button>
       </div>
     </div>
   );

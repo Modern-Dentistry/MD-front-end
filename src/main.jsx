@@ -26,7 +26,7 @@ import LogIn from "./pages/LogIn";
 import AddUser from "./pages/AddUser";
 import EmployeeDetails from "./pages/Employees/EmployeeDetails";
 // import AddPatient from "./pages/AddPatient";
-// import General from "./pages/patient/General"
+import General from "./pages/patient/General"
 // import EmployeeAdd from "./pages/Employees/EmployeeAddTest";
 import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
@@ -250,7 +250,7 @@ const AnimatedRoutes = () => {
             <Route path="/add-speciality" element={<AddSpeciality />} />
             <Route path="/blacklist" element={<Blacklist />} />
             <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="*" element={<PatientsList />} />
+            {/* <Route path="*" element={<PatientsList />} /> */}
             <Route path="/ceramics" element={<Ceramics />} />
             <Route path="/edit-ceramic/:id" element={<EditCeramic />} />
             <Route path="/add-ceramic" element={<AddCeramic />} />
@@ -276,7 +276,7 @@ const AnimatedRoutes = () => {
             {/* <Route path="/patient/add" element={<AddPatient />} /> */}
             <Route path="/patients" element={<PatientsList />} />
             <Route path="patients/patient/:id" element={<PatientLayout />}>
-              {/* <Route path="general" element={<General />} /> */}
+              <Route path="general" element={<General />} />
               <Route path="examination" element={<Examination />} />
               <Route path="plans" element={<Plans />} />
               <Route path="plan/edit" element={<EditPlan />} />
