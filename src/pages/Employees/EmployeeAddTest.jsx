@@ -111,7 +111,7 @@ function EmployeeAddTest() {
       name: nameRef.current.value,
       surname: surnameRef.current.value,
       patronymic: patronymicRef.current.value,
-      finCode: finCodeRef.current.value.toUpperCase(), // Ensure uppercase
+      finCode: finCodeRef.current.value.toUpperCase(),
       colorCode: colorCodeRef.current.value || "#000000",
       genderStatus,
       dateOfBirth: dateOfBirthRef.current.value,

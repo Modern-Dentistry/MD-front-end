@@ -20,7 +20,7 @@ function EmployeeAdd() {
         }
         if (isSuccess) {
             toast.success("Uğurla yaradıldı");
-            navigate("/users");
+            navigate("/employees");
             
         }
 
