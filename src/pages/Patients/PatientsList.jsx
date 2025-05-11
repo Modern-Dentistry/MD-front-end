@@ -37,6 +37,7 @@ function PatientsList() {
         console.error('Error fetching data:', error);
       });
   }, []);
+  // Salam
 
   // Deleting a patient
   const removePatient = async (id) => {
