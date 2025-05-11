@@ -136,6 +136,7 @@ import AddReason from "./pages/BlackListReasons/AddReason";
 import EditReason from "./pages/BlackListReasons/EditReason";
 import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeEdit from "./pages/Employees/EmployeeEdit";
+import PatientEdit from "./pages/patient/PatientEdit";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -277,6 +278,7 @@ const AnimatedRoutes = () => {
             <Route path="/patients" element={<PatientsList />} />
             <Route path="patients/patient/:id" element={<PatientLayout />}>
               <Route path="general" element={<General />} />
+              <Route path="edit" element={<PatientEdit />} />
               <Route path="examination" element={<Examination />} />
               <Route path="plans" element={<Plans />} />
               <Route path="plan/edit" element={<EditPlan />} />

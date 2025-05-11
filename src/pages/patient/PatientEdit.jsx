@@ -8,18 +8,15 @@ import { usePatient, useUpdatePatient, useDeletePatient } from '../../hooks/useP
 import { useParams } from 'react-router-dom';
 // import EditIcon from '../../assets/icons/edit';
 import DeleteIcon from '../../assets/icons/delete';
-import InfoIcon from '../../assets/icons/Info';
 import BlurLoader from '../../components/layout/BlurLoader';
-import { useNavigate } from 'react-router-dom';
 
-const General = () => {
-  const [isEditing, setIsEditing] = useState(false);
+const PatientEdit = () => {
+  const [isEditing, setIsEditing] = useState(true);
   const { id } = useParams();
   const { data: patient, isLoading, error } = usePatient(id);
   const { mutate: deletePatient, isPending: deletingPatient } = useDeletePatient();
   const { mutate: updatePatient, isPending: updatingPatient } = useUpdatePatient();
 
-  const navigator = useNavigate()
   // Handle Edit
   const handleEdit = () => {
     setIsEditing(true);
@@ -51,11 +48,6 @@ const General = () => {
     });
   };
 
-  // Handle Info icon click
-  const handleInfo = ()=>{
-    navigator('../edit')
-  }
-
   // Handle Cancel
   const handleCancel = () => {
     setIsEditing(false);
@@ -83,9 +75,6 @@ const General = () => {
         </button>
         <button onClick={handleDelete}>
           <DeleteIcon />
-        </button>
-        <button onClick={handleInfo}>
-          <InfoIcon/>
         </button>
       </div>
       <div className="input-container">
@@ -373,4 +362,4 @@ const General = () => {
   );
 };
 
-export default General;
+export default PatientEdit;
