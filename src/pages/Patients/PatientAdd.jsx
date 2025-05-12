@@ -105,7 +105,7 @@ const PatientAdd = () => {
       try {
         const response = await axios.get(
           "http://159.89.3.81:5555/api/v1/general-calendar/read-doctors"
-        );
+        ); 
         setDoctors(response.data);
       } catch (error) {
         console.error("Doktorları alarkən xəta:", error);

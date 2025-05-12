@@ -34,57 +34,57 @@ const PatientLayout = () => {
     <div className="patient-layout">
       <header className="patient-header">
         <nav className="patient-nav">
-          <button className={isActive(`/patient/${id}/general`) ? 'active' : ''}>
+          <button className={isActive(`/patients/patient/${id}/general`) ? 'active' : ''}>
             <Link to={`/patients/patient/${id}/general`}>
               <FontAwesomeIcon icon={faUser} /> Ümumi
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/examination`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/examination`}>
+          <button className={isActive(`/patients/patient/${id}/examination`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/examination`}>
               <FontAwesomeIcon icon={faStethoscope} /> Müayinə
             </Link>
           </button>
-          <button className={isActive([`/patient/${id}/plans`, `/patient/${id}/edit-plan`, `/patient/${id}/create-plan`]) ? 'active' : ''}>
-            <Link to={`/patient/${id}/plans`}>
+          <button className={isActive([`/patients/patient/${id}/plans`, `/patients/patient/${id}/edit-plan`, `/patients/patient/${id}/create-plan`]) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/plans`}>
               <FontAwesomeIcon icon={faClipboardList} /> Planlar
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/treatment`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/treatment`}>
+          <button className={isActive(`/patients/patient/${id}/treatment`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/treatment`}>
               <FontAwesomeIcon icon={faNotesMedical} /> Müalicə
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/history`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/history`}>
+          <button className={isActive(`/patients/patient/${id}/history`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/history`}>
               <FontAwesomeIcon icon={faHistory} /> Anamnez
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/insurance`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/insurance`}>
+          <button className={isActive(`/patients/patient/${id}/insurance`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/insurance`}>
               <FontAwesomeIcon icon={faShieldAlt} /> Sığorta
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/prescription`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/prescription`}>
+          <button className={isActive(`/patients/patient/${id}/prescription`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/prescription`}>
               <FontAwesomeIcon icon={faPrescriptionBottleMedical} /> Resept
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/xray`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/xray`}>
+          <button className={isActive(`/patients/patient/${id}/xray`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/xray`}>
               <FontAwesomeIcon icon={faXRay} /> Rentgen
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/images`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/images`}>
+          <button className={isActive(`/patients/patient/${id}/images`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/images`}>
               <FontAwesomeIcon icon={faImage} /> Şəkil
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/video`) ? 'active' : ''}>
-            <Link to={`/patient/${id}/video`}>
+          <button className={isActive(`/patients/patient/${id}/video`) ? 'active' : ''}>
+            <Link to={`/patients/patient/${id}/video`}>
               <FontAwesomeIcon icon={faVideo} /> Video
             </Link>
           </button>
-          <button className={isActive(`/patient/${id}/report`) ? 'active' : ''}>
+          <button className={isActive(`/patients/patient/${id}/report`) ? 'active' : ''}>
             <Link to={`/patients/patient/${id}/report`}>
               <FontAwesomeIcon icon={faFileAlt} /> Hesabat
             </Link>

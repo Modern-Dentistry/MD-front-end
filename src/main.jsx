@@ -278,6 +278,7 @@ const AnimatedRoutes = () => {
             <Route path="/patients" element={<PatientsList />} />
             <Route path="patients/patient/:id" element={<PatientLayout />}>
               <Route path="general" element={<General />} />
+              {/* <Route path="video" element={<Video />} /> */}
               <Route path="edit" element={<PatientEdit />} />
               <Route path="examination" element={<Examination />} />
               <Route path="plans" element={<Plans />} />
