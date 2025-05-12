@@ -188,44 +188,50 @@ function ReportsPage() {
 
 
       </div>
-    <div className="reportsTableWrapper">
-        <div className="tableScrollContainer">
-          <table className="reportsTable">
-            <thead>
-              <tr>
-                <th>1-{reportData.length}</th>
-                <th>Plan tarixi</th>
-                <th>Pasiyent</th>
-                <th>Diş No</th>
-                <th>Əməliyyat</th>
-                <th>Planlayan həkim</th>
-                <th>Qiyməti</th>
-                <th>Endirim</th>
-                <th>Yekun</th>
-                <th>İcra tarixi</th>
-                <th>İcraçı həkim</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reportData.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.planDate}</td>
-                  <td>{item.patient}</td>
-                  <td>{item.toothNo}</td>
-                  <td>{item.operation}</td>
-                  <td>{item.plannerDoctor}</td>
-                  <td>{item.price}</td>
-                  <td>{item.discount}</td>
-                  <td>{item.total}</td>
-                  <td>{item.executionDate}</td>
-                  <td>{item.executorDoctor}</td>
+      <div className="reportsTableWrapper">
+          <div className="tableScrollContainer">
+            <table className="reportsTable">
+              <thead>
+                <tr>
+                  <th>1-{reportData.length}</th>
+                  <th>Plan tarixi</th>
+                  <th>Pasiyent</th>
+                  <th>Diş No</th>
+                  <th>Əməliyyat</th>
+                  <th>Planlayan həkim</th>
+                  <th>Qiyməti</th>
+                  <th>Endirim</th>
+                  <th>Yekun</th>
+                  <th>İcra tarixi</th>
+                  <th>İcraçı həkim</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {reportData.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.planDate}</td>
+                    <td>{item.patient}</td>
+                    <td>{item.toothNo}</td>
+                    <td>{item.operation}</td>
+                    <td>{item.plannerDoctor}</td>
+                    <td>{item.price}</td>
+                    <td>{item.discount}</td>
+                    <td>{item.total}</td>
+                    <td>{item.executionDate}</td>
+                    <td>{item.executorDoctor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
       </div>
+      <div className="reportsTableResultMoney">
+        <p className='resultForReports'>Cəmi:</p>
+        <p className='reportsForResult'>345.6</p>
+        <p className='reportsForDicounted'>325.6</p>
+      </div>
+
     </div>
   );
 }

@@ -95,3 +95,13 @@
 .reportsTable td:nth-child(1) {
   border-right: 1px solid #CDD5DF;
 }
+
+.reportsTableResultMoney{
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    gap: 120px;
+    >p{
+        font-weight: 600;
+    }
+}
