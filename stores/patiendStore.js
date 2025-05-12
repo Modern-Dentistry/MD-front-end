@@ -49,10 +49,15 @@ const usePatientStore = create((set) => ({
   // Update patient
   editPatient: async (patientData) => {
     try {
-      await updatePatient(patientData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/patient/update`,
+        patientData
+      );
       await usePatientStore.getState().fetchPatients();
+      return response.data;
     } catch (err) {
       set({ error: err.message });
+      throw err;
     }
   },
 

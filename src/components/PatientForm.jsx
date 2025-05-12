@@ -1,94 +1,92 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+// import * as yup from "yup";
 import { SketchPicker } from "react-color";
 import { MdColorLens } from "react-icons/md";
 import "../assets/style/form.css";
-import ProfileImage from "./ProfileImage";
-import CustomDropdown from "./CustomDropdown";
-import { LuPenLine } from "react-icons/lu";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { usePriceCategories } from "../hooks/usePriceCategories";
 import { useDoctors } from "../hooks/useDoctors.js";
+import usePatientStore from "../../stores/patiendStore.js";
+import CustomDropdown from "./CustomDropdown";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Ad tələb olunur"),
-  surname: yup.string().required("Soyad tələb olunur"),
-  patronymic: yup.string().required("Ata adı tələb olunur"),
-  finCode: yup
-    .string()
-    .nullable()
-    .matches(/^[A-Z0-9]{7}$/, "FIN kod 7 simvoldan ibarət olmalıdır")
-    .transform((value) => (value === "" ? null : value)),
-  genderStatus: yup.string().required("Cinsiyyət tələb olunur"),
-  dateOfBirth: yup
-    .date()
-    .max(new Date(), "Doğum tarixi gələcək tarix ola bilməz"),
-  priceCategoryStatus: yup
-    .string()
-    .required("Qiymət kateqoriyası tələb olunur"),
-  specializationStatus: yup.string().nullable(),
-  doctor_id: yup.string(),
-  phone: yup
-    .string()
-    .required("Mobil nömrə tələb olunur")
-    .matches(
-      /^\(\d{3}\)-\d{3}-\d{4}$/,
-      "Düzgün mobil nömrə daxil edin (format: (XXX)-XXX-XXXX)"
-    ),
-  workPhone: yup
-    .string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .matches(
-      /^\(\d{3}\)-\d{3}-\d{4}$/,
-      "Düzgün iş nömrəsi daxil edin (format: (XXX)-XXX-XXXX)"
-    ),
-  homePhone: yup
-    .string()
-    .nullable()
-    .transform((value) => (value === "" ? null : value))
-    .matches(
-      /^\(\d{3}\)-\d{3}-\d{4}$/,
-      "Düzgün ev nömrəsi daxil edin (format: (XXX)-XXX-XXXX)"
-    ),
-  homeAddress: yup.string(),
-  workAddress: yup.string(),
-  email: yup.string().email("Düzgün e-poçt ünvanı daxil edin"),
-  // Preserving existing fields
-  username: yup.string(),
-  colorCode: yup.string(),
-  academicDegree: yup.string(),
-  permissions: yup.string(),
-  isVip: yup.boolean(),
-  isBlacklisted: yup.boolean(),
-  referredBy: yup.string(),
-  facebook: yup.string().url("Düzgün Facebook linki daxil edin").nullable(),
-  instagram: yup.string().url("Düzgün Instagram linki daxil edin").nullable(),
-  twitter: yup.string().url("Düzgün Twitter linki daxil edin").nullable(),
-});
 
-export default function PatientForm({
-  initialData,
-  onSubmit,
-  onCancel,
-  mode = "create",
-}) {
+// const schema = yup.object().shape({
+//   name: yup.string().required("Ad tələb olunur"),
+//   surname: yup.string().required("Soyad tələb olunur"),
+//   patronymic: yup.string().required("Ata adı tələb olunur"),
+//   finCode: yup
+//     .string()
+//     .nullable()
+//     .matches(/^[A-Z0-9]{7}$/, "FIN kod 7 simvoldan ibarət olmalıdır")
+//     .transform((value) => (value === "" ? null : value)),
+//   genderStatus: yup.string().required("Cinsiyyət tələb olunur"),
+//   dateOfBirth: yup
+//     .date()
+//     .max(new Date(), "Doğum tarixi gələcək tarix ola bilməz"),
+//   priceCategoryStatus: yup
+//     .string()
+//     .required("Qiymət kateqoriyası tələb olunur"),
+//   specializationStatus: yup.string().nullable(),
+//   doctor_id: yup.string(),
+//   phone: yup
+//     .string()
+//     .required("Mobil nömrə tələb olunur")
+//     .matches(
+//       /^\(\d{3}\)-\d{3}-\d{4}$/,
+//       "Düzgün mobil nömrə daxil edin (format: (XXX)-XXX-XXXX)"
+//     ),
+//   workPhone: yup
+//     .string()
+//     .nullable()
+//     .transform((value) => (value === "" ? null : value))
+//     .matches(
+//       /^\(\d{3}\)-\d{3}-\d{4}$/,
+//       "Düzgün iş nömrəsi daxil edin (format: (XXX)-XXX-XXXX)"
+//     ),
+//   homePhone: yup
+//     .string()
+//     .nullable()
+//     .transform((value) => (value === "" ? null : value))
+//     .matches(
+//       /^\(\d{3}\)-\d{3}-\d{4}$/,
+//       "Düzgün ev nömrəsi daxil edin (format: (XXX)-XXX-XXXX)"
+//     ),
+//   homeAddress: yup.string(),
+//   workAddress: yup.string(),
+//   email: yup.string().email("Düzgün e-poçt ünvanı daxil edin"),
+//   username: yup.string(),
+//   colorCode: yup.string(),
+//   academicDegree: yup.string(),
+//   permissions: yup.string(),
+//   isVip: yup.boolean(),
+//   isBlacklisted: yup.boolean(),
+//   referredBy: yup.string(),
+//   facebook: yup.string().url("Düzgün Facebook linki daxil edin").nullable(),
+//   instagram: yup.string().url("Düzgün Instagram linki daxil edin").nullable(),
+//   twitter: yup.string().url("Düzgün Twitter linki daxil edin").nullable(),
+// });
+ 
+
+
+const PatientForm = ({ initialData, onSubmit, onCancel, mode = "create" }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
   const navigate = useNavigate();
   const { data: priceCategories } = usePriceCategories();
   const { data: doctors } = useDoctors();
+  const { editPatient } = usePatientStore();
+  
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
+    reset
   } = useForm({
-    resolver: yupResolver(schema),
+    // resolver: yupResolver(schema),
     defaultValues: {
       name: "",
       surname: "",
@@ -105,7 +103,6 @@ export default function PatientForm({
       homeAddress: "",
       workAddress: "",
       email: "",
-      // Preserving existing fields
       userId: "",
       userImage: "",
       username: "",
@@ -119,25 +116,15 @@ export default function PatientForm({
       isVip: false,
       isBlacklisted: false,
       referredBy: "",
-      facebook: "",
-      instagram: "",
-      twitter: "",
-    },
-    // transformValues: (values) => {
-    //   return Object.fromEntries(
-    //     Object.entries(values).map(([key, value]) => [key, value === '' ? null : value])
-    //   );
-    // }
+    }
   });
 
   // Initialize form data when initialData prop changes
   useEffect(() => {
     if (initialData) {
-      Object.entries(initialData).forEach(([key, value]) => {
-        setValue(key, value);
-      });
+      reset(initialData);
     }
-  }, [initialData, setValue]);
+  }, [initialData, reset]);
 
   // Close picker on outside click
   useEffect(() => {
@@ -187,20 +174,45 @@ export default function PatientForm({
               <label htmlFor="name">
                 Ad <span className="text-red-500">*</span>
               </label>
-              <input id="name" type="text" {...register("name")} />
+              <input 
+                id="name" 
+                type="text" 
+                {...register("name")} 
+                className={errors.name ? "error" : ""}
+              />
+              {errors.name && (
+                <span className="error-message">{errors.name.message}</span>
+              )}
             </div>
+            
             <div className="main-form-group">
               <label htmlFor="surname">
                 Soyad <span className="text-red-500">*</span>
               </label>
-              <input id="surname" type="text" {...register("surname")} />
+              <input 
+                id="surname" 
+                type="text" 
+                {...register("surname")} 
+                className={errors.surname ? "error" : ""}
+              />
+              {errors.surname && (
+                <span className="error-message">{errors.surname.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
               <label htmlFor="patronymic">
                 Ata adı <span className="text-red-500">*</span>
               </label>
-              <input id="patronymic" type="text" {...register("patronymic")} />
+              <input 
+                id="patronymic" 
+                type="text" 
+                {...register("patronymic")} 
+                className={errors.patronymic ? "error" : ""}
+              />
+              {errors.patronymic && (
+                <span className="error-message">{errors.patronymic.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
@@ -213,21 +225,26 @@ export default function PatientForm({
                 onChange={(option) => setValue("genderStatus", option.value)}
                 placeholder="Cins seçin"
                 options={[
-                  {
-                    value: "MAN",
-                    label: "Kişi",
-                  },
-                  {
-                    value: "WOMAN",
-                    label: "Qadın",
-                  },
+                  { value: "MAN", label: "Kişi" },
+                  { value: "WOMAN", label: "Qadın" },
                 ]}
               />
+              {errors.genderStatus && (
+                <span className="error-message">{errors.genderStatus.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
               <label htmlFor="finCode">FIN kod</label>
-              <input id="finCode" type="text" {...register("finCode")} />
+              <input 
+                id="finCode" 
+                type="text" 
+                {...register("finCode")} 
+                className={errors.finCode ? "error" : ""}
+              />
+              {errors.finCode && (
+                <span className="error-message">{errors.finCode.message}</span>
+              )}
             </div>
 
             <div className="main-form-group color-selector-group">
@@ -247,7 +264,8 @@ export default function PatientForm({
               )}
               <span
                 className="color-swatch"
-                style={{ backgroundColor: watch("colorCode") }}></span>
+                style={{ backgroundColor: watch("colorCode") }}>
+              </span>
 
               {showColorPicker && (
                 <div ref={colorPickerRef} className="color-picker-dropdown">
@@ -266,7 +284,11 @@ export default function PatientForm({
                 id="dateOfBirth"
                 type="date"
                 {...register("dateOfBirth")}
+                className={errors.dateOfBirth ? "error" : ""}
               />
+              {errors.dateOfBirth && (
+                <span className="error-message">{errors.dateOfBirth.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
@@ -281,16 +303,13 @@ export default function PatientForm({
                 }
                 placeholder="Qiymet kategoriyasini seçin"
                 options={[
-                  {
-                    value: "Standard",
-                    label: "Standart",
-                  },
-                  {
-                    value: "Vip",
-                    label: "VIP",
-                  },
+                  { value: "Standard", label: "Standart" },
+                  { value: "Vip", label: "VIP" },
                 ]}
               />
+              {errors.priceCategoryStatus && (
+                <span className="error-message">{errors.priceCategoryStatus.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
@@ -304,21 +323,10 @@ export default function PatientForm({
 
             <div className="main-form-group">
               <label htmlFor="doctor_id">Həkim</label>
-              {/* <CustomDropdown
-                name="doctor_id"
-                value={watch('doctor_id')}
-                onChange={(option) => setValue('doctor_id', option.value)}
-                placeholder="Həkim seçin"
-                options={doctors?.map(doctor => ({
-                  value: doctor.doctorId,
-                  label: `${doctor.name} ${doctor.surname}` // Combine name and surname for the label
-                }))}
-              /> */}
               <CustomDropdown
                 name="doctor_id"
                 value={watch("doctor_id")}
                 onChange={(option) => {
-                  console.log(option.value); // Debugging the selected option
                   setValue("doctor_id", option.value);
                 }}
                 placeholder="Həkim seçin"
@@ -349,17 +357,41 @@ export default function PatientForm({
               <label htmlFor="phone">
                 Mobil nömrə <span className="text-red-500">*</span>
               </label>
-              <input id="phone" type="tel" {...register("phone")} />
+              <input 
+                id="phone" 
+                type="tel" 
+                {...register("phone")} 
+                className={errors.phone ? "error" : ""}
+              />
+              {errors.phone && (
+                <span className="error-message">{errors.phone.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
               <label htmlFor="workPhone">İş telefonu</label>
-              <input id="workPhone" type="tel" {...register("workPhone")} />
+              <input 
+                id="workPhone" 
+                type="tel" 
+                {...register("workPhone")} 
+                className={errors.workPhone ? "error" : ""}
+              />
+              {errors.workPhone && (
+                <span className="error-message">{errors.workPhone.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
               <label htmlFor="homePhone">Ev telefonu</label>
-              <input id="homePhone" type="tel" {...register("homePhone")} />
+              <input 
+                id="homePhone" 
+                type="tel" 
+                {...register("homePhone")} 
+                className={errors.homePhone ? "error" : ""}
+              />
+              {errors.homePhone && (
+                <span className="error-message">{errors.homePhone.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
@@ -373,7 +405,15 @@ export default function PatientForm({
 
             <div className="main-form-group">
               <label htmlFor="email">E-poçt ünvanı</label>
-              <input id="email" type="email" {...register("email")} />
+              <input 
+                id="email" 
+                type="email" 
+                {...register("email")} 
+                className={errors.email ? "error" : ""}
+              />
+              {errors.email && (
+                <span className="error-message">{errors.email.message}</span>
+              )}
             </div>
 
             <div className="main-form-group">
@@ -395,17 +435,7 @@ export default function PatientForm({
             </div>
           </div>
         </div>
-        {Object.keys(errors).length > 0 && (
-          <div className="error-summary">
-            <ul>
-              {Object.values(errors).map((error, index) => (
-                <li key={index} className="text-red-500 text-xs error-message">
-                  {error.message}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        
         <div className="main-form-actions">
           <button type="submit" className="btn-submit">
             {mode === "create" ? "Yarat" : "Yadda Saxla"}
@@ -420,4 +450,6 @@ export default function PatientForm({
       </form>
     </div>
   );
-}
+};
+
+export default PatientForm;

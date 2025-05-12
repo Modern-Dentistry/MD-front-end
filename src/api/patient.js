@@ -16,13 +16,22 @@ export const createPatient = async (patientData) => {
   }
 };
 
-// Update patient
 export const updatePatient = async (patientData) => {
-  const response = await axiosInstance.put(
-    ` ${API_BASE_URL}/patient/update`,
-    patientData
-  );
-  return response.data;
+  try {
+    const response = await axios.post(  // Changed from PUT to POST
+      `${import.meta.env.VITE_BASE_URL}/patient/update`,
+      patientData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}` // If using auth
+        }
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
 };
 // Search patients
 export const searchPatients = async (searchParams) => {
