@@ -16,21 +16,23 @@ export const createPatient = async (patientData) => {
   }
 };
 
-export const updatePatient = async (patientData) => {
+export const editPatient = async (patientData) => {
   try {
-    const response = await axios.post(  // Changed from PUT to POST
-      `${import.meta.env.VITE_BASE_URL}/patient/update`,
+    const response = await axios.put(
+      `${import.meta.env.VITE_BASE_URL}/patient/update/${
+        patientData.patientId
+      }`,
       patientData,
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // If using auth
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if needed
+        },
       }
     );
     return response.data;
   } catch (err) {
-    throw err;
+    throw new Error("Failed to update patient: " + err.message);
   }
 };
 // Search patients
