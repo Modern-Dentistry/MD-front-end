@@ -1,365 +1,222 @@
-import React, { useState, useEffect, use } from 'react';
-import ProfileImage from '../../components/ProfileImage';
-import '../../assets/style/form.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import PatientForm from '../../components/PatientForm';
-import { usePatient, useUpdatePatient, useDeletePatient } from '../../hooks/usePatients';
-import { useParams } from 'react-router-dom';
-// import EditIcon from '../../assets/icons/edit';
-import DeleteIcon from '../../assets/icons/delete';
-import BlurLoader from '../../components/layout/BlurLoader';
+import React, { useState, useEffect, useRef } from "react";
+import { SketchPicker } from "react-color";
+import { MdColorLens } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import CustomDropdown from "../../components/CustomDropdown";
+import "../../assets/style/PatientPage/patientedit.css"
 
-const PatientEdit = () => {
-  const [isEditing, setIsEditing] = useState(true);
-  const { id } = useParams();
-  const { data: patient, isLoading, error } = usePatient(id);
-  const { mutate: deletePatient, isPending: deletingPatient } = useDeletePatient();
-  const { mutate: updatePatient, isPending: updatingPatient } = useUpdatePatient();
+const PatientForm = ({ initialData = {}, onSubmit, onCancel, mode = "create" }) => {
+  const navigate = useNavigate();
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorPickerRef = useRef(null);
 
-  // Handle Edit
-  const handleEdit = () => {
-    setIsEditing(true);
+  const formRefs = {
+    name: useRef(),
+    surname: useRef(),
+    patronymic: useRef(),
+    finCode: useRef(),
+    genderStatus: useRef(),
+    dateOfBirth: useRef(),
+    priceCategoryStatus: useRef(),
+    specializationStatus: useRef(),
+    doctor_id: useRef(),
+    phone: useRef(),
+    workPhone: useRef(),
+    homePhone: useRef(),
+    homeAddress: useRef(),
+    workAddress: useRef(),
+    email: useRef(),
+    colorCode: useRef(),
+    isVip: useRef(),
+    isBlacklisted: useRef(),
   };
 
-  // Handle Delete
-  const handleDelete = () => {
-      deletePatient(id, {
-        onSuccess: () => {
-          toast.success("Patient deleted successfully");
-        },
-        onError: () => {
-          toast.error("Error deleting patient");
-        },
+  useEffect(() => {
+    if (initialData) {
+      Object.entries(formRefs).forEach(([key, ref]) => {
+        if (ref.current !== undefined) {
+          if (key === "isVip" || key === "isBlacklisted") {
+            ref.current.checked = initialData[key] || false;
+          } else {
+            ref.current.value = initialData[key] || "";
+          }
+        }
       });
+    }
+  }, [initialData]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setShowColorPicker(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleColorChange = (color) => {
+    formRefs.colorCode.current.value = color.hex;
   };
 
-  // Handle Form Submit
-  const handleFormSubmit = (formData) => {
-    formData.id = id; // Ensure the ID is included in the form data
-    updatePatient(formData, {
-      onSuccess: () => {
-        toast.success("Patient updated successfully");
-        setIsEditing(false); // Close the form after successful submission
-      },
-      onError: () => {
-        toast.error("Error updating patient");
-      },
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {};
+    Object.entries(formRefs).forEach(([key, ref]) => {
+      if (key === "isVip" || key === "isBlacklisted") {
+        data[key] = ref.current.checked;
+      } else {
+        data[key] = ref.current.value === "" ? null : ref.current.value;
+      }
     });
+
+    if (onSubmit) onSubmit(data);
   };
 
-  // Handle Cancel
   const handleCancel = () => {
-    setIsEditing(false);
+    if (onCancel) onCancel();
+    else navigate(-1);
   };
 
-  if (isEditing) {
-    return (
-      <div className='flex flex-col gap-2'>
-        <PatientForm 
-          initialData={patient}
-          onSubmit={handleFormSubmit}
-          onCancel={handleCancel}
-          mode="edit"
-        />
-      </div>
-    );
-  }
-//isLoading={isLoading || updatingPatient}>
   return (
-    <BlurLoader isLoading={false}>
-    <div className='flex flex-col gap-2'>
-      <div className='flex self-end gap-4'>
-        <button onClick={handleEdit}>
-          {/* <EditIcon /> */}
-        </button>
-        <button onClick={handleDelete}>
-          <DeleteIcon />
-        </button>
-      </div>
+    <form className="main-form" onSubmit={handleSubmit}>
       <div className="input-container">
-        <div className='left'>
-          <div className='flex flex-col gap-3 bg-[#D1E0FF] rounded-lg p-4'>
-            <div className="main-form-group">
-              <label htmlFor="status">Status</label>
-              <input
-                id="status"
-                type="text"
-                name="status"
-                value={patient?.permissions}
-                readOnly
-                className='readonly'
-              />
-            </div>
-            <div className="main-form-group">
-              <label htmlFor="id">ID</label>
-              <input
-                id="id"
-                type="text"
-                name="id"
-                value={patient?.id}
-                readOnly
-                className='readonly'
-              />
-            </div>
-            <div className="main-form-group">
-              <label htmlFor="registrationDate">Qeydiyyat Tarixi</label>
-              <input
-                id="registrationDate"
-                type="date"
-                name="registrationDate"
-                value={patient?.registrationDate || ''} // Replace with actual registration date
-                readOnly
-                className='readonly'
-              />
-            </div>
-            <div className="main-form-group">
-              <label htmlFor="lastEdited">Son redakte</label>
-              <input
-                id="lastEdited"
-                type="date"
-                name="lastEdited"
-                value={patient?.lastEdited || ''} // Replace with actual last edited date
-                readOnly
-                className='readonly'
-              />
-            </div>
-          </div>
-  
+        <div className="left">
           <div className="main-form-group">
-            <label htmlFor="firstName">Ad</label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              value={patient?.name}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="lastName">Soyad</label>
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              value={patient?.surname}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="fatherName">Ata adı</label>
-            <input
-              id="fatherName"
-              type="text"
-              name="fatherName"
-              value={patient?.patronymic}
-              readOnly
-              className='readonly'
-            />
-          </div>
-    
-          <div className="main-form-group">
-            <label htmlFor="gender">Cinsiyyət</label>
-            <input
-              id="gender"
-              type="text"
-              name="gender"
-              value={patient?.genderStatus}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="finCode">FIN kod</label>
-            <input
-              id="finCode"
-              type="text"
-              name="finCode"
-              value={patient?.finCode}
-              readOnly
-              className='readonly'
-            />
+            <label>Ad</label>
+            <input type="text" ref={formRefs.name} />
           </div>
 
           <div className="main-form-group">
-            <label htmlFor="birthDate">Doğum tarixi</label>
-            <input
-              id="birthDate"
-              type="date"
-              name="birthDate"
-              value={patient?.dateOfBirth}
-              readOnly
-              className='readonly'
-            />
+            <label>Soyad</label>
+            <input type="text" ref={formRefs.surname} />
           </div>
 
           <div className="main-form-group">
-            <label htmlFor="priceCategory">Qiymət kateqoriyası</label>
-            <input
-              id="priceCategory"
-              type="text"
-              name="priceCategory"
-              value={patient?.priceCategoryStatus}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="specialization">İxtisas</label>
-            <input
-              id="specialization"
-              type="text"
-              name="specialization"
-              value={patient?.specializationStatus}
-              readOnly
-              className='readonly'
-            />
+            <label>Ata adı</label>
+            <input type="text" ref={formRefs.patronymic} />
           </div>
 
           <div className="main-form-group">
-            <label htmlFor="doctor">Həkim</label>
-            <input
-              id="doctor"
-              type="text"
-              name="doctor"
-              value={patient?.doctor_id}
-              readOnly
-              className='readonly'
-            />
+            <label>FIN kod</label>
+            <input type="text" ref={formRefs.finCode} />
           </div>
 
+          <div className="main-form-group">
+            <label>Cinsiyyət</label>
+            <CustomDropdown
+              value={formRefs.genderStatus.current?.value}
+              onChange={(option) => (formRefs.genderStatus.current.value = option.value)}
+              options={[
+                { value: "MAN", label: "Kişi" },
+                { value: "WOMAN", label: "Qadın" },
+              ]}
+              placeholder="Seçin"
+            />
+            <input type="hidden" ref={formRefs.genderStatus} />
+          </div>
+
+          <div className="main-form-group">
+            <label>Doğum tarixi</label>
+            <input type="date" ref={formRefs.dateOfBirth} />
+          </div>
+
+          <div className="main-form-group">
+            <label>Qiymət kateqoriyası</label>
+            <CustomDropdown
+              value={formRefs.priceCategoryStatus.current?.value}
+              onChange={(option) => (formRefs.priceCategoryStatus.current.value = option.value)}
+              options={[
+                { value: "Standard", label: "Standart" },
+                { value: "Vip", label: "VIP" },
+              ]}
+              placeholder="Seçin"
+            />
+            <input type="hidden" ref={formRefs.priceCategoryStatus} />
+          </div>
+
+          <div className="main-form-group">
+            <label>İxtisas</label>
+            <input type="text" ref={formRefs.specializationStatus} />
+          </div>
+
+          <div className="main-form-group">
+            <label>Həkim</label>
+            <CustomDropdown
+              value={formRefs.doctor_id.current?.value}
+              onChange={(option) => (formRefs.doctor_id.current.value = option.value)}
+              options={[]} // bura doctorlar propsla ötürülə bilər
+              placeholder="Seçin"
+            />
+            <input type="hidden" ref={formRefs.doctor_id} />
+          </div>
+
+          <div className="main-form-group">
+            <label>Rəng kodu</label>
+            <input type="text" ref={formRefs.colorCode} readOnly />
+            <span className="color-icon" onClick={() => setShowColorPicker(!showColorPicker)}>
+              <MdColorLens />
+            </span>
+            {showColorPicker && (
+              <div ref={colorPickerRef}>
+                <SketchPicker color={formRefs.colorCode.current?.value} onChange={handleColorChange} />
+              </div>
+            )}
+          </div>
+
+          <div className="main-form-group">
+            <label>
+              <input type="checkbox" className="patientEditCheckbox" ref={formRefs.isVip} /> VIP
+            </label>
+          </div>
+
+          <div className="main-form-group">
+            <label>
+              <input type="checkbox" className="patientEditCheckbox" ref={formRefs.isBlacklisted} /> Qara siyahı
+            </label>
+          </div>
         </div>
 
-        <div className='right'>
+        <div className="right">
           <div className="main-form-group">
-            <label htmlFor="isVip">VIP</label>
-            <input
-              id="isVip"
-              type="text"
-              name="isVip"
-              value={patient?.isVip}
-              readOnly
-              className='readonly'
-            />
+            <label>Mobil nömrə</label>
+            <input type="tel" ref={formRefs.phone} />
           </div>
 
           <div className="main-form-group">
-            <label htmlFor="isBlacklisted">Qara siyahı</label>
-            <input
-              id="isBlacklisted"
-              type="text"
-              name="isBlacklisted"
-              value={patient?.isBlacklisted}
-              readOnly
-              className='readonly'
-            />
+            <label>İş telefonu</label>
+            <input type="tel" ref={formRefs.workPhone} />
           </div>
+
           <div className="main-form-group">
-            <label htmlFor="mobileNumber1">Mobil nömrə 1</label>
-            <input
-              id="mobileNumber1"
-              type="tel"
-              name="mobileNumber1"
-              value={patient?.mobileNumber1}
-              readOnly
-              className='readonly'
-            />
+            <label>Ev telefonu</label>
+            <input type="tel" ref={formRefs.homePhone} />
           </div>
-          
+
           <div className="main-form-group">
-            <label htmlFor="mobileNumber2">Mobil nömrə 2</label>
-            <input
-              id="mobileNumber2"
-              type="tel"
-              name="mobileNumber2"
-              value={patient?.mobileNumber2}
-              readOnly
-              className='readonly'
-            />
+            <label>Ev ünvanı</label>
+            <input type="text" ref={formRefs.homeAddress} />
           </div>
-          
+
           <div className="main-form-group">
-            <label htmlFor="mobileNumber3">Mobil nömrə 3</label>
-            <input
-              id="mobileNumber3"
-              type="tel"
-              name="mobileNumber3"
-              value={patient?.mobileNumber3}
-              readOnly
-              className='readonly'
-            />
+            <label>İş ünvanı</label>
+            <input type="text" ref={formRefs.workAddress} />
           </div>
-          
+
           <div className="main-form-group">
-            <label htmlFor="whatsappNumber">WhatsApp nömrəsi</label>
-            <input
-              id="whatsappNumber"
-              type="tel"
-              name="whatsappNumber"
-              value={patient?.whatsappNumber}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="workPhone">İş telefonu</label>
-            <input
-              id="workPhone"
-              type="tel"
-              name="workPhone"
-              value={patient?.workPhone}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="homePhone">Ev telefonu</label>
-            <input
-              id="homePhone"
-              type="tel"
-              name="homePhone"
-              value={patient?.homePhone}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="email">E-poçt ünvanı</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={patient?.email}
-              readOnly
-              className='readonly'
-            />
-          </div>
-          
-          <div className="main-form-group">
-            <label htmlFor="homeAddress">Ev ünvanı</label>
-            <input
-              id="homeAddress"
-              type="text"
-              name="homeAddress"
-              value={patient?.homeAddress}
-              readOnly
-              className='readonly'
-            />
+            <label>E-poçt</label>
+            <input type="email" ref={formRefs.email} />
           </div>
         </div>
       </div>
-    </div>
-    </BlurLoader>
+
+      <div className="main-form-actions">
+        <button type="submit" className="patientEditCreateBTN" >{mode === "create" ? "Yarat" : "Yadda Saxla"}</button>
+        <button type="button" className="patientEditCancelBTN" onClick={handleCancel}>Ləğv et</button>
+      </div>
+    </form>
   );
 };
 
-export default PatientEdit;
+export default PatientForm;
