@@ -80,6 +80,8 @@ const Breadcrumb = () => {
         return 'Laboratoriya';
       case 'employees':
         return 'İşçilər';
+      case 'reports':
+        return 'Hesabat';
       case 'patients':
         return 'Pasiyentlər';
       case 'queue':
