@@ -1,7 +1,7 @@
 import React from "react";
 import "../assets/style/tooth_selector.css";
 
-const ToothSelector = ({ selectedTeeth, onSelect, showImage = true, mode = "edit", isChild = true }) => {
+const ToothSelector = ({ selectedTeeth, onSelect, showImage = true, mode = "edit", isChild = false }) => {
   const upperJawTeeth = (!isChild) ? [
     18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28,
   ] : [

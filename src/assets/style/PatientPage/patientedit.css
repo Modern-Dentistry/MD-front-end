@@ -1,0 +1,146 @@
+.main-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.main-form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.main-form-group input[type="text"],
+.main-form-group input[type="tel"],
+.main-form-group input[type="email"],
+.main-form-group input[type="date"],
+.main-form-group input[type="number"],
+.main-form-group input[type="password"],
+.main-form-group input[type="hidden"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: 0.3s;
+  height: 38px;
+}
+
+.main-form-group input:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.08);
+}
+
+.color-icon {
+  position: absolute;
+  right: 5px;
+  top: 57px;
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-icon:hover {
+  color: #1d4ed8;
+}
+
+.color-picker-popup {
+  position: absolute;
+  z-index: 10;
+  top: 70px;
+  right: 0;
+}
+.patientEditCheckbox {
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.main-form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.form-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.form-button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* .main-form-actions.create {
+  background-color: #1d4ed8;
+  color: #fff;
+}
+
+.form-button.create:hover {
+  background-color: #1e40af;
+}
+
+.form-button.cancel {
+  background-color: #e5e7eb;
+  color: #333;
+}
+
+.form-button.cancel:hover {
+  background-color: #d1d5db;
+} */
+
+.main-form-actions{
+    padding-right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 40px;
+    >.patientEditCreateBTN{
+        background-color: #1d4ed8;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 10px;
+        transition: 0.5s ease;
+        &:hover{
+            cursor: pointer;
+            background-color: #0f39ae;
+        }
+    }
+    >.patientEditCancelBTN{
+        background-color:#fff;
+        border: 1px solid #ccc;
+        padding: 10px 25px;
+        border-radius: 10px;
+        transition: 0.5s ease;
+        &:hover{
+            background-color: #1d4ed8;
+            cursor: pointer;
+            border-color: #1d4ed8;
+            color: #fff;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+  .color-picker-popup {
+    top: 70px;
+    right: 0;
+  }
+}

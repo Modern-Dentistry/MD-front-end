@@ -12,12 +12,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Modal from "./Modal";
 import { Controller } from "react-hook-form";
 import CustomDropdown from "./CustomDropdown";
-export default function UserForm({
-  mode: initialMode,
-  userData = null,
-  onSubmit,
-  onDelete,
-}) {
+
+import useWorkerStore from "../../stores/workerStore";
+
+function UserForm({ mode: initialMode, userData = null, onSubmit, onDelete }) {
+  const { addWorker } = useWorkerStore();
   const [mode, setMode] = useState(initialMode);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
@@ -359,9 +358,9 @@ export default function UserForm({
               />
             </div>
 
-            <div className="main-form-group">
+            <div className="main-form-group ">
               <label htmlFor="finCode">
-                FIN kod <span className="text-red-500">*</span>
+                FIN kod <span className="text-red-500 ">*</span>
               </label>
               <input
                 id="finCode"
@@ -601,3 +600,4 @@ export default function UserForm({
     </div>
   );
 }
+export default UserForm;

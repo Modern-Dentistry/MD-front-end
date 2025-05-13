@@ -80,6 +80,8 @@ const Breadcrumb = () => {
         return 'Laboratoriya';
       case 'employees':
         return 'İşçilər';
+      case 'reports':
+        return 'Hesabat';
       case 'patients':
         return 'Pasiyentlər';
       case 'queue':
@@ -88,12 +90,19 @@ const Breadcrumb = () => {
         return 'Randevular';
       case 'employee-schedule':
         return 'İş qrafiki';
+      case 'edit-employee':
+        return 'İşçi readaktəsi';
+      case 'employee-add':
+        return 'İşçi əlavə et';
+      case 'employee':
+        return 'İşçi';
       case 'randevu-card':
         return 'Randevu kartı';
       case 'add-new-appointment':
         return 'Yeni randevu';
       case 'receiving-orders':
         return 'Sifarişlərin qəbulu';
+
       default:
         return segment.charAt(0).toUpperCase() + segment.slice(1);
     }

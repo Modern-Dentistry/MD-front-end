@@ -1,25 +1,26 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-  readPatients, 
-  readPatientById, 
-  createPatient, 
-  updatePatient, 
-  searchPatients, 
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  readPatients,
+  readPatientById,
+  createPatient,
+  editPatient,
+  searchPatients,
   deletePatient,
-  exportPatientsToExcel 
-} from '../api/patient';
+  exportPatientsToExcel,
+} from "../api/patient";
 
 export const usePatients = (searchParams) => {
   return useQuery({
-    queryKey: ['patients', searchParams],
-    queryFn: () => searchParams ? searchPatients(searchParams) : readPatients(),
-    enabled: true
+    queryKey: ["patients", searchParams],
+    queryFn: () =>
+      searchParams ? searchPatients(searchParams) : readPatients(),
+    enabled: true,
   });
 };
 
 export const usePatient = (id) => {
   return useQuery({
-    queryKey: ['patient', id],
+    queryKey: ["patient", id],
     queryFn: () => readPatientById(id),
     enabled: !!id,
   });
@@ -27,45 +28,44 @@ export const usePatient = (id) => {
 
 export const useCreatePatient = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationKey: ['createPatient'],
+    mutationKey: ["createPatient"],
     mutationFn: createPatient,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['patients'] });
+      queryClient.invalidateQueries({ queryKey: ["patients"] });
     },
   });
 };
 
-export const useUpdatePatient = () => {
+export const useeditPatient = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationKey: ['updatePatient'],
-    mutationFn: updatePatient,
+    mutationKey: ["editPatient"],
+    mutationFn: editPatient,
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['patients'] });
-      queryClient.invalidateQueries({ queryKey: ['patient', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ["patients"] });
+      queryClient.invalidateQueries({ queryKey: ["patient", variables.id] });
     },
   });
 };
-
 
 export const useDeletePatient = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationKey: ['deletePatient'],
+    mutationKey: ["deletePatient"],
     mutationFn: deletePatient,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['patients'] });
+      queryClient.invalidateQueries({ queryKey: ["patients"] });
     },
   });
 };
 
 export const useExportPatientsToExcel = () => {
   return useMutation({
-    mutationKey: ['exportPatientsToExcel'],
+    mutationKey: ["exportPatientsToExcel"],
     mutationFn: exportPatientsToExcel,
   });
 };

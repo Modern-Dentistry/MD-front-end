@@ -1,0 +1,36 @@
+.blacklistContainer{
+    height: 100vh;
+    background-color: white;
+    border-radius: 10px;
+    >.blacklistQuickSearch{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 20px;
+        padding-bottom: 40px;
+        >.leftPart{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            >input{
+                height: 36px;
+                width: 160px;
+                border-radius: 8px;
+                outline: 1px solid #CDD5DF;
+                border: none;
+                padding-left: 8px;
+                &:focus{
+                    outline: 1px solid #92bdf1;
+                }
+            }
+        }
+        >.searchBTNBlacklist{
+          font-size: 22px;
+          margin-left: 20px;
+        }
+
+    }
+   
+}
+
+
