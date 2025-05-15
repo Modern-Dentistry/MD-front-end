@@ -76,9 +76,9 @@ const Breadcrumb = () => {
       case 'usage':
         return 'İstifadə';
       case 'edit-category':
-        return 'Redaktə et';
+        return '';
       case 'edit-product':
-        return 'Redaktə et';
+        return '';
       case 'edit-queue':
         return 'Redaktə et';
       case 'settings':

@@ -138,6 +138,15 @@ import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeEdit from "./pages/Employees/EmployeeEdit";
 import PatientEdit from "./pages/patient/PatientEdit";
 import ReportsPage from "./pages/Reports/ReportsPage";
+import AddProductCategory from "./pages/ProductCategory/AddProductCategory";
+import ProductCategory from "./pages/ProductCategory/ProductCategory";
+import EditProductCategory from "./pages/ProductCategory/EditProductCategory";
+import Products from "./pages/ProductCategory/Products";
+import AddProduct from "./pages/ProductCategory/AddProduct";
+import PatientReport from "./pages/patient/PatientReport";
+import AddQueue from "./pages/Queue/AddQueue";
+import EditQueue from "./pages/Queue/EditQueue";
+import EditProduct from "./pages/ProductCategory/EditProduct";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
