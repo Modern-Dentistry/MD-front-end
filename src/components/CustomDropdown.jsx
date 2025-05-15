@@ -5,18 +5,18 @@ const CustomDropdown = ({
   options = [], 
   value, 
   onChange, 
-  onSearchChange,
+  onSearchChange = () => {},
   placeholder = "Seçin",
   name,
   isMulti = false,
   className = "",
   disabled = false,
-  isLoading = false // Add isLoading prop
+  isLoading = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
-  // Close dropdown when clicking outside
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,17 +35,14 @@ const CustomDropdown = ({
   };
 
   const handleSelect = (option) => {
-    if (disabled) return; // Prevent selection if disabled
+    if (disabled) return;
     
     if (isMulti) {
-      // Çoxlu seçim halında
       const currentValue = Array.isArray(value) ? value : [];
       const isSelected = currentValue.some(v => v === option.value);
       const newValue = isSelected
         ? currentValue.filter(v => v !== option.value)
         : [...currentValue, option.value];
-      
-      // Seçilmiş dəyərlər düzgün formatda qaytarılır
       onChange(newValue);
     } else {
       onChange(option);
@@ -57,29 +54,25 @@ const CustomDropdown = ({
     if (!value) return placeholder;
     
     if (isMulti && Array.isArray(value)) {
-      // Çoxlu seçim üçün bütün seçilmiş elementlərin adlarını göstəririk
       const selectedOptions = options.filter(opt => value.includes(opt.value));
       return selectedOptions.length > 0 
-        ? selectedOptions.map(opt => opt.label).join(", ") 
+        ? selectedOptions.map(opt => opt.labelText || opt.label).join(", ") 
         : placeholder;
     }
     
-    // Tək seçim üçün
     if (typeof value === 'string') {
       const selectedOption = options.find(opt => opt.value === value);
-      return selectedOption ? selectedOption.label : placeholder;
+      return selectedOption ? (selectedOption.labelText || selectedOption.label) : placeholder;
     }
     
     const selectedOption = options.find(opt => value === opt || (opt && value && opt.value === value.value));
-    return selectedOption ? selectedOption.label : placeholder;
+    return selectedOption ? (selectedOption.labelText || selectedOption.label) : placeholder;
   };
 
   const isSelected = (option) => {
     if (isMulti) {
-      // Çoxlu seçim halında yoxlanış
       return Array.isArray(value) && value.some(v => v === option.value);
     }
-    // Tək seçim halında yoxlanış
     return value === option || (value && option && value.value === option.value);
   };
 
@@ -88,9 +81,10 @@ const CustomDropdown = ({
     onSearchChange(event.target.value);
   };
 
-  const filteredOptions = options.filter(option =>
-    option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOptions = options.filter(option => {
+    const text = option.labelText || (typeof option.label === 'string' ? option.label : '');
+    return text.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className={`custom-dropdown ${className} ${disabled ? 'disabled' : ''}`} ref={dropdownRef}>
@@ -135,7 +129,10 @@ const CustomDropdown = ({
                     className="checkbox-input"
                   />
                 )}
-                <span className="item-label">{option.label}</span>
+                <span className="item-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span>{option.labelText || option.label}</span>
+                  {option.icon && <span>{option.icon}</span>}
+                </span>
               </div>
             ))
           )}

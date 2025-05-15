@@ -1,0 +1,111 @@
+.addQueuePageContainer {
+    height: 100vh;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addQueuePageWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    flex: 1;
+}
+
+.addQueuePageWrapper > .queuePageWrapperInputRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.queuePageWrapperInput {
+    width: 48%;
+}
+
+.queuePageWrapperInput > p {
+    margin-bottom: 10px;
+}
+
+.queuePageWrapperInput > p > span {
+    color: red;
+    margin-left: 4px;
+}
+
+.queuePageWrapperInputWeek {
+    width: 100%;
+}
+
+.queuePageWrapperInputWeek > p {
+    margin-bottom: 10px;
+}
+
+.queuePageWrapperInputWeek > p > span {
+    color: red;
+    margin-left: 4px;
+}
+
+.addQueueBasicInput {
+    width: 100%;
+    border: 1px solid #CDD5DF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.4s ease;
+}
+
+.addQueueBasicInput:hover {
+    border: 1px solid #b1b4b7;
+    cursor: pointer;
+}
+
+.addQueuePageAcceptOrDeny {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.cancelAddQueue,
+.acceptAddQueue {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #155EEF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #155EEF;
+}
+
+.cancelAddQueue {
+    background-color: transparent;
+    color: #155EEF;
+    transition: 0.4s ease;
+    &:hover{
+        cursor: pointer;
+        background-color: #0d53e0;
+        color: #fff;
+    }
+}
+.acceptAddQueue {
+    transition: 0.4s ease;
+    &:hover{
+        cursor: pointer;
+        background-color: #0d53e0;
+        color: #fff;
+    }
+}
+
+.cancelAddQueue img {
+    height: 1px;
+}
+
+.cancelAddQueue img{
+  height: 14px;
+}

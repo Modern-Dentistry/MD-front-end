@@ -1,0 +1,147 @@
+.patientReportWrapper{
+    height: 100vh;
+    background-color: white;
+    border-radius: 10px;
+    >.patientReportTopPart{
+        padding: 20px 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        >.patientReportTopPartLeft{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            >input{
+                border: 1px solid #ccc;
+                min-width: 162px;
+                min-height: 41px;
+                border-radius: 8px;
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+        >.patientReportTopPartRight{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            >.reportsPageIncome{
+                padding: 5px 10px;
+                border: 1px solid #155EEF;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 500;
+                color: #155EEF;
+                >.innerIconForButton{
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: #155EEF;
+                    transition: 0.5s ease;
+
+                }
+                transition: 0.5s ease;
+                &:hover{
+                    cursor: pointer;
+                    background-color: #0740b2;
+                    color: #fff;
+                    >.innerIconForButton{
+                        color: #fff;
+                    }
+                }
+
+            }
+            >.reportsPageOutcome{
+                padding: 5px 10px;
+                border: 1px solid #155EEF;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 500;
+                color: #fff;
+                background-color: #155EEF;
+                transition: 0.5s ease;
+                >.innerIconForButton{
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: #fff;
+                }
+                &:hover{
+                    cursor: pointer;
+                    background-color: #0740b2;
+                }
+                
+            }
+            >.reportsPageExport{
+
+                >.reportsPageExportIcon{
+                    color: #155EEF;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+.patientReportTableWrapper {
+  background: white;
+  border-radius: 8px;
+  margin-top: 20px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.patientReportTableScrollContainer {
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.patientReportTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.patientReportTable th,
+.patientReportTable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+}
+
+.patientReportTable thead th {
+  background-color: #EEF2F6;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  text-align: center;
+  z-index: 1;
+}
+
+.patientReportTable thead th:first-child,
+.patientReportTable td:first-child {
+  border-right: 1px solid #CDD5DF;
+}
+
+.patientReportTable tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.patientReportTable thead {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+}
+
+.patientReportTableResultMoney {
+  display: flex;
+  justify-content: flex-end;
+  gap: 120px;
+}
+
+.patientReportTableResultMoney > p {
+  font-weight: 600;
+}

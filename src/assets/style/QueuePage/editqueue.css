@@ -1,0 +1,106 @@
+.editQueuePageContainer {
+    height: 100vh;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.1);
+}
+
+.editQueuePageWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    flex: 1;
+}
+
+.editQueuePageWrapper > .queuePageWrapperInputRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.queuePageWrapperInput {
+    width: 48%;
+}
+
+.queuePageWrapperInput > p,
+.queuePageWrapperInputWeek > p {
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #002f5f;
+}
+
+.queuePageWrapperInput > p > span,
+.queuePageWrapperInputWeek > p > span {
+    color: red;
+    margin-left: 4px;
+}
+
+.queuePageWrapperInputWeek {
+    width: 100%;
+}
+
+.editQueueBasicInput {
+    width: 100%;
+    border: 1px solid #bcd2e8;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border 0.3s ease;
+    background-color: #fff;
+}
+
+.editQueueBasicInput:hover {
+    border: 1px solid #80bfff;
+    cursor: pointer;
+}
+
+.editQueuePageAcceptOrDeny {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.canceleditQueue,
+.accepteditQueue {
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.canceleditQueue {
+    background-color: transparent;
+    color: #007bff;
+}
+.canceleditQueue:hover {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.accepteditQueue {
+    background-color: #007bff;
+    color: white;
+}
+.accepteditQueue:hover {
+    background-color: #0056cc;
+    cursor: pointer;
+}
+
+.canceleditQueue img,
+.accepteditQueue img {
+    height: 16px;
+}

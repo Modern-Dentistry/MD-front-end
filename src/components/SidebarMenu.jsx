@@ -184,9 +184,9 @@ const SidebarMenu = () => {
         { id: 89, title: "İxtisaslar", path: "/specialities" },
         { id: 90, title: "Metallar", path: "/metals" },
         { id: 91, title: "Keramikalar", path: "/ceramics" },
-        { id: 92, title: "Məhsul kateqoriyaları", path: "/product-categories" },
-        { id: 93, title: "Qara siyahı səbəbləri", path: "/blacklist-reasons" },
-        { id: 94, title: "Ümumi tənzimləmələr", path: "/general-settings" },
+        { id: 92, title: "Qara siyahı səbəbləri", path: "/blacklist-reasons" },
+        { id: 93, title: "Ümumi tənzimləmələr", path: "/general-settings" },
+        { id: 94, title: "Məhsul kateqoriyaları", path: "/product-categories" },
       ],
       
     },

@@ -1,31 +1,155 @@
-.queueSearchInputs{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    >.leftPart{
+
+.queuePageContainer{
+    height: 100vh;
+    background-color: #fff;
+    border-radius: 10px;
+    .queueSearchInputs{
         display: flex;
         align-items: center;
-        gap: 10px;
-        >input{
-            width: 140px;
-            padding: 6px;
-            border-radius: 8px;
-            border:1px solid #CDD5DF;
+        justify-content: space-between;
+        padding: 20px;
+        >.leftPart{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            >input{
+                width: 140px;
+                padding: 6px;
+                border-radius: 8px;
+                border:1px solid #CDD5DF;
+            }
+            >.searchIconBTN{
+                font-size: 20px;
+            }
         }
-        >.searchIconBTN{
-            font-size: 20px;
+        >.rightPart{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            >select{
+                width: 160px;
+                border:1px solid #CDD5DF;
+                border-radius: 8px;
+                padding: 6px;
+            }
         }
     }
-    >.rightPart{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        >select{
-            width: 160px;
-            border:1px solid #CDD5DF;
-            border-radius: 8px;
-            padding: 6px;
-        }
-    }
+}
+.queueListWrapper {
+  background: white;
+  border-radius: 8px;
+}
+
+.queueListTableWrapper {
+  margin-top: 20px;
+  background-color: white !important;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.queueListTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.queueListTable thead {
+  background-color: #EEF2F6;
+}
+
+.queueListTable thead tr {
+  font-weight: 300;
+}
+
+.queueListTable thead tr th {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.queueListTable tbody tr {
+  transition: background-color 0.2s;
+}
+
+.queueListTable tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+.queueListTable tbody tr td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #CDD5DF;
+  font-size: 14px;
+}
+
+.queueListAvatarNameWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.queueListAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.queueListStatus {
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.queueListStatus.active {
+  background-color: #4CAF50;
+}
+
+.queueListStatus.passive {
+  background-color: #f44336;
+}
+
+.queueListActionsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.queueListIcon {
+  font-size: 18px;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.queueListIcon:hover {
+  cursor: pointer;
+}
+
+.queueListIcon.edit {
+  color: #155EEF;
+}
+
+.queueListIcon.delete {
+  color: #FD4A3D;
+}
+
+.queueListNoResults {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+}
+
+/* Web kit */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }

@@ -62,14 +62,14 @@ function PatientsList() {
   const icons = [
     {
       icon: CiCircleInfo,
-      action: (row) => navigate(`patient/${row.id}`),
+      action: (row) => navigate(`patient/${row.id}/general`),
       className: "info"
     },
-    {
-      icon: FiEdit3,
-      action: (row) => navigate(`patient/${row.id}`),
-      className: "edit"
-    },
+    // {
+    //   icon: FiEdit3,
+    //   action: (row) => navigate(`patient/${row.id}`),
+    //   className: "edit"
+    // },
     {
       icon: GoTrash,
       action: (row) => {

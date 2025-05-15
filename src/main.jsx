@@ -138,6 +138,15 @@ import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeEdit from "./pages/Employees/EmployeeEdit";
 import PatientEdit from "./pages/patient/PatientEdit";
 import ReportsPage from "./pages/Reports/ReportsPage";
+import PatientReport from "./pages/patient/PatientReport";
+import AddQueue from "./pages/Queue/AddQueue";
+import ProductCategory from "./pages/ProductCategory/ProductCategory";
+import AddProductCategory from "./pages/ProductCategory/AddProductCategory";
+import Products from "./pages/ProductCategory/Products";
+import AddProduct from "./pages/ProductCategory/AddProduct";
+import EditProductCategory from "./pages/ProductCategory/EditProductCategory";
+import EditProduct from "./pages/ProductCategory/EditProduct";
+import EditQueue from "./pages/Queue/EditQueue";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -242,6 +251,12 @@ const AnimatedRoutes = () => {
           {/* Authentication Routes */}
             <Route path="/" element={<LogIn />} />
           <Route element={<Layout />}>
+            <Route path="/product-categories" element={<ProductCategory/>}/>
+            <Route path="/product-categories/add-new" element={<AddProductCategory/>}/>
+            <Route path="/product-categories/edit-category/:id" element={<EditProductCategory/>}/>
+            <Route path="product-categories/:name" element={<Products/>}/>
+            <Route path="product-categories/:name/add-new" element={<AddProduct/>}/>
+            <Route path="product-categories/:name/edit-product/:id" element={<EditProduct/>}/>
             <Route path="/patients/add-patient" element={<PatientAdd/>}/>
             <Route path="/blacklist-reasons" element={<BlacklistReasons/>}/>
             <Route path="/add-reason" element={<AddReason/>}/>
@@ -282,6 +297,7 @@ const AnimatedRoutes = () => {
               <Route path="general" element={<General />} />
               {/* <Route path="video" element={<Video />} /> */}
               <Route path="edit" element={<PatientEdit />} />
+              <Route path="report" element={<PatientReport />} />
               <Route path="examination" element={<Examination />} />
               <Route path="plans" element={<Plans />} />
               <Route path="plan/edit" element={<EditPlan />} />
@@ -458,7 +474,9 @@ const AnimatedRoutes = () => {
             <Route path="/receiving-orders" element={<ReceivingOrders />} />
 
             {/* Queue Management */}
-            <Route path="/queue" element={<QueueList />} />
+            <Route path="/queue" element={<QueueList />}/>
+            <Route path="/queue/add-new" element={<AddQueue/>}/>
+            <Route path="/queue/edit-queue/:id" element={<EditQueue/>}/>
           </Route>
         </Routes>
       </div>

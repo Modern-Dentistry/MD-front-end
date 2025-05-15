@@ -1,0 +1,144 @@
+.productPageWrapper{
+    height: 100vh;
+    background-color: #fff;
+    border-radius: 10px;
+     .productCategoryQuickSearch{
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        >.productCategoryLeftPart{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            >select{
+                width: 128px;
+                height: 36px;
+                border: 1px solid #CDD5DF;
+                padding-left: 10px;
+                border-radius: 8px;
+            }
+            >.searchForNameProduct{
+                position:relative;
+                >input{
+                    height: 36px;
+                    width: 267px;
+                    border: 1px solid #CDD5DF;
+                    border-radius: 8px;
+                    padding-left: 10px;
+                    padding-right: 40px;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                >.searchForNameIcon{
+                    position: absolute;
+                    right: 12px;
+                    top: 9px;
+                    font-size: 20px;
+                }
+            }
+        }
+        >.productCategoryRightPart{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            .addNewProductCategory{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                border: 1px solid #155EEF;
+                border-radius: 8px;
+                font-weight: 500;
+                height: 45px;
+                width: 186px;
+                color: #155EEF;
+                >span{
+                    font-size: 20px;
+                }
+            }
+            .exportProductCategoriesData{
+                font-size: 20px;
+                color: #155EEF;
+            }
+        }
+    }
+
+}
+
+.productPageTableWrapper {
+  overflow-x: auto;
+}
+
+.productPageTable {
+  width: 100%;
+  font-size: 14px;
+}
+
+.productPageTable th,
+.productPageTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+.productPageTable th:nth-child(1),
+.productPageTable td:nth-child(1) {
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.productPageTable td:nth-child(4) {
+  text-align: center;
+}
+.productPageTable td:nth-child(3) {
+  text-align: center;
+}
+
+.productPageTable th {
+  background-color: #f3f6fb;
+  color: #374151;
+}
+
+.productPageTable th > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.productNameCol {
+  width: 600px;
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.statusBadge.active {
+  background-color: #22c55e;
+  color: white;
+}
+
+.statusBadge.passive {
+  background-color: #FD4A3D;
+  color: white;
+}
+
+.productActionIcons {
+  display: flex;
+  gap: 10px;
+}
+
+.editBtn {
+  color: #3b82f6;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  color: #ef4444;
+  font-size: 18px;
+  cursor: pointer;
+}
