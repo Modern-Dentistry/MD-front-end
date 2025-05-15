@@ -15,7 +15,7 @@ const CabinetDetail = () => {
     const handleEditCabinet = () => {
         console.log('Kabinet redakte olundu');
         const id=1
-        navigate(`/settings/cabinets/${id}`)
+        navigate(`/settings/cabinet/${id}`)
     }
 
     return (

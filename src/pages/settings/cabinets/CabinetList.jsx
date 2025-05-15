@@ -66,7 +66,7 @@ const CabinetList = () => {
                 </div>
                 <div className="flex items-center gap-8">
                     <button className="bg-transparent border border-[#155EEF] text-[#155EEF] px-4 py-2 rounded-lg"
-                    onClick={() => navigate("/settings/cabinets/add")}
+                    onClick={() => navigate("/settings/cabinet/add")}
                     >
                        + Yenisini əlavə et
                     </button>

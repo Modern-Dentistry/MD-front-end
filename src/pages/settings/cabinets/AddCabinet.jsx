@@ -8,7 +8,7 @@ const AddCabinet = () => {
     const handleAddCabinet = () => {
         console.log('Kabinet yaratildi');
         const id=1
-        navigate(`/settings/cabinets/${id}`)
+        navigate(`/settings/cabinet/${id}`)
     }
 
   return (

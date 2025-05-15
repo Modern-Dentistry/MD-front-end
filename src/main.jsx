@@ -138,15 +138,6 @@ import PatientAdd from "./pages/Patients/PatientAdd";
 import EmployeeEdit from "./pages/Employees/EmployeeEdit";
 import PatientEdit from "./pages/patient/PatientEdit";
 import ReportsPage from "./pages/Reports/ReportsPage";
-import PatientReport from "./pages/patient/PatientReport";
-import AddQueue from "./pages/Queue/AddQueue";
-import ProductCategory from "./pages/ProductCategory/ProductCategory";
-import AddProductCategory from "./pages/ProductCategory/AddProductCategory";
-import Products from "./pages/ProductCategory/Products";
-import AddProduct from "./pages/ProductCategory/AddProduct";
-import EditProductCategory from "./pages/ProductCategory/EditProductCategory";
-import EditProduct from "./pages/ProductCategory/EditProduct";
-import EditQueue from "./pages/Queue/EditQueue";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -262,7 +253,6 @@ const AnimatedRoutes = () => {
             <Route path="/add-reason" element={<AddReason/>}/>
             <Route path="/edit-reason" element={<EditReason/>}/>
             {/* Default Route */}
-            <Route path="/reports" element={<ReportsPage/>}/>
             <Route path="/specialities" element={<Specialities />} />
             <Route path="/edit-speciality/:id" element={<EditSpeciality />} />
             <Route path="/add-speciality" element={<AddSpeciality />} />
