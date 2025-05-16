@@ -35,7 +35,7 @@ const useWarehouseEntryStore = create((set, get) => ({
   createEntry: async (entryData) => {
     try {
       const response = await createWarehouseEntry(entryData);
-      await get().fetchWarehouseEntries(); // Yenidən yüklə
+      await get().fetchWarehouseEntries(); 
       return response;
     } catch (error) {
       console.error("Anbar girişi yaradılarkən xəta:", error);
