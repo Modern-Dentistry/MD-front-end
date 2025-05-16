@@ -7,6 +7,7 @@ import ListWithSubtotal from "../components/list/ListwithSubtotal";
 import EditIcon from "../assets/icons/Edit";
 // import DeleteIcon from "../assets/icons/Delete";
 import { useNavigate } from "react-router-dom";
+import useWarehouseEntryStore from "../../stores/warehouseEntryStore";
 import axios from "axios";
 
 const StockImportForm = ({
@@ -25,6 +26,7 @@ const StockImportForm = ({
     defaultValues: initialData || {},
   });
 
+  const { createEntry } = useWarehouseEntryStore();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [productList, setProductList] = useState([]);
@@ -142,33 +144,44 @@ const StockImportForm = ({
   const handleDeleteProduct = (id) => {
     setProductList((prev) => prev.filter((product) => product.id !== id));
   };
-
-  // Handle form submission
-  const handleFormSubmit = (data) => {
+// form submit
+  const handleFormSubmit = async (data) => {
     if (productList.length === 0) {
       alert("Ən azı bir məhsul əlavə etməlisiniz");
       return;
     }
 
-    // Format the data according to backend requirements
-    const formattedData = {
-      date: data.orderDate,
-      time: data.orderTime,
-      warehouseEntryProducts: productList.map((product) => ({
-        categoryName: product.categoryName,
-        productName: product.productName,
-        quantity: parseInt(product.quantity),
-        price: parseFloat(product.price),
-      })),
-      description: data.note,
-      sumPrice: sumPrice,
-      typeCount: parseInt(data.typeCount),
-    };
+    try {
+      // Backend-in gözlədiyi formata uyğun data hazırlamaq
+      const formattedData = {
+        date: data.orderDate,
+        time: data.orderTime,
+        warehouseEntryProductCreateRequests: productList.map((product) => ({
+          categoryId: parseInt(product.category), // Kategoriya ID-si
+          productId: parseInt(product.name), // Məhsul ID-si
+          quantity: parseInt(product.quantity), // Miqdar
+          price: parseFloat(product.price), // Qiymət
+        })),
+        description: data.note,
+        // sumPrice və typeCount backend tərəfdə hesablana bilər
+      };
 
-    console.log("Form submitted:", formattedData);
-    if (onSubmit) onSubmit(formattedData);
+      console.log("Backend-ə göndəriləcək data:", formattedData);
+
+      // Store-dakı createEntry funksiyasını çağırırıq
+      await createEntry(formattedData);
+
+      if (onSubmit) {
+        onSubmit(formattedData);
+      } else {
+        alert("Anbar girişi uğurla yaradıldı!");
+        navigate("/stock/import");
+      }
+    } catch (error) {
+      console.error("Xəta baş verdi:", error);
+      alert("Xəta: " + (error.response?.data?.message || error.message));
+    }
   };
-
   // Handle cancel
   const handleCancel = () => {
     if (onCancel) onCancel();

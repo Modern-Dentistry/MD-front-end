@@ -11,7 +11,7 @@ export const getWarehouseEntries = async () => {
 
 export const createWarehouseEntry = async (entryData) => {
   const response = await axiosInstance.post(
-    ` ${API_BASE_URL}/warehouse-entry/create`,
+    `${API_BASE_URL}/warehouse-entry/create`,
     entryData
   );
   return response.data;
