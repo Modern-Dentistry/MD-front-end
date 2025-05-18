@@ -64,6 +64,3 @@ export const searchCategories = async (filters) => {
   );
   return response.data;
 };
-
-
-

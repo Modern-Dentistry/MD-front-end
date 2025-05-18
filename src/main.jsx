@@ -26,7 +26,7 @@ import LogIn from "./pages/LogIn";
 import AddUser from "./pages/AddUser";
 import EmployeeDetails from "./pages/Employees/EmployeeDetails";
 // import AddPatient from "./pages/AddPatient";
-import General from "./pages/patient/General"
+import General from "./pages/patient/General";
 // import EmployeeAdd from "./pages/Employees/EmployeeAddTest";
 import EmployeeAdd from "./pages/Employees/EmployeeAdd";
 import Examination from "./pages/patient/Examination";
@@ -147,6 +147,7 @@ import PatientReport from "./pages/patient/PatientReport";
 import AddQueue from "./pages/Queue/AddQueue";
 import EditQueue from "./pages/Queue/EditQueue";
 import EditProduct from "./pages/ProductCategory/EditProduct";
+import StockImportEdit from "./pages/stockImport/StockImportEdit";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -227,7 +228,6 @@ const queryClient = new QueryClient();
 console.log("✅ API_BASE_URL:", import.meta.env.VITE_BASE_URL);
 console.log("✅ All Env Variables:", import.meta.env);
 
-
 const PageTransition = ({ children }) => {
   return (
     <motion.div
@@ -249,18 +249,30 @@ const AnimatedRoutes = () => {
       <div className="app-wrapper">
         <Routes location={location} key={location.pathname}>
           {/* Authentication Routes */}
-            <Route path="/" element={<LogIn />} />
+          <Route path="/" element={<LogIn />} />
           <Route element={<Layout />}>
-            <Route path="/product-categories" element={<ProductCategory/>}/>
-            <Route path="/product-categories/add-new" element={<AddProductCategory/>}/>
-            <Route path="/product-categories/edit-category/:id" element={<EditProductCategory/>}/>
-            <Route path="product-categories/:name" element={<Products/>}/>
-            <Route path="product-categories/:name/add-new" element={<AddProduct/>}/>
-            <Route path="product-categories/:name/edit-product/:id" element={<EditProduct/>}/>
-            <Route path="/patients/add-patient" element={<PatientAdd/>}/>
-            <Route path="/blacklist-reasons" element={<BlacklistReasons/>}/>
-            <Route path="/add-reason" element={<AddReason/>}/>
-            <Route path="/edit-reason" element={<EditReason/>}/>
+            <Route path="/product-categories" element={<ProductCategory />} />
+            <Route
+              path="/product-categories/add-new"
+              element={<AddProductCategory />}
+            />
+            <Route
+              path="/product-categories/edit-category/:id"
+              element={<EditProductCategory />}
+            />
+            <Route path="product-categories/:name" element={<Products />} />
+            <Route
+              path="product-categories/:name/add-new"
+              element={<AddProduct />}
+            />
+            <Route
+              path="product-categories/:name/edit-product/:id"
+              element={<EditProduct />}
+            />
+            <Route path="/patients/add-patient" element={<PatientAdd />} />
+            <Route path="/blacklist-reasons" element={<BlacklistReasons />} />
+            <Route path="/add-reason" element={<AddReason />} />
+            <Route path="/edit-reason" element={<EditReason />} />
             {/* Default Route */}
             <Route path="/specialities" element={<Specialities />} />
             <Route path="/edit-speciality/:id" element={<EditSpeciality />} />
@@ -363,12 +375,20 @@ const AnimatedRoutes = () => {
             />
 
             {/* Employee Management Routes */}
-            <Route path="/employees" element={<EmployeesList />}>
-            </Route>
+            <Route path="/employees" element={<EmployeesList />}></Route>
             <Route path="/employees/employee-add" element={<EmployeeAdd />} />
-            <Route path="/employees/employee/:id" element={<EmployeeDetails />} />
-            <Route path="/employees/edit-employee/:id" element={<EmployeeEdit />} />
-            <Route path="/employees/employee-schedule" element={<EmployeeSchedule />} />
+            <Route
+              path="/employees/employee/:id"
+              element={<EmployeeDetails />}
+            />
+            <Route
+              path="/employees/edit-employee/:id"
+              element={<EmployeeEdit />}
+            />
+            <Route
+              path="/employees/employee-schedule"
+              element={<EmployeeSchedule />}
+            />
 
             {/* Stock Management Routes */}
             <Route path="/stock/clinic" element={<ClinicStock />} />
@@ -378,13 +398,14 @@ const AnimatedRoutes = () => {
             <Route path="/stock/import" element={<StockImportList />} />
             <Route path="/stock/import/add" element={<AddStockImport />} />
             <Route
+              path="/stock/import/edit/:id"
+              element={<StockImportEdit />}
+            />
+            <Route
               path="/stock/import/:id"
               element={<ImportDetail mode="view" />}
             />
-            <Route
-              path="/stock/import/:id/edit"
-              element={<ImportDetail mode="edit" />}
-            />
+         
 
             {/* Stock Order Routes */}
             <Route path="/stock/order" element={<StockOrderList />} />
@@ -473,9 +494,9 @@ const AnimatedRoutes = () => {
             <Route path="/receiving-orders" element={<ReceivingOrders />} />
 
             {/* Queue Management */}
-            <Route path="/queue" element={<QueueList />}/>
-            <Route path="/queue/add-new" element={<AddQueue/>}/>
-            <Route path="/queue/edit-queue/:id" element={<EditQueue/>}/>
+            <Route path="/queue" element={<QueueList />} />
+            <Route path="/queue/add-new" element={<AddQueue />} />
+            <Route path="/queue/edit-queue/:id" element={<EditQueue />} />
           </Route>
         </Routes>
       </div>

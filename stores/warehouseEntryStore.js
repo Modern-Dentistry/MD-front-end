@@ -8,33 +8,12 @@ import {
   deleteWarehouseEntry,
   deleteEntryProduct,
 } from "../src/api/warehouse-entry"; 
-import axios from "axios";
 
 const useWarehouseEntryStore = create((set, get) => ({
   entries: [],
   selectedEntry: null,
   searchedEntries: [],
-   
-  fetchAllData: async () => {
-    set({ loading: true });
-    try {
-      const [entriesRes, categoriesRes, productsRes] = await Promise.all([
-        axios.get('http://159.89.3.81:5555/api/v1/warehouse-entry'),
-        axios.get('http://159.89.3.81:5555/api/v1/product-category/read'),
-        axios.get('http://159.89.3.81:5555/api/v1/product/read')
-      ]);
-      
-      set({
-        entries: entriesRes.data,
-        categories: categoriesRes.data,
-        products: productsRes.data,
-        loading: false
-      });
-    } catch (error) {
-      set({ loading: false });
-      console.error('Error fetching data:', error);
-    }
-  },
+  
 
   fetchWarehouseEntries: async () => {
     try {
