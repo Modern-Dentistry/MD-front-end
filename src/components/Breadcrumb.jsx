@@ -45,8 +45,20 @@ const Breadcrumb = () => {
     switch (segment) {
       case 'patient':
         return 'Xəstə';
+      case 'card':
+        return 'Pasiyent kartı';
       case 'general':
         return 'Ümumi';
+      case 'technicals-report':
+        return 'Texniklər üzrə hesabat';
+      case 'sent-orders':
+        return 'Göndərilən sifarişlə';
+      case 'received-orders':
+        return 'Gələn sifarişlər';      
+      case 'add':
+        return 'Yenisini əlavə et';
+      case 'edit':
+        return 'Redaktə et';
       case 'examination':
         return 'Müayinə';
       case 'plans':
@@ -66,7 +78,7 @@ const Breadcrumb = () => {
       case 'cabinet':
         return 'Kabinet';
       case 'import':
-        return 'Medaxil';
+        return 'Mədaxil';
       case 'order':
         return 'Sifariş';
       case 'entry':

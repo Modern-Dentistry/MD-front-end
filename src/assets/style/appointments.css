@@ -12,6 +12,32 @@
   overflow-y: auto;
 }
 
+.addNewAppointment{
+  padding: 10px 15px;
+  border: 1px solid #155EEF;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #155EEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.4s ease;
+  &:hover{
+    cursor: pointer;
+    background-color: #155EEF;
+    color: #fff;
+    >.addNewAppointmentIcon{
+      color: #fff;
+    }
+  }
+  >.addNewAppointmentIcon{
+    color: #155EEF;
+   transition: 0.4s ease;
+
+  }
+}
+
 .right-side {
   flex: 1;
   padding: 20px;

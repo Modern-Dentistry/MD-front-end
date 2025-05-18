@@ -180,7 +180,7 @@ const StockImport = () => {
         </div>
         <div className="flex items-center gap-8">
           <button
-            className="bg-black text-white px-4 py-2 rounded-lg"
+            className="bg-[#155EEF] text-white px-4 py-2 rounded-lg"
             onClick={() => navigate("/stock/import/add")}
           >
             Yenisini əlavə et

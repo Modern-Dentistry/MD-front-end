@@ -52,6 +52,7 @@
                         <button 
                             className='flex items-center gap-2 bg-[#155EEF] text-white px-4 py-2 rounded-lg'
                             onClick={handleUploadClick}
+                            type='button'
                         >
                             <AddPhotoIcon />
                             <span>Fayl yüklə</span>
@@ -76,6 +77,7 @@
                                 <button 
                                     className='absolute -top-1 -right-1 text-white'
                                     onClick={() => handleDeleteImage(index)}
+                                    type='button'
                                 >
                                     <CloseIcon className="w-3 h-3" />
                                 </button>
@@ -83,6 +85,7 @@
                                 <button 
                                     className='absolute -top-1 -right-1 text-white'
                                     onClick={() => handleDownload(file)}
+                                    type='button'
                                 >
                                     <DownloadIcon className="w-2 h-2" />
                                 </button>

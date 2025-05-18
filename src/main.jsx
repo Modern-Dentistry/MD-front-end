@@ -76,8 +76,10 @@ import Metals from "./pages/Metals/Metals";
 import PatientsList from "./pages/Patients/PatientsList";
 import QueueList from "./pages/Queue/QueueList";
 
-import ReceivingOrders from "./pages/Laboratory/ReceivingOrders";
-
+// import ReceivedOrders from "./pages/Laboratory/ReceivedOrders";
+// import SentOrders from "./pages/Laboratory/SentOrders";
+// import OrderDetails from "./pages/Laboratory/OrderDetails";
+// import TechnicalsReport from "./pages/Laboratory/TechnicalsReport";
 import AddStockImport from "./pages/stockImport/AddStockImport";
 import StockImportList from "./pages/stockImport/StockImportList";
 import ImportDetail from "./pages/stockImport/ImportDetail";
@@ -148,6 +150,9 @@ import AddQueue from "./pages/Queue/AddQueue";
 import EditQueue from "./pages/Queue/EditQueue";
 import EditProduct from "./pages/ProductCategory/EditProduct";
 import StockImportEdit from "./pages/stockImport/StockImportEdit";
+import ReceivedOrders from "./pages/Laboratory/ReceivedOrders";
+import SentOrders from "./pages/Laboratory/SentOrders";
+import TechnicalsReport from "./pages/Laboratory/TechnicalsReport";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -270,6 +275,7 @@ const AnimatedRoutes = () => {
               element={<EditProduct />}
             />
             <Route path="/patients/add-patient" element={<PatientAdd />} />
+            <Route path="/reports" element={<ReportsPage />} />
             <Route path="/blacklist-reasons" element={<BlacklistReasons />} />
             <Route path="/add-reason" element={<AddReason />} />
             <Route path="/edit-reason" element={<EditReason />} />
@@ -352,7 +358,7 @@ const AnimatedRoutes = () => {
               }
             />
             <Route
-              path="/appointment/add"
+              path="/appointments/add"
               element={
                 <AddNewAppointment
                   roomOptions={roomOptions}
@@ -412,7 +418,7 @@ const AnimatedRoutes = () => {
             <Route path="/stock/order/:id" element={<StockOrderDetail />} />
             <Route path="/stock/order/add" element={<AddStockOrder />} />
             <Route
-              path="/stock/order/:id/edit"
+              path="/stock/order/edit/:id"
               element={<StockOrderDetail mode="edit" />}
             />
 
@@ -491,8 +497,9 @@ const AnimatedRoutes = () => {
 
             {/* Laboratory Routes */}
             <Route path="/lab/order/add" element={<AddOrder />} />
-            <Route path="/receiving-orders" element={<ReceivingOrders />} />
-
+            <Route path="/sent-orders" element={<SentOrders/>}/>
+            <Route path="/received-orders" element={<ReceivedOrders/>}/>
+            <Route path="/technicals-report" element={<TechnicalsReport/>}/>
             {/* Queue Management */}
             <Route path="/queue" element={<QueueList />} />
             <Route path="/queue/add-new" element={<AddQueue />} />

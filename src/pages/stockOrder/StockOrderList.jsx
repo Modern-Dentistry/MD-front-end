@@ -69,8 +69,8 @@ const StockOrder = () => {
                 </div>
                 <div className="flex items-center gap-8">
                   
-                <button className="bg-[#000000] text-white px-4 py-2 rounded-lg"
-                onClick={() => {navigate("/stock/import/add")}}>
+                <button className="bg-[#155EEF] text-white px-4 py-2 rounded-lg"
+                onClick={() => {navigate("/stock/order/add")}}>
                     Yenisini əlavə et
                 </button>
                 <button className="">
@@ -79,7 +79,7 @@ const StockOrder = () => {
                 </div>
             </div>
 
-            <SimpleList columns={columns} data={data} enableDelete={true} enableEdit={true} enableView={true} handleView={(id) => {navigate("/stock/order/" + id)}} handleEdit={(id) => {navigate("/stock/order/" + id + "/edit")}}/>
+            <SimpleList columns={columns} data={data} enableDelete={true} enableEdit={true} enableView={true} handleView={(id) => {navigate("/stock/order/" + id)}} handleEdit={(id) => {navigate("/stock/order/edit" + id )}}/>
         </div>
     );
 };

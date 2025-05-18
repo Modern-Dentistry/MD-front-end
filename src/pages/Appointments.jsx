@@ -9,6 +9,8 @@ import SidebarMenu from "../components/SidebarMenu.jsx";
 import "../assets/style/appointments.css";
 import "../assets/style/appointment-left-side.css";
 import { useNavigate } from 'react-router-dom';
+import { TbCalendarPlus } from "react-icons/tb";
+
 
 // Otaqlar üçün options (APİ-dən gələcək)
 const roomOptions = [
@@ -512,7 +514,8 @@ const Appointments = () => {
               <button className="nav-button" onClick={goToNextWeek}>
                 <IoIosArrowForward />
               </button>
-              <button onClick={() => navigate('/add-new-appointment')}>
+              <button className='addNewAppointment' onClick={() => navigate('./add')}>
+                <TbCalendarPlus className='addNewAppointmentIcon'/>
                 Yeni randevu əlavə et
               </button>
               

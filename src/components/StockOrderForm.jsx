@@ -10,7 +10,7 @@ import SimpleList from "../components/list/SimpleList";
 import ListWithSubtotal from "../components/list/ListwithSubtotal";
 import EditIcon from "../assets/icons/Edit";
 import SearchIcon from "../assets/icons/Search";
-import DeleteIcon from "../assets/icons/Delete";
+import DeleteIcon from "../assets/icons/delete";
 import { se } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 
