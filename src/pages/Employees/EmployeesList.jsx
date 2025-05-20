@@ -7,6 +7,9 @@ import { HiArrowsUpDown } from "react-icons/hi2";
 import "../../assets/style/EmployeesPage/employeespage.css";
 import useEmployeeStore from "../../../stores/workerStore";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { CiCalendar } from "react-icons/ci";
+
 
 const EmployeesList = () => {
   const { workers, fetchWorkers, searchWorkers, removeWorker, loading } =
@@ -282,7 +285,7 @@ const EmployeesList = () => {
                     <td>{emp.patronymic}</td>
                     <td>{emp.phone}</td>
                     <td>{emp.authorities?.join(", ")}</td>
-                    <td>{emp.workSchedule}</td>
+                    <td><Link className="employeeScheduleTableData" to={`work-schedule/${emp.name}`}> <CiCalendar className="employeeScheduleTableDataIcon"/> İş qrafiki</Link></td>
                     <td>
                       <span
                         className={`status ${

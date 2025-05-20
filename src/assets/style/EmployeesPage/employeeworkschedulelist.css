@@ -1,0 +1,120 @@
+.employeeWorkScheduleList{
+    height: 100vh;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.employeeWorkScheduleListTopPart{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px !important;
+    >select{
+        width: 198px;
+        height: 36px;
+        border: 1px solid #697586;
+        border-radius: 10px;
+        padding-left: 5px;
+        &:focus{
+            border-color:#4f5763;
+            outline: none;
+            
+        }
+    }
+}
+.employeeWorkScheduleList {
+  background: white;
+  border-radius: 8px;
+}
+
+.employeeWorkScheduleListTopPart {
+  padding: 0 20px;
+  margin-top: 12px;
+}
+
+.daysOfWeekForList {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #CDD5DF;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.daysOfWeekForList:focus {
+  border-color: #155EEF;
+}
+
+.employeeWorkScheduleListTableWrapper {
+    margin-top: 40px;
+  background-color: white !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.employeeWorkScheduleListTable {
+  width: 100% !important;
+  border-collapse: collapse;
+}
+
+.employeeWorkScheduleListTable thead {
+  background-color: #EEF2F6;
+}
+
+.employeeWorkScheduleListTable thead tr {
+  font-weight: 300;
+}
+
+.employeeWorkScheduleListTable thead th {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.employeeWorkScheduleListTable tbody tr {
+  transition: background-color 0.2s;
+}
+
+.employeeWorkScheduleListTable tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+.employeeWorkScheduleListTable tbody td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #CDD5DF;
+  font-size: 14px;
+}
+
+.employeeWorkScheduleListTable .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.employeeWorkScheduleListTable .actionIcon {
+  font-size: 18px;
+  font-weight: 600;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.employeeWorkScheduleListTable .editIcon {
+  color: #155EEF;
+}
+
+.employeeWorkScheduleListTable .deleteIcon {
+  color: #FD4A3D;
+}
+
+.employeeScheduleIcons{
+    >span{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+}

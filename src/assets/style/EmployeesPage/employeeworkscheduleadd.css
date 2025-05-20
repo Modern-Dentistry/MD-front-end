@@ -1,0 +1,96 @@
+
+.employeeWorkScheduleAddContainer{
+    height: 100vh;
+}
+.employeeWorkScheduleAdd {
+  background-color: #fff;
+  border-radius: 10px;
+  height: 400px;
+  > .employeeWorkScheduleAddWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:  20px;
+    padding-top: 40px;
+
+    > .employeeWorkScheduleAddRow {
+      display: flex;
+      align-items: center; 
+      justify-content: space-between;
+      gap: 20px;
+      width: 90%;
+
+      > .employeeWorkScheduleAddRowTitle {
+        font-weight: 400;
+        font-size: 16px;
+        width: 150px; 
+        display: flex;
+        align-items: center !important;
+        justify-content: flex-start;
+
+        > span {
+          color: red;
+          margin-left: 5px;
+        }
+      }
+
+      > select,
+      > input {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 10px;
+        width: 850px;
+        font-size: 14px;
+        background-color: #f9fbfd;
+        outline: none;
+
+        &:focus {
+          border-color: #3b82f6;
+        }
+      }
+    }
+  }
+  
+}
+.employeeWorkScheduleAddActionsButtons{
+  display: flex;
+  align-content: end;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 70px;
+
+  padding-right: 60px;
+      >.employeeAddCancelProcess{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          color: #155EEF;
+          border: 1px solid #155EEF;
+          padding: 6px 10px;
+          border-radius: 8px;
+          font-weight: 500;
+          >img{
+              height:14px;
+          }
+      }
+      >.employeeAddAcceptProcess{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background-color: #155EEF;
+          color: #fff;
+          padding: 6px 10px;
+          border-radius: 8px;
+          transition: 0.4s ease;
+          &:hover{
+              cursor: pointer;
+              background-color: #0740b2;
+
+          }
+          >img{
+              height:8px;
+          }
+      }
+  }

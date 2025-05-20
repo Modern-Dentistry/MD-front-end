@@ -173,7 +173,17 @@
     }
   }
   
-  
+.employeeScheduleTableData{
+  color: #155EEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 500;
+  >.employeeScheduleTableDataIcon{
+    font-size: 20px;
+  }
+}
 
 /* Web kit */
 input[type="number"]::-webkit-outer-spin-button,

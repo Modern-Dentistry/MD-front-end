@@ -153,6 +153,9 @@ import StockImportEdit from "./pages/stockImport/StockImportEdit";
 import ReceivedOrders from "./pages/Laboratory/ReceivedOrders";
 import SentOrders from "./pages/Laboratory/SentOrders";
 import TechnicalsReport from "./pages/Laboratory/TechnicalsReport";
+import EmployeeWorkScheduleList from "./pages/Employees/EmployeeWorkScheduleList";
+import EmployeeWorkScheduleAdd from "./pages/Employees/EmployeeWorkScheduleAdd";
+import EmployeeWorkScheduleEdit from "./pages/Employees/EmployeeWorkScheduleEdit";
 // Məlumatları buraya əlavə edək
 const roomOptions = [
   { value: "1", label: "Otaq 1" },
@@ -411,7 +414,8 @@ const AnimatedRoutes = () => {
               path="/stock/import/:id"
               element={<ImportDetail mode="view" />}
             />
-         
+
+             <Route path="employees/work-schedule/:name" element={<EmployeeWorkScheduleList/>}/>
 
             {/* Stock Order Routes */}
             <Route path="/stock/order" element={<StockOrderList />} />
@@ -421,6 +425,8 @@ const AnimatedRoutes = () => {
               path="/stock/order/edit/:id"
               element={<StockOrderDetail mode="edit" />}
             />
+            <Route path="/employees/work-schedule/:name/add" element={<EmployeeWorkScheduleAdd/>}/>
+            <Route path="/employees/work-schedule/:name/edit" element={<EmployeeWorkScheduleEdit/>}/>
 
             {/* Stock Entry Routes */}
             <Route path="/stock/entry" element={<StockEntryList />} />

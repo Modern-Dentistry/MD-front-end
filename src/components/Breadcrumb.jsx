@@ -55,6 +55,8 @@ const Breadcrumb = () => {
         return 'Göndərilən sifarişlə';
       case 'received-orders':
         return 'Gələn sifarişlər';      
+      case 'work-schedule':
+        return 'İşçilərin iş qrafiki';      
       case 'add':
         return 'Yenisini əlavə et';
       case 'edit':
