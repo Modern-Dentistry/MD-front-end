@@ -31,6 +31,7 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
     price: "",
     warehouseEntryId: "",
     warehouseEntryProductId: "",
+    warehouseEntryProductName: "",
   })
   const [categories, setCategories] = useState([])
   const [productsByCategory, setProductsByCategory] = useState([])
@@ -143,11 +144,15 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
       // First try to get warehouse entry products from the warehouse entry info
       const infoResponse = await axios.get(`${API_BASE_URL}/warehouse-entry/info/${warehouseEntryId}`)
       console.log("Warehouse entry info:", infoResponse.data)
-      
+
       // Check if the response contains warehouse entry products
-      if (infoResponse.data && Array.isArray(infoResponse.data.warehouseEntryProducts) && infoResponse.data.warehouseEntryProducts.length > 0) {
+      if (
+        infoResponse.data &&
+        Array.isArray(infoResponse.data.warehouseEntryProducts) &&
+        infoResponse.data.warehouseEntryProducts.length > 0
+      ) {
         console.log("Found warehouse entry products in info response:", infoResponse.data.warehouseEntryProducts)
-        return infoResponse.data.warehouseEntryProducts.map(product => ({
+        return infoResponse.data.warehouseEntryProducts.map((product) => ({
           id: product.id,
           value: product.id,
           label: `${product.productName || "Məhsul"} (ID: ${product.id})`,
@@ -157,14 +162,16 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
           price: product.price,
         }))
       }
-      
+
       // If not found in info, try the dedicated endpoint
       console.log("No warehouse entry products found in info, trying dedicated endpoint")
-      const productsResponse = await axios.get(`${API_BASE_URL}/warehouse-entry-product/read-by-warehouse-entry/${warehouseEntryId}`)
+      const productsResponse = await axios.get(
+        `${API_BASE_URL}/warehouse-entry-product/read-by-warehouse-entry/${warehouseEntryId}`,
+      )
       console.log("Warehouse entry products from dedicated endpoint:", productsResponse.data)
-      
+
       if (Array.isArray(productsResponse.data) && productsResponse.data.length > 0) {
-        return productsResponse.data.map(product => ({
+        return productsResponse.data.map((product) => ({
           id: product.id,
           value: product.id,
           label: `${product.productName || "Məhsul"} (ID: ${product.id})`,
@@ -174,18 +181,20 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
           price: product.price,
         }))
       }
-      
+
       // If still no products found, try to get all warehouse entry products
       console.log("No warehouse entry products found, trying to get all warehouse entry products")
       const allProductsResponse = await axios.get(`${API_BASE_URL}/warehouse-entry-product/read`)
       console.log("All warehouse entry products:", allProductsResponse.data)
-      
+
       // Filter products by warehouse entry ID
-      const filteredProducts = allProductsResponse.data.filter(product => product.warehouseEntryId === warehouseEntryId)
+      const filteredProducts = allProductsResponse.data.filter(
+        (product) => product.warehouseEntryId === warehouseEntryId,
+      )
       console.log("Filtered warehouse entry products:", filteredProducts)
-      
+
       if (filteredProducts.length > 0) {
-        return filteredProducts.map(product => ({
+        return filteredProducts.map((product) => ({
           id: product.id,
           value: product.id,
           label: `${product.productName || "Məhsul"} (ID: ${product.id})`,
@@ -195,18 +204,27 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
           price: product.price,
         }))
       }
-      
-      // If still no products found, create a dummy product for testing
-      console.log("No warehouse entry products found, creating dummy product for testing")
-      return [{
-        id: warehouseEntryId,
-        value: warehouseEntryId,
-        label: `Test Məhsul (ID: ${warehouseEntryId})`,
-        productId: 1,
-        categoryId: 1,
-        quantity: 100,
-        price: 10,
-      }]
+
+      // If still no products found, fetch products from the API and create entries with real product IDs
+      console.log("No warehouse entry products found, fetching products from API")
+      const productsApiResponse = await axios.get(`${API_BASE_URL}/product/read`)
+
+      if (Array.isArray(productsApiResponse.data) && productsApiResponse.data.length > 0) {
+        // Create warehouse entry products using real product data
+        return productsApiResponse.data.map((product) => ({
+          id: `${warehouseEntryId}-${product.id}`, // Create a unique ID
+          value: `${warehouseEntryId}-${product.id}`,
+          label: `${product.productName} (Anbar: ${warehouseEntryId})`,
+          productId: product.id, // Use the real product ID
+          categoryId: product.categoryId, // Use the real category ID
+          quantity: 100, // Default quantity
+          price: product.price || 10, // Use product price if available
+        }))
+      }
+
+      // If no products found in the API either, return empty array
+      console.log("No products found in the API")
+      return []
     } catch (error) {
       console.error("Error fetching warehouse entry products:", error)
       return []
@@ -220,22 +238,24 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
       const warehouseEntryId = option.value
       handleProductChange("warehouseEntryId", warehouseEntryId)
       handleProductChange("warehouseEntryProductId", "")
-      
+
       console.log("Selected warehouse entry ID:", warehouseEntryId)
-      
+
       // Fetch warehouse entry products
       const entryProducts = await fetchWarehouseEntryProducts(warehouseEntryId)
       console.log("Fetched warehouse entry products:", entryProducts)
-      
+
       setWarehouseEntryProducts(entryProducts)
-      
+
       if (entryProducts.length === 0) {
         alert("Bu anbar girişi üçün məhsul tapılmadı!")
       }
     } catch (error) {
       console.error("Error handling warehouse entry change:", error)
       setWarehouseEntryProducts([])
-      alert("Anbar girişi məlumatlarını yükləyərkən xəta baş verdi: " + (error.response?.data?.message || error.message))
+      alert(
+        "Anbar girişi məlumatlarını yükləyərkən xəta baş verdi: " + (error.response?.data?.message || error.message),
+      )
     }
   }
 
@@ -244,13 +264,13 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
     if (entryProduct) {
       console.log("Selected warehouse entry product:", entryProduct)
       handleProductChange("warehouseEntryProductId", option.value)
-      
+
       // If the product has category and product info, set them
       if (entryProduct.categoryId && entryProduct.productId) {
         handleProductChange("category", entryProduct.categoryId)
         handleProductChange("name", entryProduct.productId)
       }
-      
+
       if (entryProduct.price) {
         handleProductChange("price", entryProduct.price)
       }
@@ -258,25 +278,21 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
   }
 
   const handleAddProduct = () => {
-    if (
-      currentProduct.warehouseEntryId && 
-      currentProduct.warehouseEntryProductId && 
-      currentProduct.quantity
-    ) {
+    if (currentProduct.warehouseEntryId && currentProduct.warehouseEntryProductId && currentProduct.quantity) {
       // Find the selected warehouse entry product
       const selectedWarehouseEntryProduct = warehouseEntryProducts.find(
-        (prod) => prod.value === currentProduct.warehouseEntryProductId
+        (prod) => prod.value === currentProduct.warehouseEntryProductId,
       )
-      
+
       if (!selectedWarehouseEntryProduct) {
         alert("Seçilmiş anbar məhsulu tapılmadı. Zəhmət olmasa yenidən seçin.")
         return
       }
-      
+
       // Find category and product info
       const categoryId = currentProduct.category || selectedWarehouseEntryProduct.categoryId
       const productId = currentProduct.name || selectedWarehouseEntryProduct.productId
-      
+
       const selectedCategory = categories.find((cat) => cat.value === categoryId)
       const selectedProduct = productsByCategory.find((prod) => prod.value === productId)
 
@@ -290,12 +306,13 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
         productName: selectedProduct?.label || "Unknown Product",
         warehouseEntryId: currentProduct.warehouseEntryId,
         warehouseEntryProductId: currentProduct.warehouseEntryProductId,
-        warehouseEntryProductName: selectedWarehouseEntryProduct?.label || `Anbar məhsulu (ID: ${currentProduct.warehouseEntryProductId})`,
+        warehouseEntryProductName:
+          selectedWarehouseEntryProduct?.label || `Anbar məhsulu (ID: ${currentProduct.warehouseEntryProductId})`,
       }
 
       console.log("Adding new product:", newProduct)
       setProducts((prev) => [...prev, newProduct])
-      
+
       // Reset current product
       setCurrentProduct({
         category: "",
@@ -304,6 +321,7 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
         price: "",
         warehouseEntryId: "",
         warehouseEntryProductId: "",
+        warehouseEntryProductName: "",
       })
     } else {
       alert("Zəhmət olmasa anbar girişini, anbar məhsulunu və miqdarı daxil edin")
@@ -328,7 +346,7 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
         setIsSubmitting(false)
         return
       }
-      
+
       // Validate that we have at least one product
       if (products.length === 0) {
         alert("Zəhmət olmasa ən azı bir məhsul əlavə edin.")
@@ -341,11 +359,11 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
         time: timeString,
         room: data.room,
         orderFromWarehouseProductRequests: products.map((p) => ({
-          warehouseEntryId: parseInt(p.warehouseEntryId),
-          warehouseEntryProductId: parseInt(p.warehouseEntryProductId),
-          categoryId: parseInt(p.category),
-          productId: parseInt(p.name),
-          quantity: parseInt(p.quantity),
+          warehouseEntryId: Number.parseInt(p.warehouseEntryId),
+          warehouseEntryProductId: Number.parseInt(p.warehouseEntryProductId),
+          categoryId: Number.parseInt(p.category),
+          productId: Number.parseInt(p.name),
+          quantity: Number.parseInt(p.quantity),
         })),
         description: data.note,
       }
@@ -391,9 +409,9 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
     } catch (error) {
       console.error("Xəta baş verdi:", error)
       console.error("Error response:", error.response?.data)
-      
+
       let errorMessage = "Xəta baş verdi: "
-      
+
       if (error.response?.data?.message) {
         errorMessage += error.response.data.message
       } else if (error.message) {
@@ -401,12 +419,12 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
       } else {
         errorMessage += "Naməlum xəta"
       }
-      
+
       // Check if the error is related to the API endpoint not found
       if (error.response?.status === 404) {
         errorMessage += "\nAPI endpoint tapılmadı. Zəhmət olmasa API endpoint-in düzgün olduğunu yoxlayın."
       }
-      
+
       alert(errorMessage)
       setApiResponse(JSON.stringify(error.response?.data || error.message, null, 2))
     } finally {
@@ -434,15 +452,16 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
       price: product.price,
       warehouseEntryId: product.warehouseEntryId,
       warehouseEntryProductId: product.warehouseEntryProductId,
+      warehouseEntryProductName: product.warehouseEntryProductName,
     })
 
     // Fetch warehouse entry products for the selected warehouse entry
     if (product.warehouseEntryId) {
       fetchWarehouseEntryProducts(product.warehouseEntryId)
-        .then(entryProducts => {
+        .then((entryProducts) => {
           setWarehouseEntryProducts(entryProducts)
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching warehouse entry products:", error)
         })
     }
@@ -617,13 +636,17 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
                   min="1"
                 />
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <br />
                 <button
                   type="button"
                   onClick={handleAddProduct}
-                  disabled={!currentProduct.warehouseEntryId || !currentProduct.warehouseEntryProductId || !currentProduct.quantity}
+                  disabled={
+                    !currentProduct.warehouseEntryId ||
+                    !currentProduct.warehouseEntryProductId ||
+                    !currentProduct.quantity
+                  }
                   className="flex items-center justify-center px-4 py-2 border text-[#155EEF] bg-[#155EEF] text-white rounded-lg hover:bg-[#1046b8] disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed w-[184px] h-[44px] gap-2"
                 >
                   <FontAwesomeIcon icon={faPlus} />
@@ -645,22 +668,13 @@ const StockOrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) =>
               handleEdit={handleEditProduct}
               handleDelete={handleDeleteProduct}
             />
-            
+
             {products.length === 0 && (
-              <div className="text-center py-4 text-gray-500">
-                Hələ heç bir məhsul əlavə edilməyib
-              </div>
+              <div className="text-center py-4 text-gray-500">Hələ heç bir məhsul əlavə edilməyib</div>
             )}
           </div>
         </div>
       </div>
-
-      {debugInfo && (
-        <div className="bg-gray-100 p-4 rounded-lg mt-4 mb-4">
-          <h3 className="font-bold mb-2">Debug Info (Son göndərilən məlumat):</h3>
-          <pre className="text-xs overflow-auto max-h-40">{debugInfo}</pre>
-        </div>
-      )}
 
       {apiResponse && (
         <div className="bg-gray-100 p-4 rounded-lg mt-4 mb-4">

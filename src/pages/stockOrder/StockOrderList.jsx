@@ -13,7 +13,6 @@ const StockOrder = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Kateqoriyalar
   const categories = [
     { value: "all", label: "Bütün kateqoriyalar" },
     { value: "pending", label: "Gözləyən" },
@@ -21,26 +20,32 @@ const StockOrder = () => {
     { value: "cancelled", label: "Ləğv edilmiş" },
   ];
 
-  // Sütunlar
   const columns = [
-    { key: "number", label: "Sifariş №" },
     { key: "date", label: "Tarix" },
     { key: "room", label: "Otaq" },
     { key: "quantity", label: "Məhsul sayı" },
     { key: "personWhoPlacedOrder", label: "Sifariş verən" },
   ];
 
-  // Sifarişləri yüklə
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
 
-  // Yeni data gəldikdə filtrelənmişə kopyala
   useEffect(() => {
     setFilteredOrders(orders);
   }, [orders]);
 
-  // Axtarış və kateqoriya ilə süzgəc
+  const handleDelete = async (id) => {
+    if (window.confirm("Bu sifarişi silmək istədiyinizə əminsiniz?")) {
+      try {
+        await useOrderFromWarehouseStore.getState().deleteOrder(id);
+        alert("Sifariş uğurla silindi!");
+      } catch (error) {
+        alert("Sifarişi silmək mümkün olmadı: " + (error.message || error));
+      }
+    }
+  };
+
   useEffect(() => {
     let filtered = [...orders];
 
@@ -62,17 +67,15 @@ const StockOrder = () => {
     setFilteredOrders(filtered);
   }, [orders, searchTerm, selectedCategory]);
 
-  // Formatlanmış data
   const formattedOrders = filteredOrders.map((order) => {
-    const totalQuantity = Number(order.sumQuantity || 0);
-
+    const totalQuantity = Number(order.sumQuantity || order.quantity || 0);
+    const id = order.number;
     return {
-      id: order.id,
+      id,
       number: order.number || "-",
       date:
-        new Date(order.date).toLocaleDateString("az-AZ") +
-        " " +
-        (order.time || ""),
+        (order.date ? new Date(order.date).toLocaleDateString("az-AZ") : "-") +
+        (order.time ? ` ${order.time}` : ""),
       room: order.room || "-",
       quantity: totalQuantity,
       personWhoPlacedOrder: order.personWhoPlacedOrder || "Anonim",
@@ -103,8 +106,7 @@ const StockOrder = () => {
         <div className="flex items-center gap-4">
           <button
             className="bg-[#155EEF] text-white px-4 py-2 rounded-lg"
-            onClick={() => navigate("/stock/order/add")}
-          >
+            onClick={() => navigate("/stock/order/add")}>
             Yenisini əlavə et
           </button>
           <button>
@@ -126,11 +128,7 @@ const StockOrder = () => {
           enableView={true}
           handleView={(id) => navigate(`/stock/order/${id}`)}
           handleEdit={(id) => navigate(`/stock/order/edit/${id}`)}
-          handleDelete={(id) => {
-            if (window.confirm("Bu sifarişi silmək istədiyinizə əminsiniz?")) {
-              useOrderFromWarehouseStore.getState().deleteOrder(id);
-            }
-          }}
+          handleDelete={handleDelete} 
         />
       )}
     </div>

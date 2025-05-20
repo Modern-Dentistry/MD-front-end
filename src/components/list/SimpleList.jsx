@@ -6,15 +6,15 @@ import EditIcon from "../../assets/icons/Edit";
 import InfoIcon from "../../assets/icons/Info";
 import Paginator from "../Paginator";
 
-const List = ({ 
-  columns, 
-  data, 
-  enableEdit = false, 
-  enableView = false, 
+const List = ({
+  columns,
+  data,
+  enableEdit = false,
+  enableView = false,
   enableDelete = false,
   handleEdit,
   handleView,
-  handleDelete 
+  handleDelete,
 }) => {
   return (
     <div className="w-full rounded-lg shadow-md overflow-auto text-[14px]">
@@ -26,8 +26,7 @@ const List = ({
         {columns.map((col) => (
           <div
             key={col.key}
-            className="flex-1 flex items-center gap-4 font-semibold text-gray-700"
-          >
+            className="flex-1 flex items-center gap-4 font-semibold text-gray-700">
             <SortIcon />
             <span className="">{col.label}</span>
           </div>
@@ -41,10 +40,7 @@ const List = ({
       {/* List */}
       <div className="divide-y divide-gray-200">
         {data.map((item, index) => (
-          <div
-            key={index}
-            className="p-4 flex items-center hover:bg-gray-50"
-          >
+          <div key={index} className="p-4 flex items-center hover:bg-gray-50">
             <div className="flex-1 px-2">{index + 1}</div>
             {columns.map((col) => (
               <div key={col.key} className="flex-1 px-2">
@@ -54,26 +50,23 @@ const List = ({
             {(enableEdit || enableView || enableDelete) && (
               <div className="flex flex-1 justify-end px-2 gap-2">
                 {enableView && (
-                  <button 
+                  <button
                     onClick={() => handleView?.(item.id)}
-                    className="text-[#155EEF] hover:text-[#155EEF]"
-                  >
+                    className="text-[#155EEF] hover:text-[#155EEF]">
                     <InfoIcon />
                   </button>
                 )}
                 {enableEdit && (
-                  <button 
+                  <button
                     onClick={() => handleEdit?.(item.id)}
-                    className="text-yellow-600 hover:text-yellow-800"
-                  >
+                    className="text-yellow-600 hover:text-yellow-800">
                     <EditIcon />
                   </button>
                 )}
                 {enableDelete && (
-                  <button 
+                  <button
                     onClick={() => handleDelete?.(item.id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
+                    className="text-red-600 hover:text-red-800">
                     <DeleteIcon />
                   </button>
                 )}
@@ -102,9 +95,9 @@ const SimpleList = ({
 }) => {
   return (
     <div className="flex flex-col gap-3 w-full">
-      <List 
-        columns={columns} 
-        data={data} 
+      <List
+        columns={columns}
+        data={data}
         enableEdit={enableEdit}
         enableView={enableView}
         enableDelete={enableDelete}
@@ -112,17 +105,14 @@ const SimpleList = ({
         handleView={handleView}
         handleDelete={handleDelete}
       />
-      {
-        startPage && endPage && currentPage && onPageChange && (
-          <Paginator
-            startPage={startPage}
-            endPage={endPage}
-            currentPage={currentPage}
-            onPageChange={onPageChange}
-          />
-        )
-      }
-      
+      {startPage && endPage && currentPage && onPageChange && (
+        <Paginator
+          startPage={startPage}
+          endPage={endPage}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 };
