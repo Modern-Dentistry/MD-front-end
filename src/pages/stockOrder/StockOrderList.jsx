@@ -68,19 +68,18 @@ const StockOrder = () => {
   }, [orders, searchTerm, selectedCategory]);
 
   const formattedOrders = filteredOrders.map((order) => {
-    console.log(order)
-  const totalQuantity = Number(order.sumQuantity || order.quantity || 0);
-  return {
-    id: order.number || "-",
-    date:
-      (order.date ? new Date(order.date).toLocaleDateString("az-AZ") : "-") +
-      (order.time ? ` ${order.time}` : ""),
-    room: order.room || "-",
-    quantity: totalQuantity,
-    personWhoPlacedOrder: order.personWhoPlacedOrder || "Anonim",
-  };
+    console.log(order);
+    const totalQuantity = Number(order.sumQuantity || order.quantity || 0);
+    return {
+      id: order.id || "-",
+      date:
+        (order.date ? new Date(order.date).toLocaleDateString("az-AZ") : "-") +
+        (order.time ? ` ${order.time}` : ""),
+      room: order.room || "-",
+      quantity: totalQuantity,
+      personWhoPlacedOrder: order.personWhoPlacedOrder || "Anonim",
+    };
   });
-
 
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg bg-white p-1">
@@ -128,7 +127,7 @@ const StockOrder = () => {
           enableView={true}
           handleView={(id) => navigate(`/stock/order/${id}`)}
           handleEdit={(id) => navigate(`/stock/order/edit/${id}`)}
-          handleDelete={handleDelete} 
+          handleDelete={handleDelete}
         />
       )}
     </div>
