@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { CiCalendar } from "react-icons/ci";
 
-
 const EmployeesList = () => {
   const { workers, fetchWorkers, searchWorkers, removeWorker, loading } =
     useEmployeeStore();
@@ -25,7 +24,6 @@ const EmployeesList = () => {
   });
 
   const [filteredEmployees, setFilteredEmployees] = useState([]);
-  
 
   useEffect(() => {
     fetchWorkers();
@@ -198,8 +196,7 @@ const EmployeesList = () => {
               className="workersStatusChecker"
               name="status"
               value={searchParams.status}
-              onChange={handleInputChange}
-            >
+              onChange={handleInputChange}>
               <option value="">Hamısı</option>
               <option value="Aktiv">Aktiv</option>
               <option value="Passiv">Passiv</option>
@@ -285,13 +282,19 @@ const EmployeesList = () => {
                     <td>{emp.patronymic}</td>
                     <td>{emp.phone}</td>
                     <td>{emp.authorities?.join(", ")}</td>
-                    <td><Link className="employeeScheduleTableData" to={`work-schedule/${emp.name}`}> <CiCalendar className="employeeScheduleTableDataIcon"/> İş qrafiki</Link></td>
+                    <td>
+                      <Link
+                        className="employeeScheduleTableData"
+                        to={`work-schedule/${emp.id}`}>
+                        <CiCalendar className="employeeScheduleTableDataIcon" />{" "}
+                        İş qrafiki
+                      </Link>
+                    </td>
                     <td>
                       <span
                         className={`status ${
                           emp.enabled ? "active" : "passive"
-                        }`}
-                      >
+                        }`}>
                         {getStatus(emp)}
                       </span>
                     </td>

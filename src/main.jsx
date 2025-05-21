@@ -415,7 +415,7 @@ const AnimatedRoutes = () => {
               element={<ImportDetail mode="view" />}
             />
 
-             <Route path="employees/work-schedule/:name" element={<EmployeeWorkScheduleList/>}/>
+             <Route path="employees/work-schedule/:id" element={<EmployeeWorkScheduleList/>}/>
 
             {/* Stock Order Routes */}
             <Route path="/stock/order" element={<StockOrderList />} />
@@ -425,8 +425,8 @@ const AnimatedRoutes = () => {
               path="/stock/order/edit/:id"
               element={<StockOrderDetail mode="edit" />}
             />
-            <Route path="/employees/work-schedule/:name/add" element={<EmployeeWorkScheduleAdd/>}/>
-            <Route path="/employees/work-schedule/:name/edit" element={<EmployeeWorkScheduleEdit/>}/>
+            <Route path="/employees/work-schedule/:id/add" element={<EmployeeWorkScheduleAdd/>}/>
+            <Route path="/employees/work-schedule/:id/edit" element={<EmployeeWorkScheduleEdit/>}/>
 
             {/* Stock Entry Routes */}
             <Route path="/stock/entry" element={<StockEntryList />} />
