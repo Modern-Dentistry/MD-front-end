@@ -24,11 +24,16 @@ const useTeethStore = create((set) => ({
     }
   },
 
-  fetchByToothNo: async (toothNo) => {
+  fetchByToothNo: async (id) => {
     set({ loading: true });
     try {
-      const data = await readByToothNo(toothNo);
-      set({ selectedTooth: data, loading: false });
+      const allTeeth = await readAllTeeth();
+      const tooth = allTeeth.find((t) => t.id === Number(id));
+      if (tooth) {
+        set({ selectedTooth: tooth, teeth: allTeeth, loading: false });
+      } else {
+        set({ error: new Error("Tooth not found"), loading: false });
+      }
     } catch (error) {
       set({ error, loading: false });
     }

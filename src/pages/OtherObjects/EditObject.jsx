@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../../assets/style/OtherObjects/editobject.css";
 import { FaTimes, FaCheck } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditOtherObject() {
   const navigate = useNavigate();
@@ -13,18 +14,16 @@ function EditOtherObject() {
   });
 
   useEffect(() => {
-    // Burada məlumatları yükləmək üçün API çağırışı ediləcək
-    // Məsələn:
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(`/api/other-objects/${id}`);
-    //     const data = await response.json();
-    //     setFormData(data);
-    //   } catch (error) {
-    //     toast.error("Məlumatları yükləmək mümkün olmadı");
-    //   }
-    // };
-    // fetchData();
+    if (id) {
+      const stored = localStorage.getItem("MD_OTHER_OBJECTS");
+      const items = stored ? JSON.parse(stored) : [];
+      const found = items.find(item => item.id.toString() === id);
+      if (found) {
+        setFormData({
+          objectName: found.name || "",
+        });
+      }
+    }
   }, [id]);
 
   const handleInputChange = (e) => {
@@ -36,10 +35,20 @@ function EditOtherObject() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // API çağırışı burada olacaq (məsələn, obyekt elementini yeniləmək)
+      const stored = localStorage.getItem("MD_OTHER_OBJECTS");
+      const items = stored ? JSON.parse(stored) : [];
+      const updated = items.map(item => {
+        if (item.id.toString() === id) {
+          return {
+            ...item,
+            name: formData.objectName.trim()
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("MD_OTHER_OBJECTS", JSON.stringify(updated));
+      toast.success("Obyekt uğurla yeniləndi");
       setTimeout(() => {
-        setIsSubmitting(false);
-        toast.success("Obyekt uğurla yeniləndi");
         navigate("/other-objects");
       }, 1000);
     } catch (error) {
@@ -50,6 +59,7 @@ function EditOtherObject() {
 
   return (
     <div className="editOtherObjectFormWrapper">
+      <ToastContainer />
       <div className="editOtherObjectFormContainer">
         <form onSubmit={handleSubmit}>
           <div className="editOtherObjectFormRow">

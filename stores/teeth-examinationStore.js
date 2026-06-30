@@ -4,7 +4,6 @@ import {
   updateTeethExamination,
   searchTeethExaminations,
   getAllTeethExaminations,
-  getTeethExaminationById,
   deleteTeethExaminationById,
 } from "../src/api/teeth-examinaton";
 

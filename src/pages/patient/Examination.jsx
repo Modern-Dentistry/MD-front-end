@@ -10,6 +10,20 @@ import useTeethExaminationStore from "../../../stores/teeth-examinationStore";
 import useExaminationStore from "../../../stores/examinationStore";
 import { toast } from "react-toastify";
 import BlurLoader from "../../components/layout/BlurLoader";
+import { readAllTeeth, createTooth } from "../../api/teeth";
+
+const parseFDINumber = (toothNo) => {
+  const t = Number(toothNo);
+  if (t >= 11 && t <= 18) return { type: "ADULT", location: "TOP_RIGHT", num: t - 10 };
+  if (t >= 21 && t <= 28) return { type: "ADULT", location: "TOP_LEFT", num: t - 20 };
+  if (t >= 31 && t <= 38) return { type: "ADULT", location: "BOTTOM_LEFT", num: t - 30 };
+  if (t >= 41 && t <= 48) return { type: "ADULT", location: "BOTTOM_RIGHT", num: t - 40 };
+  if (t >= 51 && t <= 55) return { type: "CHILD", location: "TOP_RIGHT", num: t - 50 };
+  if (t >= 61 && t <= 65) return { type: "CHILD", location: "TOP_LEFT", num: t - 60 };
+  if (t >= 71 && t <= 75) return { type: "CHILD", location: "BOTTOM_LEFT", num: t - 70 };
+  if (t >= 81 && t <= 85) return { type: "CHILD", location: "BOTTOM_RIGHT", num: t - 80 };
+  return null;
+};
 
 const Examination = () => {
   const { id: patientId } = useParams();
@@ -77,15 +91,28 @@ const Examination = () => {
     }
 
     try {
-      // Backend expects multiple creates or array? 
-      // Based on AddExaminationPicture, it's one by one.
+      // Fetch fresh list of teeth in DB to match/auto-create
+      const currentDbTeeth = await readAllTeeth();
+
       for (const toothNo of selectedTeeth) {
+        let dbTooth = currentDbTeeth.find((t) => Number(t.toothNo) === Number(toothNo));
+        
+        if (!dbTooth) {
+          const parsed = parseFDINumber(toothNo);
+          if (!parsed) {
+            throw new Error(`Keçərsiz diş nömrəsi: ${toothNo}`);
+          }
+          dbTooth = await createTooth({
+            toothNo: Number(toothNo),
+            toothType: parsed.type,
+            toothLocation: parsed.location
+          });
+        }
+
         await createTeethExamination({
-          patientId: Number(patientId),
-          toothId: toothNo, // Assuming toothId can be toothNo or backend handles it
+          teethId: dbTooth.id,
           examinationId: selectedType.value,
-          status: "ACTIVE",
-          date: new Date().toISOString().split('T')[0]
+          status: "ACTIVE"
         });
       }
       toast.success("Müayinə yadda saxlanıldı");
@@ -103,7 +130,15 @@ const Examination = () => {
     return exam.date === selectedDate.value;
   });
 
+  const mappedExaminations = filteredExaminations.map((exam) => ({
+    id: exam.id,
+    examinationName: exam.examination?.typeName || "Müayinə",
+    toothId: exam.teeth?.toothNo ? (Number(exam.teeth.toothNo) % 10) : "—",
+    date: exam.date || new Date().toISOString().split('T')[0]
+  }));
+
   const uniqueDates = [...new Set(teethExaminations.map(e => e.date))]
+    .filter(Boolean)
     .map(date => ({ value: date, label: date }));
 
   return (
@@ -165,7 +200,7 @@ const Examination = () => {
               { key: "toothId", label: "Diş No" },
               { key: "date", label: "Tarix" },
             ]} 
-            data={filteredExaminations} 
+            data={mappedExaminations} 
             enableDelete={true}
             handleDelete={handleDelete}
           />

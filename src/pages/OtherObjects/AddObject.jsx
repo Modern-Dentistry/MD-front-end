@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../../assets/style/OtherObjects/addobject.css";
 import { FaTimes, FaCheck } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddOtherObject() {
   const navigate = useNavigate();
@@ -20,10 +21,19 @@ function AddOtherObject() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // API çağırışı burada olacaq (məsələn, obyekt elementini serverə göndərmək)
+      const stored = localStorage.getItem("MD_OTHER_OBJECTS");
+      const items = stored ? JSON.parse(stored) : [];
+      const newId = items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 1;
+      const newObject = {
+        id: newId,
+        name: formData.objectName.trim(),
+        status: "Aktiv",
+      };
+      items.push(newObject);
+      localStorage.setItem("MD_OTHER_OBJECTS", JSON.stringify(items));
+
+      toast.success("Obyekt uğurla əlavə edildi");
       setTimeout(() => {
-        setIsSubmitting(false);
-        toast.success("Obyekt uğurla əlavə edildi");
         navigate("/other-objects");
       }, 1000);
     } catch (error) {
@@ -34,6 +44,7 @@ function AddOtherObject() {
 
   return (
     <div className="addOtherObjectFormWrapper">
+      <ToastContainer />
       <div className="addOtherObjectFormContainer">
         <form onSubmit={handleSubmit}>
           <div className="addOtherObjectFormRow">
@@ -54,7 +65,7 @@ function AddOtherObject() {
             <button
               type="button"
               className="addOtherObjectCancelBtn"
-              onClick={() => navigate("/otherobjects")}
+              onClick={() => navigate("/other-objects")}
               disabled={isSubmitting}
             >
               <FaTimes /> İmtina et

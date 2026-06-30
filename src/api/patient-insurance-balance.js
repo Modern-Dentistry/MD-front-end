@@ -14,7 +14,7 @@ export const createPatientInsuranceBalance = async (data) => {
 // ✔ Update
 export const updatePatientInsuranceBalance = async (id, data) => {
   const response = await axiosInstance.put(
-    `${API_BASE_URL}/api/v1/patient-insurance-balance/update/${id}`,
+    `${API_BASE_URL}/patient-insurance-balance/update/${id}`,
     data
   );
   return response.data;
@@ -23,7 +23,7 @@ export const updatePatientInsuranceBalance = async (id, data) => {
 // ✔ Update status
 export const updatePatientInsuranceBalanceStatus = async (id, statusData) => {
   const response = await axiosInstance.patch(
-    `${API_BASE_URL}/api/v1/patient-insurance-balance/update-status/${id}`,
+    `${API_BASE_URL}/patient-insurance-balance/update-status/${id}`,
     statusData
   );
   return response.data;
@@ -32,7 +32,7 @@ export const updatePatientInsuranceBalanceStatus = async (id, statusData) => {
 // ✔ Read all
 export const readPatientInsuranceBalance = async () => {
   const response = await axiosInstance.get(
-    `${API_BASE_URL}/api/v1/patient-insurance-balance/read`
+    `${API_BASE_URL}/patient-insurance-balance/read`
   );
   return response.data;
 };
@@ -40,7 +40,7 @@ export const readPatientInsuranceBalance = async () => {
 // ✔ Read by ID
 export const readPatientInsuranceBalanceById = async (id) => {
   const response = await axiosInstance.get(
-    `${API_BASE_URL}/api/v1/patient-insurance-balance/read-by-id/${id}`
+    `${API_BASE_URL}/patient-insurance-balance/read-by-id/${id}`
   );
   return response.data;
 };
@@ -48,7 +48,7 @@ export const readPatientInsuranceBalanceById = async (id) => {
 // ✔ Delete
 export const deletePatientInsuranceBalance = async (id) => {
   const response = await axiosInstance.delete(
-    `${API_BASE_URL}/api/v1/patient-insurance-balance/delete/${id}`
+    `${API_BASE_URL}/patient-insurance-balance/delete/${id}`
   );
   return response.data;
 };

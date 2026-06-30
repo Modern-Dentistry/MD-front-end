@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -9,79 +9,27 @@ import { FaPlus } from "react-icons/fa";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-// components/TitleUpdater.jsx və components/XRayCard.jsx yollarının düzgün olduğuna əmin olun
 import TitleUpdater from "../../components/TitleUpdater";
 import XRayCard from "../../components/XRayCard";
+import usePatientXrayStore from "../../../stores/patient-xrayStore";
 
 const XRay = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const { xrays, fetchXrays, deleteXray, loading } = usePatientXrayStore();
+
     const [showSlideshow, setShowSlideshow] = useState(false);
     const [currentSlideshowImages, setCurrentSlideshowImages] = useState([]);
 
-    // X-ray datası - Swagger formatına uyğun olaraq tək 'url' sahəsi ilə
-    const xrayData = [
-        {
-            id: 1,
-            date: "08.01.2023",
-            description: "A description for X-Ray 1.",
-            patientId: 101,
-            url: "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-        },
-        {
-            id: 2,
-            date: "15.02.2023",
-            description: "A description for X-Ray 2.",
-            patientId: 101,
-            url: "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"
-        },
-        {
-            id: 3,
-            date: "20.03.2023",
-            description: "A description for X-Ray 3.",
-            patientId: 102,
-            url: "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"
-        },
-        {
-            id: 4,
-            date: "10.04.2024",
-            description: "A description for X-Ray 4.",
-            patientId: 102,
-            url: "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-        },
-        {
-            id: 5,
-            date: "05.05.2024",
-            description: "A description for X-Ray 5.",
-            patientId: 103,
-            url: "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"
-        },
-        {
-            id: 6,
-            date: "12.06.2024",
-            description: "A description for X-Ray 6.",
-            patientId: 103,
-            url: "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-        },
-        {
-            id: 7,
-            date: "18.07.2024",
-            description: "A description for X-Ray 7.",
-            patientId: 104,
-            url: "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg"
-        },
-        {
-            id: 8,
-            date: "25.08.2024",
-            description: "A description for X-Ray 8.",
-            patientId: 104,
-            url: "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-        },
-    ];
+    useEffect(() => {
+        if (id) {
+            fetchXrays(parseInt(id));
+        }
+    }, [id, fetchXrays]);
 
     const handleOpenSlideshow = (xrayId) => {
-        const selectedXray = xrayData.find(xray => xray.id === xrayId);
+        const selectedXray = xrays.find(xray => xray.id === xrayId);
         if (selectedXray && selectedXray.url) {
             setCurrentSlideshowImages([selectedXray.url]);
             setShowSlideshow(true);
@@ -97,6 +45,17 @@ const XRay = () => {
 
     const handleAddNewXRay = () => {
         navigate('add');
+    };
+
+    const handleDelete = async (xrayId) => {
+        if (window.confirm("Rentgen məlumatını silmək istədiyinizə əminsinizmi?")) {
+            try {
+                await deleteXray(xrayId);
+                alert("Rentgen məlumatı uğurla silindi!");
+            } catch (err) {
+                alert("Rentgen silinərkən xəta baş verdi.");
+            }
+        }
     };
 
     if (showSlideshow) {
@@ -143,12 +102,10 @@ const XRay = () => {
     }
 
     return (
-        // `pt-[7rem]` əlavə edildi ki, düymənin yerləşdiyi yuxarı hissədə kartlar üçün boşluq olsun
         <div className="flex flex-wrap gap-6 p-6 justify-center min-h-screen relative pt-[7rem]">
             <TitleUpdater title="X-Rays" />
 
-            {/* "Yenisini əlavə et" düyməsi - absolute klassları qaytarıldı */}
-            <div className="absolute top-6 right-6 z-10"> {/* z-10 əlavə edildi ki, kartların üstündə qalsın */}
+            <div className="absolute top-6 right-6 z-10">
                 <button
                     onClick={handleAddNewXRay}
                     className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 font-semibold"
@@ -157,17 +114,22 @@ const XRay = () => {
                 </button>
             </div>
 
-            {
-                xrayData.map((xray) => (
+            {loading ? (
+                <div className="flex justify-center items-center w-full h-64 text-xl">Məlumat yüklənir...</div>
+            ) : xrays && xrays.length > 0 ? (
+                xrays.map((xray) => (
                     <XRayCard
                         key={xray.id}
                         xrayId={xray.id}
                         image_url={xray.url || null}
                         date={xray.date}
                         handleClick={() => handleOpenSlideshow(xray.id)}
+                        onDelete={handleDelete}
                     />
                 ))
-            }
+            ) : (
+                <div className="flex justify-center items-center w-full h-64 text-xl text-gray-500">Rentgen tapılmadı.</div>
+            )}
         </div>
     );
 };

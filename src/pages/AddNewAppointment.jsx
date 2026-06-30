@@ -71,7 +71,7 @@ const AddNewAppointment = ({ employees, WORK_HOURS, WEEKDAYS_SHORT }) => {
         value: patient.id.toString(),
         label: `${patient.name} ${patient.surname} - ${patient.phone}`,
         debt: patient.debt || 0,
-        doctorId: patient.doctorId,
+        doctorId: patient.doctorId || patient.doctor_id || patient.baseUser,
         doctorName: patient.doctorName,
       })) || []
     );

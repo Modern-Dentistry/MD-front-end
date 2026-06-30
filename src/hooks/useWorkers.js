@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   readWorkers, 
-  readWorkerStatus, 
+  readWorkerRoles, 
   getWorkerInfo, 
   createWorker, 
   updateWorker, 
@@ -16,10 +16,10 @@ export const useWorkers = () => {
   });
 };
 
-export const useWorkerStatus = () => {
+export const useWorkerRoles = () => {
   return useQuery({
-    queryKey: ['workerStatus'],
-    queryFn: readWorkerStatus,
+    queryKey: ['workerRoles'],
+    queryFn: readWorkerRoles,
   });
 };
 

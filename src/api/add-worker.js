@@ -57,14 +57,14 @@ export const readWorkers = async () => {
   }
 };
 
-export const readWorkerStatus = async () => {
+export const readWorkerRoles = async () => {
   try {
     const response = await axiosInstance.get(
-      `${API_BASE_URL}/add-worker/read-status`
+      `${API_BASE_URL}/add-worker/read-roles`
     );
     return response.data;
   } catch (error) {
-    console.error("Error reading worker status:", error);
+    console.error("Error reading worker roles:", error);
     throw error;
   }
 };

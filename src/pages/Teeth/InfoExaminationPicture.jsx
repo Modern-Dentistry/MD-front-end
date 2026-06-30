@@ -78,7 +78,7 @@ const InfoExaminationPicture = () => {
 
           <div className="infoExaminationPictureRow">
             <label>Diş №:</label>
-            <span>{examinationDetails?.teeth?.toothNo || "—"}</span>
+            <span>{examinationDetails?.teeth?.toothNo ? (Number(examinationDetails.teeth.toothNo) % 10) : "—"}</span>
           </div>
 
           <div className="infoExaminationPictureRow">

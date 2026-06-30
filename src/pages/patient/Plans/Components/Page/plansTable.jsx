@@ -8,7 +8,7 @@ const PlansTable = ({ data = [], onDelete }) => {
     const { patientPlansDto } = item;
     if (!patientPlansDto) return [];
 
-    const toothNo = patientPlansDto.toothNo || '-';
+    const toothNo = patientPlansDto.toothNo ? (Number(patientPlansDto.toothNo) % 10) : '-';
     const categoryName = patientPlansDto.operationOfCategoryDto?.categoryName || '-';
     const partOfTeethIds = patientPlansDto.partOfTeethIds || [];
 

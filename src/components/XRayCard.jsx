@@ -4,7 +4,7 @@ import InfoIcon from "../assets/icons/Info";
 import DeleteIcon from "../assets/icons/Delete";
 import EditIcon from "../assets/icons/Edit";
 
-const XRayCard = ({ image_url, date, handleClick, xrayId }) => {
+const XRayCard = ({ image_url, date, handleClick, xrayId, onDelete }) => {
     const navigate = useNavigate();
 
     const handleInfoClick = (e) => {
@@ -19,7 +19,9 @@ const XRayCard = ({ image_url, date, handleClick, xrayId }) => {
 
     const handleDeleteClick = (e) => {
         e.stopPropagation();
-        console.log(`Delete icon clicked for X-ray ID: ${xrayId}`);
+        if (onDelete) {
+            onDelete(xrayId);
+        }
     };
 
     return (

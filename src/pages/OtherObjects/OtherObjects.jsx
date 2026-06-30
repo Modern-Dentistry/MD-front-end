@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
 import { GoTrash } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
@@ -8,15 +8,6 @@ import "../../assets/style/OtherObjects/otherobjects.css"
 import { CiExport } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 
-const mockOtherObjectItems = [
-  { id: 1, name: "Resepşn", status: "Aktiv" },
-  { id: 2, name: "WC 1", status: "Aktiv" },
-  { id: 3, name: "Metbex", status: "Aktiv" },
-  { id: 4, name: "Anbar", status: "Passiv" },
-];
-
-
-
 const statusOptions = [
   { value: "", label: "Status" },
   { value: "Aktiv", label: "Aktiv" },
@@ -24,23 +15,43 @@ const statusOptions = [
 ];
 
 const OtherObjects = () => {
-
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
+  const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
-  const filteredOtherObjectItems = mockOtherObjectItems.filter(
+  useEffect(() => {
+    const stored = localStorage.getItem("MD_OTHER_OBJECTS");
+    if (!stored) {
+      const initial = [
+        { id: 1, name: "Resepşn", status: "Aktiv" },
+        { id: 2, name: "WC 1", status: "Aktiv" },
+        { id: 3, name: "Metbex", status: "Aktiv" },
+        { id: 4, name: "Anbar", status: "Passiv" },
+      ];
+      localStorage.setItem("MD_OTHER_OBJECTS", JSON.stringify(initial));
+      setItems(initial);
+    } else {
+      setItems(JSON.parse(stored));
+    }
+  }, []);
+
+  const filteredOtherObjectItems = items.filter(
     (item) =>
       (status === "" || item.status === status) &&
       item.name.toLowerCase().includes(search.toLowerCase())
   );
-  const navigate= useNavigate()
 
   const handleEdit = (id) => {
     navigate(`${id}/edit`);
   };
 
   const handleDelete = (id) => {
-    console.log(`Delete other object item with ID: ${id}`);
+    if (window.confirm("Bu obyekti silmək istədiyinizə əminsinizmi?")) {
+      const updated = items.filter((item) => item.id !== id);
+      localStorage.setItem("MD_OTHER_OBJECTS", JSON.stringify(updated));
+      setItems(updated);
+    }
   };
 
   return (
@@ -119,6 +130,13 @@ const OtherObjects = () => {
                     </td>
                 </tr>
                 ))}
+                {filteredOtherObjectItems.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: "center", padding: "20px", color: "#666" }}>
+                      Obyekt tapılmadı.
+                    </td>
+                  </tr>
+                )}
             </tbody>
             </table>
         </div>

@@ -26,6 +26,22 @@ const toothTypeCountMap = {
   CHILD: 5,
 };
 
+const calculateFDINumber = (type, location, num) => {
+  const n = Number(num);
+  if (type === "ADULT") {
+    if (location === "TOP_RIGHT") return 10 + n;
+    if (location === "TOP_LEFT") return 20 + n;
+    if (location === "BOTTOM_LEFT") return 30 + n;
+    if (location === "BOTTOM_RIGHT") return 40 + n;
+  } else if (type === "CHILD") {
+    if (location === "TOP_RIGHT") return 50 + n;
+    if (location === "TOP_LEFT") return 60 + n;
+    if (location === "BOTTOM_LEFT") return 70 + n;
+    if (location === "BOTTOM_RIGHT") return 80 + n;
+  }
+  return n;
+};
+
 const AddTeeth = () => {
   const [selectedNumber, setSelectedNumber] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -61,10 +77,14 @@ const AddTeeth = () => {
       return;
     }
 
+    const type = typeMap[selectedType];
+    const location = locationMap[selectedLocation];
+    const calculatedToothNo = calculateFDINumber(type, location, selectedNumber);
+
     const payload = {
-      toothNo: Number(selectedNumber),
-      toothType: typeMap[selectedType],
-      toothLocation: locationMap[selectedLocation],
+      toothNo: calculatedToothNo,
+      toothType: type,
+      toothLocation: location,
     };
 
     try {

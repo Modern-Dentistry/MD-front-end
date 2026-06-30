@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useLaboratoryPaymentStore } from "../../../stores/dentalOrderReportStore";
+import useTechnicianStore from "../../../stores/technicianStore";
 
 // Style
 // import "../../assets/style/addsize.css";
@@ -15,42 +16,14 @@ import cancelButton from "../../assets/images/EmployeesPage/cancelProcess.png";
 function AddTechReport() {
   const [technicianId, setTechnicianId] = useState("");
   const [amount, setAmount] = useState("");
-  const [technicians, setTechnicians] = useState([]);
   const navigate = useNavigate();
 
   const { createPayment, isLoading } = useLaboratoryPaymentStore();
+  const { technicians, fetchTechnicians } = useTechnicianStore();
 
   useEffect(() => {
-    const fetchTechnicians = async () => {
-      try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
-          toast.error("Yeniləmə tokeni tapılmadı! Zəhmət olmasa yenidən daxil olun.");
-          navigate("/login"); 
-          return;
-        }
-
-        const API_BASE_URL = import.meta.env.VITE_BASE_URL || "/api/v1";
-        const response = await fetch(`${API_BASE_URL}/technician/read`, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
-        
-        if (!response.ok) {
-          throw new Error("Failed to fetch technicians");
-        }
-        
-        const data = await response.json();
-        setTechnicians(data.data);
-      } catch (error) {
-        console.error("Error fetching technicians:", error);
-        toast.error("Texniklər siyahısı yüklənərkən xəta baş verdi!");
-      }
-    };
-
     fetchTechnicians();
-  }, [navigate]);
+  }, [fetchTechnicians]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,18 +45,7 @@ function AddTechReport() {
         amount: amountNumber,
       };
 
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) {
-        toast.error("Yeniləmə tokeni tapılmadı! Zəhmət olmasa yenidən daxil olun.");
-        navigate("/login");
-        return;
-      }
-
-      await createPayment(newPayment, {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
-      });
+      await createPayment(newPayment);
 
       setTechnicianId("");
       setAmount("");

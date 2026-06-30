@@ -110,8 +110,8 @@ const PatientEdit = () => {
         );
       }
 
-      if (selectedPatient.doctorId || selectedPatient.doctor_id) {
-        const doctorId = selectedPatient.doctorId || selectedPatient.doctor_id;
+      if (selectedPatient.doctorId || selectedPatient.doctor_id || selectedPatient.baseUser) {
+        const doctorId = selectedPatient.doctorId || selectedPatient.doctor_id || selectedPatient.baseUser;
         const doctor = doctors.find((doc) => doc.doctorId === doctorId);
         if (doctor) {
           setSelectedDoctor({
@@ -145,7 +145,7 @@ const handleSubmit = async (e) => {
 
   const doctor_id = selectedDoctor
     ? selectedDoctor.value
-    : selectedPatient?.doctorId || selectedPatient?.doctor_id || null;
+    : selectedPatient?.doctorId || selectedPatient?.doctor_id || selectedPatient?.baseUser || null;
 
   const requestData = {
     patientId: id,

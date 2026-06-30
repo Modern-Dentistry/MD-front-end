@@ -37,13 +37,7 @@ export const getAllTeethExaminations = async () => {
   return response.data;
 };
 
-// 📌 Read by ID
-export const getTeethExaminationById = async (id) => {
-  const response = await axiosInstance.get(
-    `${API_BASE_URL}/teeth-examination/read-by-id/${id}`
-  );
-  return response.data;
-};
+
 
 // 🔴 Delete
 export const deleteTeethExaminationById = async (id) => {

@@ -98,7 +98,7 @@ const TeethList = () => {
               teeth.map((tooth, index) => (
                 <tr key={tooth.id}>
                   <td className="!text-center">{index + 1}</td>
-                  <td className="!text-center">{tooth.toothNo}</td>
+                  <td className="!text-center">{tooth.toothNo ? (Number(tooth.toothNo) % 10) : "—"}</td>
                   <td className="!text-center">{getToothTypeLabel(tooth.toothType)}</td>
                   <td className="!text-center">{getLocationLabel(tooth.toothLocation)}</td>
                   <td className="!text-center">

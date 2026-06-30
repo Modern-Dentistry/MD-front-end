@@ -8,64 +8,44 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import usePatientXrayStore from "../../../stores/patient-xrayStore";
 
 const InfoXray = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [xrayDetail, setXrayDetail] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    
+    const { selectedXray, fetchXrayById, deleteXray, loading, error } = usePatientXrayStore();
+    
     const [showImageModal, setShowImageModal] = useState(false);
     const [currentSlideshowImages, setCurrentSlideshowImages] = useState([]);
     const [initialSlideIndex, setInitialSlideIndex] = useState(0);
 
-    // Mock X-ray datası - İndi hər X-ray obyekti birdən çox 'urls' (şəkil URL-ləri) ehtiva edir
-    const mockXrayData = [
-        {
-            id: 1,
-            date: "06.03.2025",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec venenatis nisl diam, sed lobortis massa lobortis a. Duis non quam sit amet nisl pulvinar fringilla. Suspendisse molestie dapibus sapienLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec venenatis nisl diam, sed lobortis massa lobortis a. Duis non quam sit amet nisl pulvinar fringilla. Suspendisse molestie dapibus sapien",
-            patientId: 101,
-            urls: [
-                "https://i.ibb.co/L8GfFp5/image-41356b.jpg",
-                "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg",
-                "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg",
-                 "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-            ]
-        },
-        {
-            id: 2,
-            date: "15.02.2023",
-            description: "Bu, ikinci rentgenin əlavə məlumatıdır. Daha çox detal buraya əlavə oluna bilər. Məlumatlar bu bölmədə tam şəkildə göstərilməlidir.",
-            patientId: 101,
-            urls: [
-                "https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg",
-                "https://i.ibb.co/L8GfFp5/image-41356b.jpg"
-            ]
-        },
-    ];
-
     useEffect(() => {
-        setLoading(true);
-        const foundXray = mockXrayData.find(xray => xray.id === parseInt(id));
-        if (foundXray) {
-            setXrayDetail(foundXray);
-        } else {
-            setError("X-ray tapılmadı.");
+        if (id) {
+            fetchXrayById(parseInt(id));
         }
-        setLoading(false);
-    }, [id]);
+    }, [id, fetchXrayById]);
 
     const handleEditClick = () => {
         navigate(`../xray/edit/${id}`);
     };
 
-    const handleDeleteClick = () => {
-        console.log(`X-ray ID ${id} silindi.`);
+    const handleDeleteClick = async () => {
+        if (window.confirm("Rentgen məlumatını silmək istədiyinizə əminsinizmi?")) {
+            try {
+                await deleteXray(parseInt(id));
+                alert("Rentgen məlumatı uğurla silindi!");
+                navigate(-1);
+            } catch (err) {
+                alert("Rentgen silinərkən xəta baş verdi.");
+            }
+        }
     };
 
+    const urls = selectedXray?.url ? [selectedXray.url] : [];
+
     const handleImageClick = (imageUrl, index) => {
-        setCurrentSlideshowImages(xrayDetail.urls);
+        setCurrentSlideshowImages(urls);
         setInitialSlideIndex(index);
         setShowImageModal(true);
     };
@@ -76,10 +56,8 @@ const InfoXray = () => {
         setInitialSlideIndex(0);
     };
 
-    // Bu funksiya şəkli avtomatik yükləyir, yeni səhifəyə atmır
     const handleDownloadImage = async (e, imageUrl) => {
         e.stopPropagation();
-    
         try {
             const response = await fetch(imageUrl, { mode: 'cors' });
             const blob = await response.blob();
@@ -91,7 +69,7 @@ const InfoXray = () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            window.URL.revokeObjectURL(blobUrl); // yaddaşı təmizləmək üçün
+            window.URL.revokeObjectURL(blobUrl);
     
             console.log(`Şəkil uğurla yükləndi: ${imageUrl}`);
         } catch (err) {
@@ -99,7 +77,6 @@ const InfoXray = () => {
             alert("Şəkil yüklənə bilmədi.");
         }
     };
-    
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen text-xl">Məlumat yüklənir...</div>;
@@ -109,13 +86,13 @@ const InfoXray = () => {
         return <div className="flex justify-center items-center h-screen text-xl text-red-500">{error}</div>;
     }
 
-    if (!xrayDetail) {
+    if (!selectedXray) {
         return <div className="flex justify-center items-center h-screen text-xl text-gray-600">X-ray məlumatı mövcud deyil.</div>;
     }
 
     return (
         <div className="flex justify-center items-start min-h-screen p-6 bg-gray-100">
-            <TitleUpdater title={`X-Ray Detalları: ${xrayDetail.id}`} />
+            <TitleUpdater title={`X-Ray Detalları: ${selectedXray.id}`} />
 
             <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-7xl h-auto border border-gray-200">
                 <div className="flex justify-end items-center mb-6 gap-3">
@@ -139,7 +116,7 @@ const InfoXray = () => {
                 <div className="mb-6 flex items-start">
                     <label className="block text-gray-700 text-base font-semibold mb-2 w-48 flex-shrink-0 pt-3">Rentgenin tarixi</label>
                     <div className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg p-3 w-full ml-4">
-                        {xrayDetail.date}
+                        {selectedXray.date}
                     </div>
                 </div>
 
@@ -147,7 +124,7 @@ const InfoXray = () => {
                 <div className="mb-6 flex items-start">
                     <label className="block text-gray-700 text-base font-semibold mb-2 w-48 flex-shrink-0 pt-3">Əlavə məlumat</label>
                     <div className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg p-3 w-full min-h-[100px] whitespace-pre-wrap ml-4">
-                        {xrayDetail.description}
+                        {selectedXray.description}
                     </div>
                 </div>
 
@@ -155,8 +132,8 @@ const InfoXray = () => {
                 <div className="mb-6 flex items-start">
                     <label className="block text-gray-700 text-base font-semibold mb-2 w-48 flex-shrink-0 pt-3">Şəkil</label>
                     <div className="flex flex-wrap gap-4 p-2 w-full ml-4 border border-gray-300 rounded-lg bg-gray-50">
-                        {xrayDetail.urls && xrayDetail.urls.length > 0 ? (
-                            xrayDetail.urls.map((url, index) => (
+                        {urls.length > 0 ? (
+                            urls.map((url, index) => (
                                 <div
                                     key={index}
                                     className="relative w-32 h-32 md:w-40 md:h-40 cursor-pointer border border-gray-300 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"

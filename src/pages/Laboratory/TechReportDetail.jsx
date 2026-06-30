@@ -1,75 +1,68 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLaboratoryPaymentStore } from "../../../stores/dentalOrderReportStore";
 
 // Images
 import cancelButton from "../../assets/images/EmployeesPage/cancelProcess.png";
 
+// Style
+import "./techreportdetail.css";
+
 function TechReportDetail() {
-  const [technicianId, setTechnicianId] = useState("");
-  const [technicianName, setTechnicianName] = useState("");
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalPaid, setTotalPaid] = useState("");
-  const [totalRemaining, setTotalRemaining] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { techReportID } = useParams();
   const navigate = useNavigate();
+  const { payments, isLoading, error, fetchPayments } = useLaboratoryPaymentStore();
 
   useEffect(() => {
-    const fetchPaymentData = async () => {
-      setIsLoading(true);
-      try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
-          console.error("Yeniləmə tokeni tapılmadı! Zəhmət olmasa yenidən daxil olun.");
-          navigate("/login");
-          return;
-        }
+    fetchPayments();
+  }, [fetchPayments]);
 
-        const API_BASE_URL = import.meta.env.VITE_BASE_URL || "/api/v1";
-        const response = await fetch(`${API_BASE_URL}/laboratory-payment/read`, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch payment data");
-        }
-
-        const data = await response.json();
-        // Assuming the API returns a single object or we need to display the first one
-        if (data && data.length > 0) {
-          const paymentData = data[0];
-          setTechnicianId(paymentData.technicianId || "");
-          setTechnicianName(paymentData.fullName || "");
-          setTotalDebt(paymentData.totalDebt.toString() || "");
-          setTotalPaid(paymentData.totalPaid.toString() || "");
-          setTotalRemaining(paymentData.totalRemaining.toString() || "");
-        }
-      } catch (error) {
-        console.error("Ödəniş məlumatları yüklənərkən xəta baş verdi!", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPaymentData();
-  }, [navigate]);
+  const paymentData = payments.find((p) => p.technicianId === techReportID);
 
   const handleCancel = () => {
     navigate("/technicals-report");
   };
 
+  if (isLoading) {
+    return (
+      <div className="addSizesWrapper">
+        <div className="loading">Yüklənir...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="addSizesWrapper">
+        <div className="error">Xəta: {error}</div>
+        <button type="button" className="cancelFormCondition" onClick={handleCancel}>
+          Geri qayıt
+        </button>
+      </div>
+    );
+  }
+
+  if (!paymentData) {
+    return (
+      <div className="addSizesWrapper">
+        <div className="error">Məlumat tapılmadı.</div>
+        <button type="button" className="cancelFormCondition" onClick={handleCancel}>
+          Geri qayıt
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="addSizesWrapper">
-      <form className="addSizesContainer">
+      <form className="addSizesContainer" onSubmit={(e) => e.preventDefault()}>
         <div className="addSizesInput display flex flex-column justify-between w-vw align-items-start">
           <p>
             Texnik<span>*</span>
           </p>
           <input
             type="text"
-            placeholder="Texnik adı"
-            value={technicianName}
+            value={paymentData.fullName || ""}
             disabled={true}
           />
         </div>
@@ -80,8 +73,7 @@ function TechReportDetail() {
           </p>
           <input
             type="text"
-            placeholder="Ümumi borc"
-            value={totalDebt}
+            value={paymentData.totalDebt !== undefined ? `${paymentData.totalDebt} AZN` : "-"}
             disabled={true}
           />
         </div>
@@ -91,8 +83,7 @@ function TechReportDetail() {
           </p>
           <input
             type="text"
-            placeholder="Ödənilən məbləğ"
-            value={totalPaid}
+            value={paymentData.totalPaid !== undefined ? `${paymentData.totalPaid} AZN` : "-"}
             disabled={true}
           />
         </div>
@@ -102,8 +93,7 @@ function TechReportDetail() {
           </p>
           <input
             type="text"
-            placeholder="Qalıq"
-            value={totalRemaining}
+            value={paymentData.totalRemaining !== undefined ? `${paymentData.totalRemaining} AZN` : "-"}
             disabled={true}
           />
         </div>
@@ -113,10 +103,9 @@ function TechReportDetail() {
             type="button"
             className="cancelFormCondition"
             onClick={handleCancel}
-            disabled={isLoading}
           >
             <img src={cancelButton} alt="cancel" loading="lazy" />
-            İmtina et
+            Geri qayıt
           </button>
         </div>
       </form>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../../assets/style/RecommendationsPage/editrecommendation.css";
 import { FaTimes, FaCheck } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditRecommendation() {
   const navigate = useNavigate();
@@ -13,18 +14,16 @@ function EditRecommendation() {
   });
 
   useEffect(() => {
-    // Burada məlumatları yükləmək üçün API çağırışı ediləcək
-    // Məsələn:
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(`/api/recommendations/${id}`);
-    //     const data = await response.json();
-    //     setFormData(data);
-    //   } catch (error) {
-    //     toast.error("Məlumatları yükləmək mümkün olmadı");
-    //   }
-    // };
-    // fetchData();
+    if (id) {
+      const stored = localStorage.getItem("MD_RECOMMENDATIONS");
+      const items = stored ? JSON.parse(stored) : [];
+      const found = items.find(item => item.id.toString() === id);
+      if (found) {
+        setFormData({
+          recommendationName: found.name || "",
+        });
+      }
+    }
   }, [id]);
 
   const handleInputChange = (e) => {
@@ -36,10 +35,20 @@ function EditRecommendation() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // API çağırışı burada olacaq (məsələn, tövsiyə elementini yeniləmək)
+      const stored = localStorage.getItem("MD_RECOMMENDATIONS");
+      const items = stored ? JSON.parse(stored) : [];
+      const updated = items.map(item => {
+        if (item.id.toString() === id) {
+          return {
+            ...item,
+            name: formData.recommendationName.trim()
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("MD_RECOMMENDATIONS", JSON.stringify(updated));
+      toast.success("Tövsiyə uğurla yeniləndi");
       setTimeout(() => {
-        setIsSubmitting(false);
-        toast.success("Tövsiyə uğurla yeniləndi");
         navigate("/recommendations");
       }, 1000);
     } catch (error) {
@@ -50,6 +59,7 @@ function EditRecommendation() {
 
   return (
     <div className="editRecommendationFormWrapper">
+      <ToastContainer />
       <div className="editRecommendationFormContainer">
         <form onSubmit={handleSubmit}>
           <div className="editRecommendationFormRow">
@@ -89,4 +99,4 @@ function EditRecommendation() {
   );
 }
 
-export default EditRecommendation; 
+export default EditRecommendation;

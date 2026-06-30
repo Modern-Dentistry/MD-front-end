@@ -31,16 +31,34 @@ export const createPatientXray = async (data, file) => {
   return response.data;
 };
 
-export const updatePatientXray = async (id, data) => {
+export const updatePatientXray = async (id, data, file) => {
+  const formData = new FormData();
+  
+  const jsonData = JSON.stringify({
+    date: data.date,
+    description: data.description,
+  });
+  
+  formData.append(
+    "data",
+    new Blob([jsonData], { type: "application/json" })
+  );
+  
+  if (file) {
+    formData.append("file", file);
+  }
+
   const response = await axiosInstance.put(
     `${API_BASE_URL}/patient-xray/update/${id}`,
-    data
+    formData
   );
   return response.data;
 };
 
-export const getAllPatientXrays = async () => {
-  const response = await axiosInstance.get(`${API_BASE_URL}/patient-xray/read`);
+export const getAllPatientXrays = async (patientId) => {
+  const response = await axiosInstance.get(`${API_BASE_URL}/patient-xray/read`, {
+    params: { patientId }
+  });
   return response.data;
 };
 

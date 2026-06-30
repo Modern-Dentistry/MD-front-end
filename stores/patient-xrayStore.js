@@ -14,10 +14,10 @@ const usePatientXrayStore = create((set, get) => ({
   loading: false,
   error: null,
 
-  fetchXrays: async () => {
+  fetchXrays: async (patientId) => {
     set({ loading: true, error: null });
     try {
-      const data = await getAllPatientXrays();
+      const data = await getAllPatientXrays(patientId);
       set({ xrays: data, loading: false });
     } catch (err) {
       set({
@@ -91,10 +91,10 @@ const usePatientXrayStore = create((set, get) => ({
     }
   },
 
-  updateXray: async (id, xrayData) => {
+  updateXray: async (id, xrayData, file) => {
     set({ loading: true, error: null });
     try {
-      const updatedXray = await updatePatientXray(id, xrayData);
+      const updatedXray = await updatePatientXray(id, xrayData, file);
       set((state) => ({
         xrays: state.xrays.map((x) => (x.id === id ? updatedXray : x)),
         loading: false,

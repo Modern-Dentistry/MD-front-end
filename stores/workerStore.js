@@ -6,7 +6,7 @@ import {
   getWorkerInfo,
   updateWorker,
   deleteWorker,
-  readWorkerStatus,
+  readWorkerRoles,
   searchWorkers,
   fetchWorkersByPermission,
   apiFetchPermissions,
@@ -18,7 +18,7 @@ const useWorkerStore = create(
   workers: [],
   searchResult: [],
   selectedWorker: null,
-  statusList: [],
+  rolesList: [],
   permissions: [],
   loading: false,
   error: null,
@@ -36,10 +36,10 @@ const useWorkerStore = create(
     }
   },
 
-  fetchWorkerStatus: async () => {
+  fetchWorkerRoles: async () => {
     try {
-      const data = await readWorkerStatus();
-      set({ statusList: data });
+      const data = await readWorkerRoles();
+      set({ rolesList: data });
     } catch (err) {
       set({ error: err.message });
     }
@@ -143,7 +143,7 @@ const useWorkerStore = create(
         // Sadece belirli state'leri persist et (büyük array'leri persist etme)
         selectedWorker: state.selectedWorker,
         permissions: state.permissions,
-        statusList: state.statusList,
+        rolesList: state.rolesList,
         // workers ve searchResult persist edilmesin (her zaman fresh fetch edilsin)
       }),
     }

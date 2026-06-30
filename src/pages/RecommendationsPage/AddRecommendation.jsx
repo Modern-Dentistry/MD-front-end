@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../../assets/style/RecommendationsPage/addrecommendation.css";
 import { FaTimes, FaCheck } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddRecommendation() {
   const navigate = useNavigate();
@@ -20,10 +21,19 @@ function AddRecommendation() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // API çağırışı burada olacaq (məsələn, tövsiyə elementini serverə göndərmək)
+      const stored = localStorage.getItem("MD_RECOMMENDATIONS");
+      const items = stored ? JSON.parse(stored) : [];
+      const newId = items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 1;
+      const newRecommendation = {
+        id: newId,
+        name: formData.recommendationName.trim(),
+        status: "Aktiv",
+      };
+      items.push(newRecommendation);
+      localStorage.setItem("MD_RECOMMENDATIONS", JSON.stringify(items));
+      
+      toast.success("Tövsiyə uğurla əlavə edildi");
       setTimeout(() => {
-        setIsSubmitting(false);
-        toast.success("Tövsiyə uğurla əlavə edildi");
         navigate("/recommendations");
       }, 1000);
     } catch (error) {
@@ -34,6 +44,7 @@ function AddRecommendation() {
 
   return (
     <div className="addRecommendationFormWrapper">
+      <ToastContainer />
       <div className="addRecommendationFormContainer">
         <form onSubmit={handleSubmit}>
           <div className="addRecommendationFormRow">
@@ -73,4 +84,4 @@ function AddRecommendation() {
   );
 }
 
-export default AddRecommendation; 
+export default AddRecommendation;

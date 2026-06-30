@@ -36,10 +36,7 @@ export const updateImplantStatus = async (data) => {
 
 // Implantları axtarmaq (search)
 export const searchImplants = async (params) => {
-  // params = { page, size, query, filter... } kimi ola bilər
-  const response = await axiosInstance.get(`${API_BASE_URL}/implant/search`, {
-    params,
-  });
+  const response = await axiosInstance.post(`${API_BASE_URL}/implant/search`, params);
   return response.data;
 };
 

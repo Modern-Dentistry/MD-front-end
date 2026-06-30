@@ -6,6 +6,7 @@ import CustomDropdown from "./CustomDropdown";
 import ToothSelector from "./ToothSelector";
 import MultiFileForm from "./MultiFileForm";
 import useDentalOrderStore from "../../stores/dentalOrderStore";
+import { readAllTeeth, createTooth } from "../api/teeth";
 
 import useGarnitureStore from "../../stores/garnitureStore";
 import useColorStore from "../../stores/colorStore";
@@ -99,14 +100,24 @@ const OrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) => {
         garniture: initialData.orderDentureInfo?.garniture ? Number(initialData.orderDentureInfo?.garniture) : null,
       };
       reset(formattedData);
-      const details = initialData.toothDetails || initialData.toothDetailIds || [];
-      setToothDetails(details);
 
-      let teeth = initialData.teethList || [];
-      if (teeth.length === 0 && details.length > 0) {
-        teeth = details.map((d) => d.toothNumber);
-      }
-      setSelectedTeeth(teeth);
+      const teethList = initialData.teethList || [];
+      const detailsList = initialData.toothDetails || initialData.toothDetailIds || [];
+
+      const localSelectedTeeth = teethList.map(t => (typeof t === 'object' ? t.toothNo : t));
+      const localToothDetails = teethList.map((t, idx) => {
+        const toothNumber = typeof t === 'object' ? t.toothNo : t;
+        const details = detailsList[idx] || {};
+        return {
+          toothNumber,
+          colorId: details.colorId || null,
+          metalId: details.metalId || null,
+          ceramicId: details.ceramicId || null,
+        };
+      });
+
+      setToothDetails(localToothDetails);
+      setSelectedTeeth(localSelectedTeeth);
       setIsChild(
         initialData.isChild !== undefined ? initialData.isChild : false
       );
@@ -215,37 +226,83 @@ const OrderForm = ({ initialData, mode = "create", onSubmit, onCancel }) => {
     setFiles(newFiles);
   };
 
-  const prepareSubmitData = (data) => {
-    const submitData = {
-      checkDate: data.inspectionDate,
-      orderDate: data.orderDate,
-      deliveryDate: data.deliveryDate,
-      description: data.notes || "",
-      dentalWorkType: data.workType,
-      toothDetails: toothDetails,
-      teethList: selectedTeeth,
-      doctorId: data.doctor,
-      technicianId: data.technician,
-      patientId: parseInt(data.patient),
-    };
-
-    // Add denture info only for PROTEZ work type
-    if (data.workType === "PROTEZ") {
-      submitData.orderDentureInfo = {
-        color: data.color,
-        garniture: data.garniture,
-      };
-    }
-
-    if (files.length > 0) {
-      submitData.files = files.map((file) => file.base64 || file);
-    }
-    return submitData;
+  const parseFDINumber = (toothNo) => {
+    const t = Number(toothNo);
+    if (t >= 11 && t <= 18) return { type: "ADULT", location: "TOP_RIGHT", num: t - 10 };
+    if (t >= 21 && t <= 28) return { type: "ADULT", location: "TOP_LEFT", num: t - 20 };
+    if (t >= 31 && t <= 38) return { type: "ADULT", location: "BOTTOM_LEFT", num: t - 30 };
+    if (t >= 41 && t <= 48) return { type: "ADULT", location: "BOTTOM_RIGHT", num: t - 40 };
+    if (t >= 51 && t <= 55) return { type: "CHILD", location: "TOP_RIGHT", num: t - 50 };
+    if (t >= 61 && t <= 65) return { type: "CHILD", location: "TOP_LEFT", num: t - 60 };
+    if (t >= 71 && t <= 75) return { type: "CHILD", location: "BOTTOM_LEFT", num: t - 70 };
+    if (t >= 81 && t <= 85) return { type: "CHILD", location: "BOTTOM_RIGHT", num: t - 80 };
+    return null;
   };
 
   const handleFormSubmit = async (data) => {
     try {
-      const submitData = prepareSubmitData(data);
+      // 1. Fetch current registered teeth from DB to check/create
+      const currentDbTeeth = await readAllTeeth();
+      const resolvedTeethIds = [];
+
+      if (data.workType === "QAPAQ") {
+        for (const toothNo of selectedTeeth) {
+          let dbTooth = currentDbTeeth.find((t) => Number(t.toothNo) === Number(toothNo));
+          if (!dbTooth) {
+            const parsed = parseFDINumber(toothNo);
+            if (parsed) {
+              dbTooth = await createTooth({
+                toothNo: Number(toothNo),
+                toothType: parsed.type,
+                toothLocation: parsed.location
+              });
+              currentDbTeeth.push(dbTooth);
+            }
+          }
+          if (dbTooth) {
+            resolvedTeethIds.push(Number(dbTooth.id));
+          }
+        }
+      }
+
+      // 2. Prepare toothDetailIds matching the indices of resolvedTeethIds
+      const toothDetailIds = resolvedTeethIds.map((teethId) => {
+        const dbTooth = currentDbTeeth.find((t) => Number(t.id) === Number(teethId));
+        const toothNo = dbTooth ? dbTooth.toothNo : null;
+        const localDetail = toothDetails.find((d) => Number(d.toothNumber) === Number(toothNo)) || {};
+
+        return {
+          colorId: localDetail.colorId ? Number(localDetail.colorId) : null,
+          metalId: localDetail.metalId ? Number(localDetail.metalId) : null,
+          ceramicId: localDetail.ceramicId ? Number(localDetail.ceramicId) : null,
+        };
+      });
+
+      // 3. Construct the payload matching the Swagger spec
+      const submitData = {
+        checkDate: data.inspectionDate,
+        orderDate: data.orderDate,
+        deliveryDate: data.deliveryDate,
+        description: data.notes || "",
+        dentalWorkType: data.workType,
+        toothDetailIds: toothDetailIds,
+        teethList: resolvedTeethIds,
+        doctorId: data.doctor,
+        technicianId: data.technician,
+        patientId: parseInt(data.patient),
+      };
+
+      if (data.workType === "PROTEZ") {
+        submitData.orderDentureInfo = {
+          color: data.color ? String(data.color) : null,
+          garniture: data.garniture ? String(data.garniture) : null,
+        };
+      }
+
+      if (files.length > 0) {
+        submitData.files = files.map((file) => file.base64 || file);
+      }
+
       if (mode === "create") {
         await dentalOrderStore.addOrder(submitData);
       } else if (mode === "edit") {

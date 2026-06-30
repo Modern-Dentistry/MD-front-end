@@ -293,7 +293,7 @@ const InteractiveSVG = ({
                 {/* Alt bölgələrdə diş nömrəsi yuxarıda */}
                 {isBottom && (
                   <h2 className={`mb-2 text-sm font-semibold ${hasOtherSelection ? 'text-gray-400' : isPlanned ? 'text-black' : 'text-gray-700'}`}>
-                    {toath.toathNumber}
+                    {toath.toathNumber ? (Number(toath.toathNumber) % 10) : ""}
                   </h2>
                 )}
 
@@ -347,7 +347,7 @@ const InteractiveSVG = ({
                 {/* Üst bölgələrdə diş nömrəsi aşağıda */}
                 {!isBottom && (
                   <h2 className={`mt-2 text-sm font-semibold ${hasOtherSelection ? 'text-gray-400' : isPlanned ? 'text-black' : 'text-gray-700'}`}>
-                    {toath.toathNumber}
+                    {toath.toathNumber ? (Number(toath.toathNumber) % 10) : ""}
                   </h2>
                 )}
               </div>

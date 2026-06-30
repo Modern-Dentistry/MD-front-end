@@ -13,7 +13,7 @@ const PlansTable = ({ data = [], onDelete, onSelectionChange, onConfirmSelection
     return data.map((item) => ({
       key: item.patientPlanId,
       id: item.patientPlanId,
-      toothNo: item.toothNo || '-',
+      toothNo: item.toothNo ? (Number(item.toothNo) % 10) : '-',
       categoryName: item.categoryName || '-',
       categoryCode: item.categoryCode || '-',
       details: item.details || [],

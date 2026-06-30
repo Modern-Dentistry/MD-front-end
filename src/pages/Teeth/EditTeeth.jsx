@@ -26,6 +26,35 @@ const toothTypeCountMap = {
   CHILD: 5,
 };
 
+const calculateFDINumber = (type, location, num) => {
+  const n = Number(num);
+  if (type === "ADULT") {
+    if (location === "TOP_RIGHT") return 10 + n;
+    if (location === "TOP_LEFT") return 20 + n;
+    if (location === "BOTTOM_LEFT") return 30 + n;
+    if (location === "BOTTOM_RIGHT") return 40 + n;
+  } else if (type === "CHILD") {
+    if (location === "TOP_RIGHT") return 50 + n;
+    if (location === "TOP_LEFT") return 60 + n;
+    if (location === "BOTTOM_LEFT") return 70 + n;
+    if (location === "BOTTOM_RIGHT") return 80 + n;
+  }
+  return n;
+};
+
+const parseFDINumber = (toothNo) => {
+  const t = Number(toothNo);
+  if (t >= 11 && t <= 18) return { type: "ADULT", location: "TOP_RIGHT", num: t - 10 };
+  if (t >= 21 && t <= 28) return { type: "ADULT", location: "TOP_LEFT", num: t - 20 };
+  if (t >= 31 && t <= 38) return { type: "ADULT", location: "BOTTOM_LEFT", num: t - 30 };
+  if (t >= 41 && t <= 48) return { type: "ADULT", location: "BOTTOM_RIGHT", num: t - 40 };
+  if (t >= 51 && t <= 55) return { type: "CHILD", location: "TOP_RIGHT", num: t - 50 };
+  if (t >= 61 && t <= 65) return { type: "CHILD", location: "TOP_LEFT", num: t - 60 };
+  if (t >= 71 && t <= 75) return { type: "CHILD", location: "BOTTOM_LEFT", num: t - 70 };
+  if (t >= 81 && t <= 85) return { type: "CHILD", location: "BOTTOM_RIGHT", num: t - 80 };
+  return null;
+};
+
 const EditTeeth = () => {
   const [selectedNumber, setSelectedNumber] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -47,17 +76,32 @@ const EditTeeth = () => {
 
   useEffect(() => {
     if (selectedTooth) {
-      setSelectedNumber(selectedTooth.toothNo?.toString() || "");
-      setSelectedType(
-        Object.keys(typeMap).find(
-          (key) => typeMap[key] === selectedTooth.toothType
-        ) || ""
-      );
-      setSelectedLocation(
-        Object.keys(locationMap).find(
-          (key) => locationMap[key] === selectedTooth.toothLocation
-        ) || ""
-      );
+      const parsed = parseFDINumber(selectedTooth.toothNo);
+      if (parsed) {
+        setSelectedNumber(parsed.num.toString());
+        setSelectedType(
+          Object.keys(typeMap).find(
+            (key) => typeMap[key] === parsed.type
+          ) || ""
+        );
+        setSelectedLocation(
+          Object.keys(locationMap).find(
+            (key) => locationMap[key] === parsed.location
+          ) || ""
+        );
+      } else {
+        setSelectedNumber(selectedTooth.toothNo?.toString() || "");
+        setSelectedType(
+          Object.keys(typeMap).find(
+            (key) => typeMap[key] === selectedTooth.toothType
+          ) || ""
+        );
+        setSelectedLocation(
+          Object.keys(locationMap).find(
+            (key) => locationMap[key] === selectedTooth.toothLocation
+          ) || ""
+        );
+      }
     }
   }, [selectedTooth]);
 
@@ -87,11 +131,15 @@ const EditTeeth = () => {
       return;
     }
 
+    const type = typeMap[selectedType];
+    const location = locationMap[selectedLocation];
+    const calculatedToothNo = calculateFDINumber(type, location, selectedNumber);
+
     const payload = {
       id: selectedTooth?.id || id,
-      toothNo: Number(selectedNumber),
-      toothType: typeMap[selectedType],
-      toothLocation: locationMap[selectedLocation],
+      toothNo: calculatedToothNo,
+      toothType: type,
+      toothLocation: location,
     };
 
     try {

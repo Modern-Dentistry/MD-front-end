@@ -51,7 +51,7 @@ const General = () => {
   const doctor = doctors.find(
     (d) =>
       d.doctorId?.toString().toLowerCase().trim() ===
-      patient?.doctorId?.toString().toLowerCase().trim()
+      (patient?.doctorId || patient?.doctor_id || patient?.baseUser)?.toString().toLowerCase().trim()
   );
 
   useEffect(() => {
@@ -175,7 +175,7 @@ const General = () => {
                   if (doctorsLoading) {
                     return "Yüklənir...";
                   }
-                  const dId = patient?.doctorId || patient?.doctor_id;
+                  const dId = patient?.doctorId || patient?.doctor_id || patient?.baseUser;
                   const foundDoctor = doctors.find(
                     (d) => d.doctorId?.toString() === dId?.toString()
                   );
