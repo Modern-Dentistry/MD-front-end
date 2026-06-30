@@ -25,7 +25,6 @@ function TechniciansPrices() {
   const [searchQuery, setSearchQuery] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const getFullName = (surname, name) => `${surname} ${name}`.trim();
 
   useEffect(() => {
     if (id) {
